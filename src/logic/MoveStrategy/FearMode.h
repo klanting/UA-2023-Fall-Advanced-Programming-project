@@ -9,6 +9,10 @@ namespace Logic {
     namespace Move {
 
         class FearMode: public Mode{
+        public:
+            FearMode() =default;
+            Vector2D getDirection(const Vector2D& to_pacman, const std::vector<Vector2D>& options) const override;
+        private:
 
         };
 

@@ -38,5 +38,10 @@ namespace Logic {
         return acos(inner_product);
     }
 
+    void Vector2D::operator+=(const Vector2D &other) {
+        this->x += other.x;
+        this->y += other.y;
+    }
+
 
 } // Logic

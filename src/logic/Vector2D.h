@@ -11,6 +11,7 @@ namespace Logic {
     public:
         Vector2D(double x, double y);
         Vector2D operator+(const Vector2D& other) const;
+        void operator+=(const Vector2D& other);
         Vector2D operator-(const Vector2D& other) const;
         Vector2D operator*(double multiplier) const;
         double innerProduct(const Vector2D& other) const;
