@@ -11,7 +11,7 @@ namespace Logic {
     class Subject {
     public:
         Subject(const Vector2D& position, std::unique_ptr<Move::Mode> mode);
-
+        virtual void move() = 0;
     protected:
         Vector2D position;
         Move::ModeManager move_manager;

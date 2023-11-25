@@ -1,6 +1,16 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.22.1)
 PROJECT(ProjectPacman)
 
+set(controller
+        src/logic/Controller/Controller.cpp
+        src/logic/Controller/Controller.h
+        src/logic/Controller/ControllerObserver.cpp
+        src/logic/Controller/ControllerObserver.h
+        src/logic/Controller/MovementController.cpp
+        src/logic/Controller/MovementController.h
+
+)
+
 set(subjects
         src/logic/Subjects/Subject.cpp
         src/logic/Subjects/Subject.h
@@ -36,6 +46,7 @@ set(move_strategies
 
 set(logic
         ${subjects}
+        ${controller}
         ${move_strategies}
 
         src/logic/World.cpp

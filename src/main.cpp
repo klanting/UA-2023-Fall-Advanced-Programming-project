@@ -3,12 +3,16 @@
 #include <iostream>
 #include "logic/MoveStrategy/ChaseMode.h"
 #include "logic/MoveStrategy/FearMode.h"
+#include "logic/Stopwatch.h"
+#include "logic/Subjects/Pacman.h"
 using namespace std;
 
 int main(){
 
     Logic::Move::ChaseMode c;
     Logic::Move::FearMode f;
+    using namespace Logic;
+    Pacman p{Vector2D{0,0}};
 
     int a = 0;
     for (int i=0; i<100; i++){
@@ -18,6 +22,10 @@ int main(){
         }
 
     }
+
+    p.move();
+
+    p.move();
     std::cout << a << std::endl;
     return 0;
 }

@@ -43,5 +43,10 @@ namespace Logic {
         this->y += other.y;
     }
 
+    void Vector2D::operator-=(const Vector2D &other) {
+        this->x -= other.x;
+        this->y -= other.y;
+    }
+
 
 } // Logic

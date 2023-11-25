@@ -13,6 +13,20 @@ namespace Logic {
     }
 
     Stopwatch::Stopwatch() {
+        start_time = steady_clock::now();
+        end_time = start_time;
+
+
+
+    }
+
+    double Stopwatch::getDeltaTime() {
+        return std::chrono::duration<double>(end_time-start_time).count();
+    }
+
+    void Stopwatch::doTick() {
+        start_time = end_time;
+        end_time = steady_clock::now();
 
     }
 

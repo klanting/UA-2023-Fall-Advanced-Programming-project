@@ -13,6 +13,7 @@ namespace Logic {
         Vector2D operator+(const Vector2D& other) const;
         void operator+=(const Vector2D& other);
         Vector2D operator-(const Vector2D& other) const;
+        void operator-=(const Vector2D& other);
         Vector2D operator*(double multiplier) const;
         double innerProduct(const Vector2D& other) const;
         double getLength() const;
