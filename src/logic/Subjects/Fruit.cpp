@@ -5,4 +5,7 @@
 #include "Fruit.h"
 
 namespace Logic {
+    Fruit::Fruit(const Vector2D &position) : Collectable(position) {
+
+    }
 } // Logic

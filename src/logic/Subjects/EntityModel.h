@@ -8,6 +8,12 @@
 namespace Logic {
 
     class EntityModel: public Subject{
+    public:
+        EntityModel(const Vector2D& position);
+        EntityModel(const Vector2D& position, std::unique_ptr<Move::Mode> mode);
+
+        void move();
+    private:
 
     };
 

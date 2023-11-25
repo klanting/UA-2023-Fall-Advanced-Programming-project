@@ -8,6 +8,9 @@
 namespace Logic {
 
     class Pacman: public EntityModel{
+    public:
+        Pacman(const Vector2D& position);
+    private:
 
     };
 

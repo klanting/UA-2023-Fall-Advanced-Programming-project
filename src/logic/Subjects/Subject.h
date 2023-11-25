@@ -6,11 +6,13 @@
 #define PROJECTPACMAN_SUBJECT_H
 #include "../Vector2D.h"
 #include "../MoveStrategy/ModeManager.h"
+#include <functional>
 namespace Logic {
     class Subject {
     public:
+        Subject(const Vector2D& position, std::unique_ptr<Move::Mode> mode);
 
-    private:
+    protected:
         Vector2D position;
         Move::ModeManager move_manager;
     };

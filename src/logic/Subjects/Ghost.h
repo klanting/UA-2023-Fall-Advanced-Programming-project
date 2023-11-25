@@ -8,7 +8,9 @@
 namespace Logic {
 
     class Ghost: public EntityModel{
-
+    public:
+        Ghost(const Vector2D& position);
+    private:
     };
 
 } // Logic

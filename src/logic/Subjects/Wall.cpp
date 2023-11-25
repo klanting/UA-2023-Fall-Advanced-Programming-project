@@ -5,4 +5,7 @@
 #include "Wall.h"
 
 namespace Logic {
+    Wall::Wall(const Vector2D &position) : EntityModel(position) {
+
+    }
 } // Logic

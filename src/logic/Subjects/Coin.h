@@ -8,6 +8,9 @@
 namespace Logic {
 
     class Coin: public Collectable{
+    public:
+        Coin(const Vector2D& position);
+    private:
 
     };
 

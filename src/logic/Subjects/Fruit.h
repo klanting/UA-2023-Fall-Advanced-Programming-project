@@ -8,7 +8,9 @@
 namespace Logic {
 
     class Fruit: public Collectable{
-
+    public:
+        Fruit(const Vector2D& position);
+    private:
     };
 
 } // Logic

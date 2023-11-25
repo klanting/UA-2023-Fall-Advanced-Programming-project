@@ -8,6 +8,9 @@
 namespace Logic {
 
     class Collectable: public EntityModel{
+    public:
+        Collectable(const Vector2D& position);
+    private:
 
     };
 

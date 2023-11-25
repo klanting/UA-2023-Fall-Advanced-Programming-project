@@ -5,4 +5,7 @@
 #include "Collectable.h"
 
 namespace Logic {
+    Collectable::Collectable(const Vector2D &position) : EntityModel(position) {
+
+    }
 } // Logic

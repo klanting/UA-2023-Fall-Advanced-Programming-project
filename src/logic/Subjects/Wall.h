@@ -8,7 +8,9 @@
 namespace Logic {
 
     class Wall: public EntityModel{
-
+    public:
+        Wall(const Vector2D& position);
+    private:
     };
 
 } // Logic
