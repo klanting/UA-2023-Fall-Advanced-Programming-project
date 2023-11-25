@@ -4,7 +4,7 @@
 
 #ifndef PROJECTPACMAN_VECTOR2D_H
 #define PROJECTPACMAN_VECTOR2D_H
-
+#include <math.h>
 namespace Logic {
 
     class Vector2D {
@@ -13,6 +13,9 @@ namespace Logic {
         Vector2D operator+(const Vector2D& other) const;
         Vector2D operator-(const Vector2D& other) const;
         Vector2D operator*(double multiplier) const;
+        double innerProduct(const Vector2D& other) const;
+        double getLength() const;
+        double getAngle(const Vector2D& other) const;
     private:
         double x;
         double y;

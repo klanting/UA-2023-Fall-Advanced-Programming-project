@@ -9,7 +9,12 @@ namespace Logic {
     namespace Move {
 
         class ChaseMode: public Mode{
-
+        public:
+            ChaseMode() =default;
+            Vector2D getDirection(Vector2D& to_pacman, const std::vector<Vector2D>& options) const override;
+        private:
+            Vector2D findClosest(Vector2D& to_pacman, const std::vector<Vector2D>& options) const;
+            Vector2D takeRandom(const std::vector<Vector2D>& options) const;
         };
 
     } // Logic
