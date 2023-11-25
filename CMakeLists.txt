@@ -44,3 +44,8 @@ ADD_EXECUTABLE(ProjectPacman
 
 )
 
+set(CMAKE_INSTALL_PREFIX install)
+
+install(TARGETS ProjectPacman
+        DESTINATION ${CMAKE_INSTALL_PREFIX}
+)
