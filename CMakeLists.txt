@@ -20,16 +20,34 @@ set(subjects
         src/logic/Subjects/Fruit.h
 )
 
+set(move_strategies
+        src/logic/MoveStrategy/ModeManager.cpp
+        src/logic/MoveStrategy/ModeManager.h
+        src/logic/MoveStrategy/Mode.cpp
+        src/logic/MoveStrategy/Mode.h
+        src/logic/MoveStrategy/FearMode.cpp
+        src/logic/MoveStrategy/FearMode.h
+        src/logic/MoveStrategy/ChaseMode.cpp
+        src/logic/MoveStrategy/ChaseMode.h
+        src/logic/MoveStrategy/ControlMode.cpp
+        src/logic/MoveStrategy/ControlMode.h
+        src/logic/MoveStrategy/PassiveMode.cpp
+        src/logic/MoveStrategy/PassiveMode.h)
+
 set(logic
+        ${subjects}
+        ${move_strategies}
+
         src/logic/World.cpp
         src/logic/World.h
-        ${subjects}
         src/logic/Random.cpp
         src/logic/Random.h
         src/logic/Stopwatch.cpp
         src/logic/Stopwatch.h
         src/logic/LogicHandler.cpp
         src/logic/LogicHandler.h
+        src/logic/Vector2D.cpp
+        src/logic/Vector2D.h
 )
 
 
