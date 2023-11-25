@@ -6,13 +6,10 @@
 #define PROJECTPACMAN_SUBJECT_H
 
 namespace Logic {
-    namespace Model {
+    class Subject {
 
-        class Subject {
+    };
 
-        };
-
-    } //Model
 } // Logic
 
 #endif //PROJECTPACMAN_SUBJECT_H
