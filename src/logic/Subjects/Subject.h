@@ -5,13 +5,14 @@
 #ifndef PROJECTPACMAN_SUBJECT_H
 #define PROJECTPACMAN_SUBJECT_H
 #include "../Vector2D.h"
+#include "../MoveStrategy/ModeManager.h"
 namespace Logic {
     class Subject {
     public:
 
     private:
         Vector2D position;
-        Vector2D direction;
+        Move::ModeManager move_manager;
     };
 
 } // Logic

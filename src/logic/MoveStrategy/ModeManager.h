@@ -12,7 +12,8 @@ namespace Logic {
         class ModeManager {
         public:
             ModeManager(std::unique_ptr<Mode> mode);
-            Vector2D getDirection(const Vector2D& to_pacman, const std::vector<Vector2D>& options) const;
+            void makeDirection(const Vector2D& to_pacman, const std::vector<Vector2D>& options) const;
+            Vector2D getDirection();
 
             void setStrategy(std::unique_ptr<Mode> mode);
 

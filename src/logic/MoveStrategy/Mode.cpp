@@ -29,5 +29,13 @@ namespace Logic {
             return options[r->getRandomIndex(0, options.size()-1)];
         }
 
+        const Vector2D &Mode::getDirection() const {
+            return direction;
+        }
+
+        Mode::Mode(): direction{Vector2D(0,0)} {
+
+        }
+
     } // Logic
 } // Move

@@ -6,9 +6,9 @@
 
 namespace Logic {
     namespace Move {
-        Vector2D PassiveMode::getDirection(const Vector2D &to_pacman, const std::vector<Vector2D> &options) const {
+        void PassiveMode::makeDirection(const Vector2D &to_pacman, const std::vector<Vector2D> &options){
             //returns the 0 vector
-            return Vector2D{0, 0};
+            direction =  Vector2D{0, 0};
         }
     } // Logic
 } // Move

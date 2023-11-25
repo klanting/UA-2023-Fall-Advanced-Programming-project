@@ -15,13 +15,17 @@ namespace Logic {
 
         class Mode {
         public:
-            Mode() = default;
-            virtual Vector2D getDirection(const Vector2D& to_pacman, const std::vector<Vector2D>& options) const = 0;
+            Mode();
+            virtual void makeDirection(const Vector2D& to_pacman, const std::vector<Vector2D>& options) = 0;
+
+            const Vector2D &getDirection() const;
+
         protected:
             Vector2D findBest(const Vector2D& to_pacman, const std::vector<Vector2D>& options, const std::function<bool(double, double)>& op) const;
             Vector2D takeRandom(const std::vector<Vector2D>& options) const;
-
+            Vector2D direction;
         private:
+
         };
 
     } // Logic

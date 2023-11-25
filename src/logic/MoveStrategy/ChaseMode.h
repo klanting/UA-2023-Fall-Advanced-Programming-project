@@ -10,8 +10,8 @@ namespace Logic {
 
         class ChaseMode: public Mode{
         public:
-            ChaseMode() =default;
-            Vector2D getDirection(const Vector2D& to_pacman, const std::vector<Vector2D>& options) const override;
+            ChaseMode() = default;
+            void makeDirection(const Vector2D& to_pacman, const std::vector<Vector2D>& options) override;
         private:
 
         };

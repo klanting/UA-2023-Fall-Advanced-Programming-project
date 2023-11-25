@@ -10,7 +10,7 @@ namespace Logic {
 
         class PassiveMode: public Mode{
             PassiveMode() = default;
-            Vector2D getDirection(const Vector2D& to_pacman, const std::vector<Vector2D>& options) const override;
+            void makeDirection(const Vector2D& to_pacman, const std::vector<Vector2D>& options) override;
         };
 
     } // Logic
