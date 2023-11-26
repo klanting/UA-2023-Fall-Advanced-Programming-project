@@ -5,4 +5,5 @@
 #include "State.h"
 
 namespace View {
+
 } // View

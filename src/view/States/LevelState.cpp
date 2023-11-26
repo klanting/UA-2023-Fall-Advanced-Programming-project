@@ -9,4 +9,12 @@ namespace View {
         world = std::make_unique<Logic::World>();
 
     }
+
+    void LevelState::runTick() {
+
+    }
+
+    void LevelState::acceptCharacter(int input) {
+
+    }
 } // View

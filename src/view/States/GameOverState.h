@@ -11,7 +11,7 @@ namespace View {
     public:
         GameOverState() = default;
         void runTick() override;
-        void acceptCharacter(char input) override;
+        void acceptCharacter(int input) override;
     private:
 
     };

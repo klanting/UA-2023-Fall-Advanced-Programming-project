@@ -20,4 +20,9 @@ namespace View {
         }
 
     }
+
+    void StateManager::acceptCharacter(int input) {
+        state_stack.top()->acceptCharacter(input);
+
+    }
 } // View

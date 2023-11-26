@@ -13,7 +13,7 @@ namespace View {
         StateManager(std::unique_ptr<State> state);
         void Push(std::unique_ptr<State> state);
         void Pop(int amount);
-
+        void acceptCharacter(int input);
     private:
         std::stack<std::unique_ptr<State>> state_stack;
 

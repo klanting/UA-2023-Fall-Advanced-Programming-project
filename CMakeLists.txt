@@ -1,6 +1,14 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.22.1)
 PROJECT(ProjectPacman)
 
+IF (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+    SET (CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/installed" CACHE PATH "default install path" FORCE)
+ENDIF()
+
+
+FIND_PACKAGE(SFML 2 COMPONENTS system window graphics)
+INCLUDE_DIRECTORIES(${SFML_INCLUDE_DIR})
+
 set(controller
         src/logic/Controller/Controller.cpp
         src/logic/Controller/Controller.h
@@ -95,6 +103,8 @@ ADD_EXECUTABLE(ProjectPacman
 )
 
 set(CMAKE_INSTALL_PREFIX install)
+
+TARGET_LINK_LIBRARIES(ProjectPacman sfml-system sfml-graphics sfml-window)
 
 install(TARGETS ProjectPacman
         DESTINATION ${CMAKE_INSTALL_PREFIX}

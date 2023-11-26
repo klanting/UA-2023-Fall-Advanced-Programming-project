@@ -11,7 +11,7 @@ namespace View {
     public:
         MenuState() = default;
         void runTick() override;
-        void acceptCharacter(char input) override;
+        void acceptCharacter(int input) override;
     private:
 
     };
