@@ -10,6 +10,7 @@ namespace View {
     Game::Game() {
         window = std::make_shared<RW>(sf::VideoMode(500, 500), "Pacman");
         state_manager = make_shared<StateManager>(make_unique<MenuState>());
+        state_manager->selfPointer(state_manager);
         doGameLoop();
     }
 
