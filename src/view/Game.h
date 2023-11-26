@@ -15,7 +15,7 @@ namespace View {
         Game();
     private:
         std::shared_ptr<sf::RenderWindow> window;
-        std::unique_ptr<StateManager> state_manager;
+        std::shared_ptr<StateManager> state_manager;
         void doGameLoop();
         void processInput(int input);
     };

@@ -6,11 +6,13 @@
 
 namespace View {
     StateManager::StateManager(std::unique_ptr<State> state) {
+        state->setManager(std::shared_ptr<StateManager>(this));
         state_stack.push(std::move(state));
 
     }
 
     void StateManager::Push(std::unique_ptr<State> state) {
+        state->setManager(std::shared_ptr<StateManager>(this));
         state_stack.push(std::move(state));
     }
 

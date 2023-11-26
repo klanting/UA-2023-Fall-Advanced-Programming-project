@@ -7,13 +7,17 @@
 #include <memory>
 #include <iostream>
 namespace View {
-
+    class StateManager;
     class State {
     public:
         State() = default;
+        virtual ~State() = default;
         virtual void runTick() = 0;
         virtual void acceptCharacter(int input) = 0;
-    private:
+        void setManager(std::shared_ptr<StateManager> state_manager);
+
+    protected:
+        std::shared_ptr<StateManager> state_manager;
     };
 
 } // View

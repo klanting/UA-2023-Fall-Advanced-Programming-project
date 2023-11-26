@@ -9,7 +9,7 @@ namespace View {
     typedef sf::RenderWindow RW;
     Game::Game() {
         window = std::make_shared<RW>(sf::VideoMode(500, 500), "Pacman");
-        state_manager = make_unique<StateManager>(make_unique<MenuState>());
+        state_manager = make_shared<StateManager>(make_unique<MenuState>());
         doGameLoop();
     }
 
