@@ -11,6 +11,24 @@ set(controller
 
 )
 
+set(states
+        src/view/States/StateManager.cpp
+        src/view/States/StateManager.h
+        src/view/States/State.cpp
+        src/view/States/State.h
+        src/view/States/MenuState.cpp
+        src/view/States/MenuState.h
+        src/view/States/LevelState.cpp
+        src/view/States/LevelState.h
+        src/view/States/PausedState.cpp
+        src/view/States/PausedState.h
+        src/view/States/VictoryState.cpp
+        src/view/States/VictoryState.h
+        src/view/States/GameOverState.cpp
+        src/view/States/GameOverState.h
+)
+
+
 set(subjects
         src/logic/Subjects/Subject.cpp
         src/logic/Subjects/Subject.h
@@ -63,7 +81,10 @@ set(logic
 
 
 
-set(view)
+set(view
+        ${states}
+        src/view/Game.cpp
+        src/view/Game.h)
 
 
 ADD_EXECUTABLE(ProjectPacman

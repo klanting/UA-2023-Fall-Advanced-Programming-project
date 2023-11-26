@@ -14,6 +14,7 @@ namespace Logic {
         EntityModel(const Vector2D& position, double speed, std::unique_ptr<Move::Mode> mode);
 
         void move();
+        virtual void calculateDirection(const Vector2D& to_pacman, const std::vector<Vector2D>& options);
     private:
         double speed;
 

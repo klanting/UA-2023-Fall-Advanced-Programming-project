@@ -5,4 +5,7 @@
 #include "World.h"
 
 namespace Logic {
+    World::World() {
+
+    }
 } // Logic

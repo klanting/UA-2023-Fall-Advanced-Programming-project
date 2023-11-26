@@ -8,7 +8,9 @@
 namespace Logic {
 
     class World {
-
+    public:
+        World();
+    private:
     };
 
 } // Logic

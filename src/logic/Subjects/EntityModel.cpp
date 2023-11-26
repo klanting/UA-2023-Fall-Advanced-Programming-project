@@ -5,11 +5,11 @@
 #include "EntityModel.h"
 #include "../MoveStrategy/PassiveMode.h"
 namespace Logic {
-    EntityModel::EntityModel(const Vector2D &position, double speed): Subject(position, std::make_unique<Move::PassiveMode>()), speed{0} {
+    EntityModel::EntityModel(const Vector2D &position, double speed): Subject(position, std::make_unique<Move::PassiveMode>()), speed{speed} {
 
     }
 
-    EntityModel::EntityModel(const Vector2D &position, double speed, std::unique_ptr<Move::Mode> mode) : Subject(position, std::move(mode)), speed{0} {
+    EntityModel::EntityModel(const Vector2D &position, double speed, std::unique_ptr<Move::Mode> mode) : Subject(position, std::move(mode)), speed{speed} {
 
     }
 
@@ -20,6 +20,11 @@ namespace Logic {
 
         Vector2D direction = move_manager.getDirection();
         position += direction*stopwatch->getDeltaTime()*speed;
+
+    }
+
+    void EntityModel::calculateDirection(const Vector2D &to_pacman, const std::vector<Vector2D> &options) {
+        move_manager.makeDirection(to_pacman, options);
 
     }
 } // Logic

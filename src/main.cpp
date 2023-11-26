@@ -13,7 +13,7 @@ int main(){
     Logic::Move::FearMode f;
     using namespace Logic;
     Pacman p{Vector2D{0,0}};
-
+    auto s = Stopwatch::getInstance();
     int a = 0;
     for (int i=0; i<100; i++){
         f.makeDirection(Logic::Vector2D{1, 1}, {Logic::Vector2D{1, 0}, Logic::Vector2D{0, -2}});
@@ -23,8 +23,10 @@ int main(){
 
     }
 
+    p.calculateDirection(Vector2D{0,0}, {Vector2D{1, 1}});
+    s->doTick();
     p.move();
-
+    s->doTick();
     p.move();
     std::cout << a << std::endl;
     return 0;
