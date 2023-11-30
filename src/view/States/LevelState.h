@@ -6,16 +6,17 @@
 #define PROJECTPACMAN_LEVELSTATE_H
 #include "State.h"
 #include "../../logic/World.h"
-
+#include "../../logic/LogicHandler.h"
 namespace View {
 
     class LevelState: public State{
     public:
         LevelState();
         void runTick() override;
-        void acceptCharacter(int input) override;
+        void acceptCharacter(int input, bool pressed) override;
     private:
-        std::unique_ptr<Logic::World> world;
+        std::unique_ptr<Logic::LogicHandler> handler;
+        std::weak_ptr<Controller::Controller> controller;
 
     };
 

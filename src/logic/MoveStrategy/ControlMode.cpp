@@ -12,7 +12,11 @@ namespace Logic {
             Vector2D result{0, 0};
             std::for_each(options.begin(), options.end(), [&result](Vector2D d){result += d;});
 
-            direction = result;
+            //direction = result;
+        }
+
+        void ControlMode::update(std::weak_ptr<Controller::Controller> input_controller) {
+            direction = input_controller.lock()->getDataVector();
         }
     } // Logic
 } // Move

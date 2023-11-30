@@ -11,7 +11,7 @@ namespace Controller {
     class ControllerObserver {
     public:
         ControllerObserver();
-        virtual void update(std::shared_ptr<Controller> input_controller);
+        virtual void update(std::weak_ptr<Controller> input_controller) = 0;
     private:
     };
 

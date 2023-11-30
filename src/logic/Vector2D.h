@@ -15,10 +15,15 @@ namespace Logic {
         Vector2D operator-(const Vector2D& other) const;
         void operator-=(const Vector2D& other);
         Vector2D operator*(double multiplier) const;
+        bool operator<(const Vector2D& other) const;
+        bool operator<=(const Vector2D& other) const;
+
         double innerProduct(const Vector2D& other) const;
         double getLength() const;
         double getAngle(const Vector2D& other) const;
         double getDistance(const Vector2D& other) const;
+        Vector2D projection(const Vector2D& target) const;
+
     private:
         double x;
         double y;

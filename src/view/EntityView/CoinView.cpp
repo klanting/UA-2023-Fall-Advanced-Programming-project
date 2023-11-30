@@ -5,7 +5,12 @@
 #include "CoinView.h"
 
 namespace View {
-    void CoinView::update(std::shared_ptr<Logic::Subject> subject) {
+    void View::CoinView::moved() {
+
+    }
+
+    CoinView::CoinView(std::weak_ptr<Logic::EntityModel> entity) : EntityView(entity) {
 
     }
 } // View
+

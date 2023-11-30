@@ -5,7 +5,13 @@
 #include "WallView.h"
 
 namespace View {
-    void WallView::update(std::shared_ptr<Logic::Subject> subject) {
+
+
+    void WallView::moved() {
+
+    }
+
+    WallView::WallView(std::weak_ptr<Logic::EntityModel> entity) : EntityView(entity) {
 
     }
 } // View

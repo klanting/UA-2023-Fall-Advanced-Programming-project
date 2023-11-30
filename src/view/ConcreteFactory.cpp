@@ -18,32 +18,32 @@
 namespace View {
     std::shared_ptr<Subject> ConcreteFactory::createCoin(const Vector2D& position) {
         std::shared_ptr<Logic::EntityModel> c = std::make_shared<Logic::Coin>(position);
-        c->addObserver(std::make_shared<CoinView>());
+        c->addObserver(std::make_shared<CoinView>(c));
         return c;
     }
 
     std::shared_ptr<Subject> ConcreteFactory::createFruit(const Vector2D &position) {
         std::shared_ptr<Logic::EntityModel> c = std::make_shared<Logic::Fruit>(position);
-        c->addObserver(std::make_shared<FruitView>());
+        c->addObserver(std::make_shared<FruitView>(c));
         return c;
     }
 
     std::shared_ptr<Subject> ConcreteFactory::createGhost(const Vector2D &position) {
         std::shared_ptr<Logic::EntityModel> c = std::make_shared<Logic::Ghost>(position);
-        c->addObserver(std::make_shared<GhostView>());
+        c->addObserver(std::make_shared<GhostView>(c));
         return c;
     }
 
     std::shared_ptr<Subject> ConcreteFactory::createPacman(const Vector2D &position) {
         std::shared_ptr<Logic::EntityModel> c = std::make_shared<Logic::Pacman>(position);
-        c->addObserver(std::make_shared<PacmanView>());
+        c->addObserver(std::make_shared<PacmanView>(c));
         return c;
     }
 
 
     std::shared_ptr<Subject> ConcreteFactory::createWall(const Vector2D &position) {
         std::shared_ptr<Logic::EntityModel> c = std::make_shared<Logic::Wall>(position);
-        c->addObserver(std::make_shared<WallView>());
+        c->addObserver(std::make_shared<WallView>(c));
         return c;
     }
 } // View

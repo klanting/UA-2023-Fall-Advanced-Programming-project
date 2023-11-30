@@ -11,13 +11,13 @@ namespace Logic {
 
     class World {
     public:
-        World(std::shared_ptr<AbstractFactory> concrete_factory);
+        World(std::shared_ptr<AbstractFactory> factory);
 
     private:
         std::vector<std::shared_ptr<Subject>> entities;
         std::vector<std::shared_ptr<Subject>> not_passable;
 
-        bool CheckCollision(std::shared_ptr<Subject> s);
+        std::weak_ptr<Subject> checkCollision(std::shared_ptr<Subject> s);
     };
 
 

@@ -9,7 +9,8 @@ namespace View {
 
     class PacmanView: public EntityView{
     public:
-        void update(std::shared_ptr<Logic::Subject> subject) override;
+        PacmanView(std::weak_ptr<Logic::EntityModel> entity);
+        void moved() override;
     private:
 
     };

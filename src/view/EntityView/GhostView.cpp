@@ -5,7 +5,13 @@
 #include "GhostView.h"
 
 namespace View {
-    void GhostView::update(std::shared_ptr<Logic::Subject> subject) {
+
+
+    void GhostView::moved() {
+
+    }
+
+    GhostView::GhostView(std::weak_ptr<Logic::EntityModel> entity) : EntityView(entity) {
 
     }
 } // View

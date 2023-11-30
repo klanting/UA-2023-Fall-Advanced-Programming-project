@@ -9,7 +9,4 @@ namespace Controller {
 
     }
 
-    void ControllerObserver::update(std::shared_ptr<Controller> input_controller) {
-
-    }
 } // Controller

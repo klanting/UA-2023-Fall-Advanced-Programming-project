@@ -5,11 +5,15 @@
 #ifndef PROJECTPACMAN_ENTITYVIEW_H
 #define PROJECTPACMAN_ENTITYVIEW_H
 #include "../../logic/Observer.h"
+#include "../../logic/Subjects/EntityModel.h"
 namespace View {
 
-class EntityView: public Logic::Observer{
+    class EntityView: public Logic::Observer{
     public:
-    virtual void update(std::shared_ptr<Logic::Subject> subject) = 0;
+        EntityView(std::weak_ptr<Logic::EntityModel> entity);
+        virtual void moved() = 0;
+    protected:
+        std::weak_ptr<Logic::EntityModel> entity;
     private:
     };
 

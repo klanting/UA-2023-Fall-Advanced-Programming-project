@@ -52,5 +52,18 @@ namespace Logic {
         return (*this-other).getLength();
     }
 
+    bool Vector2D::operator<(const Vector2D &other) const {
+        return (*this).getLength() < other.getLength();
+    }
+
+    Vector2D Vector2D::projection(const Vector2D &target) const{
+        double scalar = (*this).innerProduct(target)/ pow(target.getLength(), 2);
+        return target*scalar;
+    }
+
+    bool Vector2D::operator<=(const Vector2D &other) const {
+        return (*this).getLength() <= other.getLength();
+    }
+
 
 } // Logic

@@ -10,8 +10,12 @@ namespace View {
 
     }
 
-    void MenuState::acceptCharacter(int input) {
+    void MenuState::acceptCharacter(int input, bool pressed) {
         std::cout << "game started" << std::endl;
+        if (!pressed){
+            return;
+        }
+
         if (state_manager.expired()){
             return;
         }

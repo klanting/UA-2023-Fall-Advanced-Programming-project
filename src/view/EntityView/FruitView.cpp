@@ -5,7 +5,13 @@
 #include "FruitView.h"
 
 namespace View {
-    void FruitView::update(std::shared_ptr<Logic::Subject> subject) {
+
+
+    void FruitView::moved() {
+
+    }
+
+    FruitView::FruitView(std::weak_ptr<Logic::EntityModel> entity) : EntityView(entity) {
 
     }
 } // View

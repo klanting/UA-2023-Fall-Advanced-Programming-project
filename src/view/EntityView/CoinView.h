@@ -9,7 +9,8 @@ namespace View {
 
     class CoinView: public EntityView{
     public:
-        void update(std::shared_ptr<Logic::Subject> subject) override;
+        CoinView(std::weak_ptr<Logic::EntityModel> entity);
+        void moved() override;
     private:
 
     };

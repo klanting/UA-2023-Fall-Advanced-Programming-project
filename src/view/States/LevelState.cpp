@@ -6,8 +6,8 @@
 #include "../ConcreteFactory.h"
 namespace View {
     LevelState::LevelState() {
-        //temp concrete factory creating
-        world = std::make_unique<Logic::World>(std::make_shared<ConcreteFactory>());
+        handler = std::make_unique<Logic::LogicHandler>(std::make_shared<ConcreteFactory>());
+        controller = handler->getController();
 
     }
 
@@ -15,7 +15,23 @@ namespace View {
 
     }
 
-    void LevelState::acceptCharacter(int input) {
+    void LevelState::acceptCharacter(int input, bool pressed) {
+        std::cout << "input: " << input << std::endl;
+
+        switch (input) {
+            case 73:
+                controller.lock()->moveUp(pressed);
+                break;
+            case 72:
+                controller.lock()->moveRight(pressed);
+                break;
+            case 71:
+                controller.lock()->moveLeft(pressed);
+                break;
+            case 74:
+                controller.lock()->moveDown(pressed);
+                break;
+        }
 
     }
 } // View

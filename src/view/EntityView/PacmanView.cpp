@@ -5,7 +5,13 @@
 #include "PacmanView.h"
 
 namespace View {
-    void PacmanView::update(std::shared_ptr<Logic::Subject> subject) {
+
+
+    void PacmanView::moved() {
+
+    }
+
+    PacmanView::PacmanView(std::weak_ptr<Logic::EntityModel> entity) : EntityView(entity) {
 
     }
 } // View

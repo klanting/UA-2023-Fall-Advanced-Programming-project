@@ -9,13 +9,16 @@ namespace Controller {
 
     class MovementController: public Controller{
     public:
-        MovementController() = default;
+        MovementController();
 
-        void moveUp(bool pressed);
-        void moveDown(bool pressed);
-        void moveLeft(bool pressed);
-        void moveRight(bool pressed);
+        void moveUp(bool pressed) override;
+        void moveDown(bool pressed) override;
+        void moveLeft(bool pressed) override;
+        void moveRight(bool pressed) override;
+
     private:
+
+
         void check_press(bool pressed, int index, const Vector2D& change);
         bool pressed_table[4];
     };

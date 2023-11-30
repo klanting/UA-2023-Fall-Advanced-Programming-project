@@ -6,17 +6,13 @@
 
 namespace View {
     StateManager::StateManager(std::unique_ptr<State> state) {
+        first_ptr_set = false;
         state_stack.push(std::move(state));
 
     }
 
     void StateManager::Push(std::unique_ptr<State> state) {
-        if (state_manager.expired()){
-            //throw exception here
-            return;
-        }
-
-        state->setManager(state_manager);
+        state->setManager(weak_from_this());
         state_stack.push(std::move(state));
     }
 
@@ -27,14 +23,16 @@ namespace View {
 
     }
 
-    void StateManager::acceptCharacter(int input) {
-        state_stack.top()->acceptCharacter(input);
+    void StateManager::acceptCharacter(int input, bool pressed) {
+        if (!first_ptr_set){
+            state_stack.top()->setManager(weak_from_this());
+            first_ptr_set = true;
+        }
+
+        state_stack.top()->acceptCharacter(input, pressed);
 
     }
 
-    void StateManager::selfPointer(std::weak_ptr<StateManager> state_manager) {
-        StateManager::state_manager = state_manager;
-        state_stack.top()->setManager(StateManager::state_manager);
-    }
+
 
 } // View

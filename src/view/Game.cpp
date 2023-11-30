@@ -10,7 +10,6 @@ namespace View {
     Game::Game() {
         window = std::make_shared<RW>(sf::VideoMode(500, 500), "Pacman");
         state_manager = make_shared<StateManager>(make_unique<MenuState>());
-        state_manager->selfPointer(state_manager);
         doGameLoop();
     }
 
@@ -21,8 +20,9 @@ namespace View {
             sf::Event event;
             while (window->pollEvent(event))
             {
-                if (event.type == sf::Event::KeyPressed){
-                    processInput(event.key.code);
+                if (event.type == sf::Event::KeyPressed || event.type == sf::Event::KeyReleased){
+                    bool pressed = event.type == sf::Event::KeyPressed;
+                    processInput(event.key.code, pressed);
                 }
 
                 if (event.type == sf::Event::Closed){
@@ -38,7 +38,7 @@ namespace View {
 
     }
 
-    void Game::processInput(int input) {
-        state_manager->acceptCharacter(input);
+    void Game::processInput(int input, bool pressed) {
+        state_manager->acceptCharacter(input, pressed);
     }
 } // View

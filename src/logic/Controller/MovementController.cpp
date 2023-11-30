@@ -41,4 +41,8 @@ namespace Controller {
         }
 
     }
+
+    MovementController::MovementController() {
+
+    }
 } // Controller

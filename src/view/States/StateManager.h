@@ -8,19 +8,18 @@
 #include <stack>
 namespace View {
 
-    class StateManager{
+class StateManager: public std::enable_shared_from_this<StateManager>{
     public:
         StateManager(std::unique_ptr<State> state);
         void Push(std::unique_ptr<State> state);
         void Pop(int amount);
-        void acceptCharacter(int input);
+        void acceptCharacter(int input, bool pressed);
 
-        void selfPointer(std::weak_ptr<StateManager> state_manager);
 
         ~StateManager() = default;
     private:
         std::stack<std::unique_ptr<State>> state_stack;
-        std::weak_ptr<StateManager> state_manager;
+        bool first_ptr_set;
 
 
     };

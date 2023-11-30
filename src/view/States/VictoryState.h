@@ -11,7 +11,7 @@ namespace View {
     public:
         VictoryState() = default;
         void runTick() override;
-        void acceptCharacter(int input) override;
+        void acceptCharacter(int input, bool pressed) override;
     private:
 
     };
