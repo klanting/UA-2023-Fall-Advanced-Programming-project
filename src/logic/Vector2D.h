@@ -18,10 +18,12 @@ namespace Logic {
         double innerProduct(const Vector2D& other) const;
         double getLength() const;
         double getAngle(const Vector2D& other) const;
+        double getDistance(const Vector2D& other) const;
     private:
         double x;
         double y;
     };
+
 
 } // Logic
 

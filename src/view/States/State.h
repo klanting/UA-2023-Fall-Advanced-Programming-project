@@ -14,10 +14,10 @@ namespace View {
         virtual ~State() = default;
         virtual void runTick() = 0;
         virtual void acceptCharacter(int input) = 0;
-        void setManager(std::shared_ptr<StateManager> state_manager);
+        void setManager(std::weak_ptr<StateManager> state_manager);
 
     protected:
-        std::shared_ptr<StateManager> state_manager;
+        std::weak_ptr<StateManager> state_manager;
     };
 
 } // View

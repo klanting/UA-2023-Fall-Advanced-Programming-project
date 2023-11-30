@@ -85,6 +85,10 @@ set(logic
         src/logic/LogicHandler.h
         src/logic/Vector2D.cpp
         src/logic/Vector2D.h
+        src/logic/AbstractFactory.cpp
+        src/logic/AbstractFactory.h
+        src/logic/Observer.cpp
+        src/logic/Observer.h
 )
 
 
@@ -92,7 +96,21 @@ set(logic
 set(view
         ${states}
         src/view/Game.cpp
-        src/view/Game.h)
+        src/view/Game.h
+        src/view/ConcreteFactory.cpp
+        src/view/ConcreteFactory.h
+        src/view/EntityView/EntityView.cpp
+        src/view/EntityView/EntityView.h
+        src/view/EntityView/PacmanView.cpp
+        src/view/EntityView/PacmanView.h
+        src/view/EntityView/GhostView.cpp
+        src/view/EntityView/GhostView.h
+        src/view/EntityView/CoinView.cpp
+        src/view/EntityView/CoinView.h
+        src/view/EntityView/FruitView.cpp
+        src/view/EntityView/FruitView.h
+        src/view/EntityView/WallView.cpp
+        src/view/EntityView/WallView.h)
 
 
 ADD_EXECUTABLE(ProjectPacman

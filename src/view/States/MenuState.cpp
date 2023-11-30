@@ -12,6 +12,9 @@ namespace View {
 
     void MenuState::acceptCharacter(int input) {
         std::cout << "game started" << std::endl;
-        state_manager->Push(std::make_unique<LevelState>());
+        if (state_manager.expired()){
+            return;
+        }
+        state_manager.lock()->Push(std::make_unique<LevelState>());
     }
 } // View

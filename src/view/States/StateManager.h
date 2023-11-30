@@ -15,12 +15,12 @@ namespace View {
         void Pop(int amount);
         void acceptCharacter(int input);
 
-        void selfPointer(std::shared_ptr<StateManager> state_manager);
+        void selfPointer(std::weak_ptr<StateManager> state_manager);
 
         ~StateManager() = default;
     private:
         std::stack<std::unique_ptr<State>> state_stack;
-        std::shared_ptr<StateManager> state_manager;
+        std::weak_ptr<StateManager> state_manager;
 
 
     };

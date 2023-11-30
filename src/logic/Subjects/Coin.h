@@ -2,7 +2,7 @@
 // Created by tibov on 25/11/23.
 //
 
-#ifndef PROJECTPACMAN_COIN_H
+#ifndef PROJECTPACMAN_COINVIEW_H
 #define PROJECTPACMAN_COIN_H
 #include "Collectable.h"
 namespace Logic {
@@ -16,4 +16,4 @@ namespace Logic {
 
 } // Logic
 
-#endif //PROJECTPACMAN_COIN_H
+#endif //PROJECTPACMAN_COINVIEW_H

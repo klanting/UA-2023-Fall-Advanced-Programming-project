@@ -7,7 +7,7 @@
 #include "Subject.h"
 #include "../Stopwatch.h"
 namespace Logic {
-
+    class Observer;
     class EntityModel: public Subject{
     public:
         EntityModel(const Vector2D& position, double speed);
@@ -15,8 +15,10 @@ namespace Logic {
 
         void move();
         virtual void calculateDirection(const Vector2D& to_pacman, const std::vector<Vector2D>& options);
-    private:
+        void addObserver(std::shared_ptr<Observer> observer);
+    protected:
         double speed;
+        std::vector<std::shared_ptr<Observer>> observers;
 
     };
 

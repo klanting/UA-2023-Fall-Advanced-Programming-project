@@ -27,4 +27,8 @@ namespace Logic {
         move_manager.makeDirection(to_pacman, options);
 
     }
+
+    void EntityModel::addObserver(std::shared_ptr<Observer> observer) {
+        observers.push_back(observer);
+    }
 } // Logic

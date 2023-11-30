@@ -48,5 +48,9 @@ namespace Logic {
         this->y -= other.y;
     }
 
+    double Vector2D::getDistance(const Vector2D &other) const {
+        return (*this-other).getLength();
+    }
+
 
 } // Logic

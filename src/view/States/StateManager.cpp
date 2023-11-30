@@ -6,13 +6,17 @@
 
 namespace View {
     StateManager::StateManager(std::unique_ptr<State> state) {
-        //state->setManager(std::shared_ptr<StateManager>(this));
         state_stack.push(std::move(state));
 
     }
 
     void StateManager::Push(std::unique_ptr<State> state) {
-        state->setManager(std::shared_ptr<StateManager>(this));
+        if (state_manager.expired()){
+            //throw exception here
+            return;
+        }
+
+        state->setManager(state_manager);
         state_stack.push(std::move(state));
     }
 
@@ -28,8 +32,9 @@ namespace View {
 
     }
 
-    void StateManager::selfPointer(std::shared_ptr<StateManager> state_manager) {
+    void StateManager::selfPointer(std::weak_ptr<StateManager> state_manager) {
         StateManager::state_manager = state_manager;
         state_stack.top()->setManager(StateManager::state_manager);
     }
+
 } // View

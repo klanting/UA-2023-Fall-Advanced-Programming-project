@@ -2,7 +2,7 @@
 // Created by tibov on 25/11/23.
 //
 
-#ifndef PROJECTPACMAN_GHOST_H
+#ifndef PROJECTPACMAN_GHOSTVIEW_H
 #define PROJECTPACMAN_GHOST_H
 #include "EntityModel.h"
 namespace Logic {
@@ -15,4 +15,4 @@ namespace Logic {
 
 } // Logic
 
-#endif //PROJECTPACMAN_GHOST_H
+#endif //PROJECTPACMAN_GHOSTVIEW_H

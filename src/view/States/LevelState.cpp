@@ -3,10 +3,11 @@
 //
 
 #include "LevelState.h"
-
+#include "../ConcreteFactory.h"
 namespace View {
     LevelState::LevelState() {
-        world = std::make_unique<Logic::World>();
+        //temp concrete factory creating
+        world = std::make_unique<Logic::World>(std::make_shared<ConcreteFactory>());
 
     }
 
