@@ -12,8 +12,8 @@ namespace Logic {
         //temp reading file
         std::fstream f("maps/map1.txt");
 
-        double i = 0;
-        double j = 0;
+        double i = -1;
+        double j = -1;
         while (!f.eof()){
             char c = f.get();
             if (c == 'w'){
@@ -33,11 +33,11 @@ namespace Logic {
                 pacman = s;
             }
 
-            i += 0.050;
+            i += 0.10;
 
             if (c == '\n'){
-                j += 0.050;
-                i = 0;
+                j += 0.10;
+                i = -1;
             }
         }
 
@@ -54,26 +54,43 @@ namespace Logic {
 
     }
 
-    std::weak_ptr<Subject> World::checkCollision(std::shared_ptr<Subject> s) {
+    std::vector<std::weak_ptr<Subject>> World::checkCollision(std::shared_ptr<Subject> s) {
+        std::vector<std::weak_ptr<Subject>> hits;
         for (std::shared_ptr<Subject> other: entities){
             if (s == other){
                 continue;
             }
 
-            if (s->collide(other)){
-                return other;
+            if (s->collide(other).first){
+                hits.push_back(other);
             }
 
         }
-        return std::weak_ptr<Subject>{};
+        return hits;
     }
 
     void World::doTick() {
         for (auto& e: entities){
-            if (e == pacman){
-                int b = 0;
-            }
             e->move();
+
+            std::vector<std::weak_ptr<Subject>> hitted = checkCollision(e);
+            if (hitted.empty()){
+                continue;
+            }
+
+            if (e != pacman){
+                continue;
+            }
+
+            std::cout << "hit somethiung " << std::endl;
+            for (auto hit: hitted){
+                if (std::find(not_passable.begin(), not_passable.end(),hit.lock()) != not_passable.end()){
+                    std::cout << "hit wall " << std::endl;
+                    e->handleImpassable(hit);
+                }
+            }
+
+
         }
 
     }

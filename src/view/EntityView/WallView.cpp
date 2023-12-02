@@ -3,7 +3,7 @@
 //
 
 #include "WallView.h"
-
+#include <iostream>
 namespace View {
 
 
@@ -19,7 +19,17 @@ namespace View {
         PixelData data = Camera::getInstance()->toPixels(e->getPosition(), e->getSize());
 
 
-        RenderWindowSingleton::getInstance()->getWindow()->draw(sprite);
+        std::vector<sf::Vertex> vertices;
+        sf::Color color = sf::Color::Blue;
+        if (e->debug_green){
+            color = sf::Color::Green;
+        }
+        vertices.push_back(sf::Vertex{sf::Vector2f(data.first[0], data.first[1]), color});
+        vertices.push_back(sf::Vertex{sf::Vector2f((data.first)[0], (data.first+data.second)[1]), color});
+        vertices.push_back(sf::Vertex{sf::Vector2f((data.first+data.second)[0], (data.first+data.second)[1]), color});
+        vertices.push_back(sf::Vertex{sf::Vector2f((data.first+data.second)[0], (data.first)[1]), color});
+        vertices.push_back(sf::Vertex{sf::Vector2f(data.first[0], data.first[1]), color});
+        RenderWindowSingleton::getInstance()->getWindow()->draw(&vertices[0], vertices.size(), sf::LineStrip);
     }
 
     WallView::WallView(std::weak_ptr<Logic::EntityModel> entity) : EntityView(entity) {

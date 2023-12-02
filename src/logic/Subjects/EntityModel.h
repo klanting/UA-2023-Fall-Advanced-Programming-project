@@ -12,9 +12,10 @@ namespace Logic {
     public:
         EntityModel(const Vector2D& position, double speed, std::shared_ptr<Move::ModeManager> move_manager);
 
-        void move();
+        void move() override;
         void addObserver(std::shared_ptr<Observer> observer);
-        bool collide(std::weak_ptr<Subject> other);
+        std::pair<bool, Vector2D> collide(std::weak_ptr<Subject> other) override;
+        void handleImpassable(std::weak_ptr<Subject> other) override;
 
         std::shared_ptr<Move::ModeManager> getMoveManager();
 

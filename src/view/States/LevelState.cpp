@@ -16,7 +16,6 @@ namespace View {
     }
 
     void LevelState::acceptCharacter(int input, bool pressed) {
-        std::cout << "input: " << input << std::endl;
 
         switch (input) {
             case 73:

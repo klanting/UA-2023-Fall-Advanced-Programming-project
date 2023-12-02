@@ -16,6 +16,7 @@ namespace View {
     public:
         EntityView(std::weak_ptr<Logic::EntityModel> entity);
         virtual void moved() = 0;
+
     protected:
         std::weak_ptr<Logic::EntityModel> entity;
         sf::Sprite sprite;

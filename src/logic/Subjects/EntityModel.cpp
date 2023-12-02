@@ -6,6 +6,8 @@
 #include "../MoveStrategy/PassiveMode.h"
 #include "../Observer.h"
 #include <iostream>
+#include <math.h>
+#include <vector>
 namespace Logic {
     template <typename T>
     bool between(T a, T b, T c){
@@ -13,7 +15,7 @@ namespace Logic {
         return a <= c && c <= b;
     }
 
-    EntityModel::EntityModel(const Vector2D &position, double speed, std::shared_ptr<Move::ModeManager> move_manager): position{position}, speed{speed}, size{Vector2D{0.05, 0.05}} {
+    EntityModel::EntityModel(const Vector2D &position, double speed, std::shared_ptr<Move::ModeManager> move_manager): position{position}, speed{speed}, size{Vector2D{0.1, 0.1}} {
         EntityModel::move_manager = move_manager;
     }
 
@@ -49,7 +51,7 @@ namespace Logic {
         return move_manager;
     }
 
-    bool EntityModel::collide(std::weak_ptr<Subject> other) {
+    std::pair<bool, Vector2D> EntityModel::collide(std::weak_ptr<Subject> other) {
 
         if (other.expired()){
             throw "expired";
@@ -61,9 +63,9 @@ namespace Logic {
         Vector2D c = other.lock()->getPosition();
         Vector2D d = other.lock()->getSize() + c;
 
-
         std::vector<Vector2D> baselines = {Vector2D{1, 0}, Vector2D{0, 1}};
         bool collided = true;
+        Vector2D max_overlap = Vector2D{0, 0};
         for (auto& baseline: baselines){
             Vector2D a_c = a.projection(baseline);
             Vector2D b_c = b.projection(baseline);
@@ -75,9 +77,35 @@ namespace Logic {
                 collided = false;
                 break;
             }
+
+            std::vector<Vector2D> distances = {d_c-a_c, c_c-b_c};
+
+            Vector2D dir = move_manager->getDirection().projection(baseline);
+
+            auto index = std::min_element(distances.begin(), distances.end(), [&dir](const Vector2D& a, const Vector2D& b){return a.getLength() < b.getLength();});
+            max_overlap += *index;
+
         }
 
-        return collided;
+
+        return std::make_pair(collided, max_overlap);
+    }
+
+    void EntityModel::handleImpassable(std::weak_ptr<Subject> other) {
+        auto p = collide(other);
+
+        other.lock()->debug_green = true;
+
+        if (!p.first){
+            return;
+        }
+
+        position += p.second.projection(move_manager->getDirection())*1.0001;
+
+
+        auto pn = collide(other);
+
+
     }
 
 

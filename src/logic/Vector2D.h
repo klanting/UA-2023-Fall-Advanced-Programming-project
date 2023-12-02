@@ -25,6 +25,8 @@ namespace Logic {
         double getAngle(const Vector2D& other) const;
         double getDistance(const Vector2D& other) const;
         Vector2D projection(const Vector2D& target) const;
+        Vector2D operator+() const;
+        Vector2D get_normalised() const;
 
 
     private:

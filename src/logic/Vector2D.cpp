@@ -53,7 +53,7 @@ namespace Logic {
     }
 
     bool Vector2D::operator<(const Vector2D &other) const {
-        return (*this).getLength() < other.getLength();
+        return this->x+ this->y < other.x+ other.y;
     }
 
     Vector2D Vector2D::projection(const Vector2D &target) const{
@@ -62,7 +62,7 @@ namespace Logic {
     }
 
     bool Vector2D::operator<=(const Vector2D &other) const {
-        return (*this).getLength() <= other.getLength();
+        return this->x+ this->y <= other.x+ other.y;
     }
 
     Vector2D Vector2D::operator*(const Vector2D &scalar) const {
@@ -78,6 +78,14 @@ namespace Logic {
             return y;
         }
 
+    }
+
+    Vector2D Vector2D::operator+() const {
+        return Vector2D(abs(x), abs(y));
+    }
+
+    Vector2D Vector2D::get_normalised() const {
+        return Vector2D(x/getLength(), y/getLength());
     }
 
 
