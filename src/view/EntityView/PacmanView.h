@@ -12,6 +12,7 @@ namespace View {
         PacmanView(std::weak_ptr<Logic::EntityModel> entity);
         void moved() override;
     private:
+        int pacman_row;
 
     };
 

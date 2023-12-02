@@ -9,7 +9,9 @@ namespace Controller {
 
     class MovementController: public Controller{
     public:
-        MovementController();
+        static std::shared_ptr<MovementController> getInstance();
+
+
 
         void moveUp(bool pressed) override;
         void moveDown(bool pressed) override;
@@ -17,6 +19,8 @@ namespace Controller {
         void moveRight(bool pressed) override;
 
     private:
+        MovementController();
+        inline static std::shared_ptr<MovementController> _instance;
 
 
         void check_press(bool pressed, int index, const Vector2D& change);

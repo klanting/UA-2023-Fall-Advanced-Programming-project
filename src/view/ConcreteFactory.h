@@ -6,6 +6,7 @@
 #define PROJECTPACMAN_CONCRETEFACTORY_H
 #include "../logic/AbstractFactory.h"
 #include "../logic/Subjects/Subject.h"
+
 using namespace Logic;
 namespace View {
 

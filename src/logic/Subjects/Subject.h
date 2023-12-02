@@ -7,21 +7,21 @@
 #include "../Vector2D.h"
 #include "../MoveStrategy/ModeManager.h"
 #include <functional>
+#include <memory>
 namespace Logic {
     class Subject {
     public:
-        Subject(const Vector2D& position, std::unique_ptr<Move::Mode> mode);
+        Subject() = default;
         virtual void move() = 0;
-        virtual void calculateDirection(const Vector2D& to_pacman, const std::vector<Vector2D>& options) = 0;
 
-        const Vector2D &getPosition() const;
-
-        const Vector2D &getSize() const;
+        virtual const Vector2D &getPosition() const = 0;
+        virtual const Vector2D &getSize() const = 0;
+        virtual bool collide(std::weak_ptr<Subject> other) = 0;
+        virtual std::shared_ptr<Move::ModeManager> getMoveManager() = 0;
 
     protected:
-        Vector2D position;
-        Vector2D size;
-        Move::ModeManager move_manager;
+
+
     };
 
 } // Logic

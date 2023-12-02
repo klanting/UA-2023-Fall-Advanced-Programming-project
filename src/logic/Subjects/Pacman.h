@@ -9,7 +9,7 @@ namespace Logic {
 
     class Pacman: public EntityModel{
     public:
-        Pacman(const Vector2D& position);
+        Pacman(const Vector2D& position, std::shared_ptr<Move::ModeManager> move_manager);
     private:
 
     };

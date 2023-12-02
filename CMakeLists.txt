@@ -12,8 +12,6 @@ INCLUDE_DIRECTORIES(${SFML_INCLUDE_DIR})
 set(controller
         src/logic/Controller/Controller.cpp
         src/logic/Controller/Controller.h
-        src/logic/Controller/ControllerObserver.cpp
-        src/logic/Controller/ControllerObserver.h
         src/logic/Controller/MovementController.cpp
         src/logic/Controller/MovementController.h
 
@@ -110,7 +108,11 @@ set(view
         src/view/EntityView/FruitView.cpp
         src/view/EntityView/FruitView.h
         src/view/EntityView/WallView.cpp
-        src/view/EntityView/WallView.h)
+        src/view/EntityView/WallView.h
+        src/view/Camera.cpp
+        src/view/Camera.h
+        src/view/RenderWindowSingleton.cpp
+        src/view/RenderWindowSingleton.h)
 
 
 ADD_EXECUTABLE(ProjectPacman

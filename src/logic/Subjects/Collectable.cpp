@@ -5,7 +5,7 @@
 #include "Collectable.h"
 
 namespace Logic {
-    Collectable::Collectable(const Vector2D &position) : EntityModel(position, 0) {
+    Collectable::Collectable(const Vector2D &position, std::shared_ptr<Move::ModeManager> move_manager) : EntityModel(position, 0, move_manager) {
 
     }
 } // Logic

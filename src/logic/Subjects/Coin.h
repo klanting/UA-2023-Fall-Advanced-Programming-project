@@ -9,7 +9,7 @@ namespace Logic {
 
     class Coin: public Collectable{
     public:
-        Coin(const Vector2D& position);
+        Coin(const Vector2D& position, std::shared_ptr<Move::ModeManager> move_manager);
     private:
 
     };

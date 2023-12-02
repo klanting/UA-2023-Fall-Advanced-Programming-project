@@ -3,24 +3,24 @@
 //
 
 #include "MovementController.h"
-#include "ControllerObserver.h"
+#include <iostream>
 namespace Controller {
 
     void MovementController::moveUp(bool pressed) {
-        check_press(pressed, 0, Vector2D{0, 1});
+        check_press(pressed, 0, Vector2D{0, -1});
 
     }
 
     void MovementController::moveDown(bool pressed) {
-        check_press(pressed, 0, Vector2D{0, -1});
+        check_press(pressed, 1, Vector2D{0, 1});
     }
 
     void MovementController::moveLeft(bool pressed) {
-        check_press(pressed, 0, Vector2D{-1, 0});
+        check_press(pressed, 2, Vector2D{-1, 0});
     }
 
     void MovementController::moveRight(bool pressed) {
-        check_press(pressed, 0, Vector2D{1, 0});
+        check_press(pressed, 3, Vector2D{1, 0});
     }
 
 
@@ -29,20 +29,25 @@ namespace Controller {
         if (pressed && !pressed_key){
             pressed_table[index] = true;
             data_vector += change;
+            std::cout << "P" << index << std::endl;
         }
 
         if (!pressed && pressed_key){
             pressed_table[index] = false;
             data_vector -= change;
-        }
-
-        for (std::shared_ptr<ControllerObserver> o: observers){
-            o->update(std::shared_ptr<Controller>(this));
+            std::cout << "R" << index << std::endl;
         }
 
     }
 
     MovementController::MovementController() {
 
+    }
+
+    std::shared_ptr<MovementController> MovementController::getInstance() {
+        if (!_instance){
+            _instance = std::shared_ptr<MovementController>(new MovementController());
+        }
+        return _instance;
     }
 } // Controller

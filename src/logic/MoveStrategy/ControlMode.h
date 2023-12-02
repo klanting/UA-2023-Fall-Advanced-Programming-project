@@ -5,17 +5,19 @@
 #ifndef PROJECTPACMAN_CONTROLMODE_H
 #define PROJECTPACMAN_CONTROLMODE_H
 #include "Mode.h"
-#include "../Controller/ControllerObserver.h"
+
 #include "../Controller/Controller.h"
 #include <algorithm>
+#include "../Controller/MovementController.h"
 namespace Logic {
     namespace Move {
 
-        class ControlMode: public Mode, Controller::ControllerObserver{
+        class ControlMode: public Mode{
         public:
             ControlMode() =default;
             void makeDirection(const Vector2D& to_pacman, const std::vector<Vector2D>& options) override;
-            void update(std::weak_ptr<Controller::Controller> input_controller) override;
+
+            const Vector2D &getDirection() const override;
         private:
 
         };

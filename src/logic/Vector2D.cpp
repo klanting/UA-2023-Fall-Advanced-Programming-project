@@ -65,5 +65,20 @@ namespace Logic {
         return (*this).getLength() <= other.getLength();
     }
 
+    Vector2D Vector2D::operator*(const Vector2D &scalar) const {
+        return Vector2D(x*scalar.x, y*scalar.y);
+    }
+
+    double Vector2D::operator[](int index) const {
+        if (index == 0){
+            return x;
+        }
+
+        if (index == 1){
+            return y;
+        }
+
+    }
+
 
 } // Logic

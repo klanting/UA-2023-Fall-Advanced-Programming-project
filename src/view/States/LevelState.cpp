@@ -7,12 +7,12 @@
 namespace View {
     LevelState::LevelState() {
         handler = std::make_unique<Logic::LogicHandler>(std::make_shared<ConcreteFactory>());
-        controller = handler->getController();
+        controller = Controller::MovementController::getInstance();
 
     }
 
     void LevelState::runTick() {
-
+        handler->doTick();
     }
 
     void LevelState::acceptCharacter(int input, bool pressed) {

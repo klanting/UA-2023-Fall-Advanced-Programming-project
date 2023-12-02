@@ -9,7 +9,7 @@ namespace Logic {
 
     class Ghost: public EntityModel{
     public:
-        Ghost(const Vector2D& position);
+        Ghost(const Vector2D& position, std::shared_ptr<Move::ModeManager> move_manager);
     private:
     };
 

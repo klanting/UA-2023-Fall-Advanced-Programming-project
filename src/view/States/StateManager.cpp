@@ -33,6 +33,14 @@ namespace View {
 
     }
 
+    void StateManager::runTick() {
+        if (!first_ptr_set){
+            state_stack.top()->setManager(weak_from_this());
+            first_ptr_set = true;
+        }
+
+        state_stack.top()->runTick();
+    }
 
 
 } // View

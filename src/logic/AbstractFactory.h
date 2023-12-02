@@ -6,6 +6,7 @@
 #define PROJECTPACMAN_ABSTRACTFACTORY_H
 #include "Subjects/Subject.h"
 #include "Vector2D.h"
+#include "Controller/Controller.h"
 namespace Logic {
 
     class AbstractFactory {

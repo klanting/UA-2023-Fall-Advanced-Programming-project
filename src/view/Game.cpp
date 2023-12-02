@@ -4,21 +4,22 @@
 
 #include "Game.h"
 #include <iostream>
+
 using namespace std;
 namespace View {
     typedef sf::RenderWindow RW;
     Game::Game() {
-        window = std::make_shared<RW>(sf::VideoMode(500, 500), "Pacman");
+        window = RenderWindowSingleton::getInstance();
         state_manager = make_shared<StateManager>(make_unique<MenuState>());
         doGameLoop();
     }
 
     void Game::doGameLoop() {
-        window->setKeyRepeatEnabled(false);
-        while (window->isOpen())
+        window->getWindow()->setKeyRepeatEnabled(false);
+        while (window->getWindow()->isOpen())
         {
             sf::Event event;
-            while (window->pollEvent(event))
+            while (window->getWindow()->pollEvent(event))
             {
                 if (event.type == sf::Event::KeyPressed || event.type == sf::Event::KeyReleased){
                     bool pressed = event.type == sf::Event::KeyPressed;
@@ -26,14 +27,16 @@ namespace View {
                 }
 
                 if (event.type == sf::Event::Closed){
-                    window->close();
+                    window->getWindow()->close();
                 }
 
             }
 
-            window->clear();
+            window->getWindow()->clear();
 
-            window->display();
+            state_manager->runTick();
+
+            window->getWindow()->display();
         }
 
     }

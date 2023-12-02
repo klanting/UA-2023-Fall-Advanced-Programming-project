@@ -9,7 +9,7 @@ namespace Logic {
 
     class Fruit: public Collectable{
     public:
-        Fruit(const Vector2D& position);
+        Fruit(const Vector2D& position, std::shared_ptr<Move::ModeManager> move_manager);
     private:
     };
 

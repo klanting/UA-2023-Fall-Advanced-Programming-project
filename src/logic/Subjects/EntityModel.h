@@ -10,14 +10,23 @@ namespace Logic {
     class Observer;
     class EntityModel: public Subject{
     public:
-        EntityModel(const Vector2D& position, double speed);
-        EntityModel(const Vector2D& position, double speed, std::unique_ptr<Move::Mode> mode);
+        EntityModel(const Vector2D& position, double speed, std::shared_ptr<Move::ModeManager> move_manager);
 
         void move();
-        virtual void calculateDirection(const Vector2D& to_pacman, const std::vector<Vector2D>& options);
         void addObserver(std::shared_ptr<Observer> observer);
+        bool collide(std::weak_ptr<Subject> other);
+
+        std::shared_ptr<Move::ModeManager> getMoveManager();
+
+        const Vector2D &getPosition() const;
+        const Vector2D &getSize() const;
     protected:
+        Vector2D position;
+        Vector2D size;
         double speed;
+
+        std::shared_ptr<Move::ModeManager> move_manager;
+
         std::vector<std::shared_ptr<Observer>> observers;
 
     };

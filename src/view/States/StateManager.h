@@ -14,6 +14,7 @@ class StateManager: public std::enable_shared_from_this<StateManager>{
         void Push(std::unique_ptr<State> state);
         void Pop(int amount);
         void acceptCharacter(int input, bool pressed);
+        void runTick();
 
 
         ~StateManager() = default;
