@@ -15,7 +15,7 @@ namespace Logic {
         return a <= c && c <= b;
     }
 
-    EntityModel::EntityModel(const Vector2D &position, double speed, std::shared_ptr<Move::ModeManager> move_manager): position{position}, speed{speed}, size{Vector2D{0.1, 0.1}} {
+    EntityModel::EntityModel(const Vector2D &position, const Vector2D &size, double speed, std::shared_ptr<Move::ModeManager> move_manager): position{position}, speed{speed}, size{size} {
         EntityModel::move_manager = move_manager;
     }
 
@@ -25,7 +25,6 @@ namespace Logic {
         std::shared_ptr<Stopwatch> stopwatch= Logic::Stopwatch::getInstance();
 
         Vector2D direction = move_manager->getDirection();
-        double d = stopwatch->getDeltaTime();
         position += direction*stopwatch->getDeltaTime()*speed;
 
         for (std::shared_ptr<Observer> observer: observers){
@@ -92,6 +91,7 @@ namespace Logic {
     }
 
     void EntityModel::handleImpassable(std::weak_ptr<Subject> other) {
+
         auto p = collide(other);
 
         other.lock()->debug_green = true;
@@ -100,11 +100,36 @@ namespace Logic {
             return;
         }
 
-        position += p.second.projection(move_manager->getDirection())*1.0001;
+        position += p.second.projection(move_manager->getDirection())*1.000001;
 
 
-        auto pn = collide(other);
+    }
 
+    bool EntityModel::isConsumable() {
+        return consumable;
+    }
+
+    Vector2D EntityModel::getDirection() const {
+        return move_manager->getDirection();
+    }
+
+    bool EntityModel::isUp() const {
+        return getDirection() == Vector2D{0, -1};
+    }
+
+    bool EntityModel::isDown() const {
+        return getDirection() == Vector2D{0, 1};
+    }
+
+    bool EntityModel::isLeft() const {
+        return getDirection() == Vector2D{-1, 0};
+    }
+
+    bool EntityModel::isRight() const {
+        return getDirection() == Vector2D{1, 0};
+    }
+
+    void EntityModel::changeMode() {
 
     }
 

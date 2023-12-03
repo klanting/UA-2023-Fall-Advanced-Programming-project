@@ -10,21 +10,31 @@ namespace Logic {
     class Observer;
     class EntityModel: public Subject{
     public:
-        EntityModel(const Vector2D& position, double speed, std::shared_ptr<Move::ModeManager> move_manager);
+        EntityModel(const Vector2D& position, const Vector2D &size, double speed, std::shared_ptr<Move::ModeManager> move_manager);
 
         void move() override;
         void addObserver(std::shared_ptr<Observer> observer);
         std::pair<bool, Vector2D> collide(std::weak_ptr<Subject> other) override;
-        void handleImpassable(std::weak_ptr<Subject> other) override;
+        virtual void handleImpassable(std::weak_ptr<Subject> other) override;
 
         std::shared_ptr<Move::ModeManager> getMoveManager();
 
+        virtual bool isConsumable();
+        virtual void changeMode();
+
         const Vector2D &getPosition() const;
         const Vector2D &getSize() const;
+        Vector2D getDirection() const;
+
+        bool isUp() const;
+        bool isDown() const;
+        bool isLeft() const;
+        bool isRight() const;
     protected:
         Vector2D position;
         Vector2D size;
         double speed;
+        bool consumable = false;
 
         std::shared_ptr<Move::ModeManager> move_manager;
 

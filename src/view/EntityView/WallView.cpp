@@ -35,4 +35,8 @@ namespace View {
     WallView::WallView(std::weak_ptr<Logic::EntityModel> entity) : EntityView(entity) {
 
     }
+
+    int WallView::getTop() {
+        return 0;
+    }
 } // View

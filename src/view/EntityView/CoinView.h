@@ -10,9 +10,8 @@ namespace View {
     class CoinView: public EntityView{
     public:
         CoinView(std::weak_ptr<Logic::EntityModel> entity);
-        void moved() override;
     private:
-
+        int getTop() override;
     };
 
 } // View

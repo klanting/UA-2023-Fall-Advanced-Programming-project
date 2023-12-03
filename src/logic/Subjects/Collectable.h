@@ -9,7 +9,7 @@ namespace Logic {
 
     class Collectable: public EntityModel{
     public:
-        Collectable(const Vector2D& position, std::shared_ptr<Move::ModeManager> move_manager);
+        Collectable(const Vector2D& position, const Vector2D& size, std::shared_ptr<Move::ModeManager> move_manager);
     private:
 
     };

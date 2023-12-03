@@ -12,6 +12,7 @@ namespace View {
         WallView(std::weak_ptr<Logic::EntityModel> entity);
         void moved() override;
     private:
+        int getTop() override;
     };
 
 } // View

@@ -3,14 +3,17 @@
 //
 
 #include "CoinView.h"
-
+#include <iostream>
 namespace View {
-    void View::CoinView::moved() {
+
+    CoinView::CoinView(std::weak_ptr<Logic::EntityModel> entity) : EntityView(entity) {
+        texture.loadFromFile("sprites/Sprites.png", sf::IntRect(400, 452, 40, 600));
+        sprite.setTexture(texture);
 
     }
 
-    CoinView::CoinView(std::weak_ptr<Logic::EntityModel> entity) : EntityView(entity) {
-
+    int CoinView::getTop() {
+        return 0;
     }
 } // View
 

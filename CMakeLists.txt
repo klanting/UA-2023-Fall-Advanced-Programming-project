@@ -87,6 +87,8 @@ set(logic
         src/logic/AbstractFactory.h
         src/logic/Observer.cpp
         src/logic/Observer.h
+        src/logic/Score.cpp
+        src/logic/Score.h
 )
 
 

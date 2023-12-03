@@ -4,42 +4,49 @@
 
 #include "PacmanView.h"
 #include <iostream>
+
 namespace View {
 
 
-    void PacmanView::moved() {
-        typedef std::pair<Logic::Vector2D, Logic::Vector2D> PixelData;
 
+    PacmanView::PacmanView(std::weak_ptr<Logic::EntityModel> entity) : EntityView(entity) {
+        texture.loadFromFile("sprites/Sprites.png", sf::IntRect(850, 2, 40, 600));
+        sprite.setTexture(texture);
+
+    }
+
+    int PacmanView::getTop() {
         if (entity.expired()){
             throw "entity doesnt exist";
         }
 
         auto e = entity.lock();
-        PixelData data = Camera::getInstance()->toPixels(e->getPosition(), e->getSize());
 
-        sprite.setPosition(data.first[0], data.first[1]);
+        int pixel_top = 0;
 
-        int pixel_width = 40;
-        int pixel_height = 40;
+        checkAnimation();
 
-        sprite.setScale(data.second[0]/pixel_width, data.second[1]/pixel_height);
-        sprite.setTextureRect(sf::IntRect(0, 0, pixel_width, pixel_height));
+        if (e->isUp()){
+            pixel_top = 500;
+        }
 
-        RenderWindowSingleton::getInstance()->getWindow()->draw(sprite);
+        if (e->isDown()){
+            pixel_top = 200;
+        }
 
-        std::vector<sf::Vertex> vertices;
-        vertices.push_back(sf::Vertex{sf::Vector2f(data.first[0], data.first[1]), sf::Color::Red});
-        vertices.push_back(sf::Vertex{sf::Vector2f((data.first)[0], (data.first+data.second)[1]), sf::Color::Red});
-        vertices.push_back(sf::Vertex{sf::Vector2f((data.first+data.second)[0], (data.first+data.second)[1]), sf::Color::Red});
-        vertices.push_back(sf::Vertex{sf::Vector2f((data.first+data.second)[0], (data.first)[1]), sf::Color::Red});
-        vertices.push_back(sf::Vertex{sf::Vector2f(data.first[0], data.first[1]), sf::Color::Red});
-        RenderWindowSingleton::getInstance()->getWindow()->draw(&vertices[0], vertices.size(), sf::LineStrip);
+        if (e->isLeft()){
+            pixel_top = 350;
+        }
 
-    }
+        if (e->isRight()){
+            pixel_top = 50;
+        }
 
-    PacmanView::PacmanView(std::weak_ptr<Logic::EntityModel> entity) : EntityView(entity) {
-        texture.loadFromFile("sprites/Sprites.png", sf::IntRect(850, 0, 50, 50));
-        sprite.setTexture(texture);
+        if (pixel_top != 0){
+            pixel_top += animation_index*50;
+        }
+
+        return pixel_top;
 
     }
 } // View

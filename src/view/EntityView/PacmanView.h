@@ -10,8 +10,8 @@ namespace View {
     class PacmanView: public EntityView{
     public:
         PacmanView(std::weak_ptr<Logic::EntityModel> entity);
-        void moved() override;
     private:
+        int getTop() override;
         int pacman_row;
 
     };

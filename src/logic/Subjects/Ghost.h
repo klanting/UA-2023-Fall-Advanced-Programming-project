@@ -10,6 +10,8 @@ namespace Logic {
     class Ghost: public EntityModel{
     public:
         Ghost(const Vector2D& position, std::shared_ptr<Move::ModeManager> move_manager);
+        bool isConsumable() override;
+        void changeMode() override;
     private:
     };
 

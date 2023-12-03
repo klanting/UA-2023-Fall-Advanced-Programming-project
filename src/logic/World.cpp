@@ -33,6 +33,11 @@ namespace Logic {
                 pacman = s;
             }
 
+            if (c == 'c'){
+                std::shared_ptr<Subject> s = factory->createCoin(Vector2D{i, j});
+                entities.push_back(s);
+            }
+
             i += 0.10;
 
             if (c == '\n'){
@@ -40,12 +45,6 @@ namespace Logic {
                 i = -1;
             }
         }
-
-        /*
-        std::weak_ptr<Subject> hit = checkCollision(entities[0]);
-        if (hit.expired()){
-            std::cout << "miss" << std::endl;
-        }*/
 
         for (auto& e: entities){
             std::shared_ptr<Move::ModeManager> mm = e->getMoveManager();
@@ -73,22 +72,26 @@ namespace Logic {
         for (auto& e: entities){
             e->move();
 
-            std::vector<std::weak_ptr<Subject>> hitted = checkCollision(e);
-            if (hitted.empty()){
+            std::vector<std::weak_ptr<Subject>> hits = checkCollision(e);
+            if (hits.empty()){
                 continue;
             }
 
-            if (e != pacman){
-                continue;
-            }
 
-            std::cout << "hit somethiung " << std::endl;
-            for (auto hit: hitted){
+            for (auto hit: hits){
                 if (std::find(not_passable.begin(), not_passable.end(),hit.lock()) != not_passable.end()){
-                    std::cout << "hit wall " << std::endl;
                     e->handleImpassable(hit);
                 }
             }
+
+            std::vector<Vector2D> option_directions = {Vector2D{0,1}, Vector2D{0,-1}, Vector2D{1,0}, Vector2D{-1,0}};
+            auto it = std::find(option_directions.begin(), option_directions.end(), e->getMoveManager()->getDirection());
+            if (it != option_directions.end()){
+                option_directions.erase(it);
+            }
+
+
+            e->getMoveManager()->makeDirection(pacman->getPosition()-e->getPosition(), option_directions);
 
 
         }

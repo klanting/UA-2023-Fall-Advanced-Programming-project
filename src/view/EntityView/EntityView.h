@@ -15,13 +15,19 @@ namespace View {
     class EntityView: public Logic::Observer{
     public:
         EntityView(std::weak_ptr<Logic::EntityModel> entity);
-        virtual void moved() = 0;
+        virtual void moved();
 
     protected:
+        void checkAnimation();
+        virtual int getTop() = 0;
+
         std::weak_ptr<Logic::EntityModel> entity;
         sf::Sprite sprite;
         sf::Texture texture;
+        int animation_index;
+        double animation_delay;
     private:
+
     };
 
 } // View

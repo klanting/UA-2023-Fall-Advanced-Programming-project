@@ -14,4 +14,8 @@ namespace View {
     FruitView::FruitView(std::weak_ptr<Logic::EntityModel> entity) : EntityView(entity) {
 
     }
+
+    int FruitView::getTop() {
+        return 0;
+    }
 } // View

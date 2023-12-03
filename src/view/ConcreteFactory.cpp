@@ -21,7 +21,7 @@
 #include "../logic/MoveStrategy/FearMode.h"
 #include "../logic/MoveStrategy/ModeManager.h"
 
-
+#include "../logic/Score.h"
 
 namespace View {
     std::shared_ptr<Subject> ConcreteFactory::createCoin(const Vector2D& position) {
@@ -48,7 +48,7 @@ namespace View {
         std::shared_ptr<Move::ModeManager> move_manager = std::make_shared<Move::ModeManager>(std::move(mode));
 
         std::shared_ptr<Logic::EntityModel> c = std::make_shared<Logic::Ghost>(position, move_manager);
-        c->addObserver(std::make_shared<GhostView>(c));
+        c->addObserver(std::make_shared<GhostView>(c, 1));
         return c;
     }
 
@@ -59,6 +59,7 @@ namespace View {
 
         std::shared_ptr<Logic::EntityModel> c = std::make_shared<Logic::Pacman>(position, move_manager);
         c->addObserver(std::make_shared<PacmanView>(c));
+        c->addObserver(std::make_shared<Score>(c));
         return c;
     }
 

@@ -88,5 +88,13 @@ namespace Logic {
         return Vector2D(x/getLength(), y/getLength());
     }
 
+    bool Vector2D::operator==(const Vector2D &other) const {
+        return abs(this->x - other.x) <= 0.00001 &&  abs(this->y - other.y) <= 0.00001;
+    }
+
+    Vector2D Vector2D::getOpposed() {
+        return Vector2D(-1*x, -1*y);
+    }
+
 
 } // Logic

@@ -9,10 +9,9 @@ namespace View {
 
     class GhostView: public EntityView{
     public:
-        GhostView(std::weak_ptr<Logic::EntityModel> entity);
-        void moved() override;
+        GhostView(std::weak_ptr<Logic::EntityModel> entity, int color_index);
     private:
-
+        int getTop() override;
     };
 
 } // View
