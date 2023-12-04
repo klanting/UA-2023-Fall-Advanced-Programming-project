@@ -96,5 +96,9 @@ namespace Logic {
         return Vector2D(-1*x, -1*y);
     }
 
+    Vector2D Vector2D::operator/(const Vector2D &scalar) const {
+        return Vector2D(x/scalar.x, y/scalar.y);
+    }
+
 
 } // Logic

@@ -16,6 +16,7 @@ namespace Logic {
         void operator-=(const Vector2D& other);
         Vector2D operator*(double multiplier) const;
         Vector2D operator*(const Vector2D& scalar) const;
+        Vector2D operator/(const Vector2D& scalar) const;
         bool operator<(const Vector2D& other) const;
         bool operator<=(const Vector2D& other) const;
         bool operator==(const Vector2D& other) const;

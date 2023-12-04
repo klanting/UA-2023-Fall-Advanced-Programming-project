@@ -9,6 +9,7 @@
 #include "States/StateManager.h"
 #include "States/MenuState.h"
 #include "RenderWindowSingleton.h"
+#include <time.h>
 namespace View {
 
     class Game {

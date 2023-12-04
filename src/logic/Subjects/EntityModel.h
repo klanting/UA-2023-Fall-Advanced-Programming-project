@@ -35,7 +35,7 @@ namespace Logic {
         virtual ~EntityModel() override;
     protected:
 
-
+        Vector2D last_position;
         Vector2D position;
         Vector2D size;
         double speed;

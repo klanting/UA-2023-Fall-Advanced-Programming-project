@@ -18,6 +18,7 @@ namespace View {
         window->getWindow()->setKeyRepeatEnabled(false);
         while (window->getWindow()->isOpen())
         {
+            sf::sleep(sf::milliseconds(100));
             sf::Event event;
             while (window->getWindow()->pollEvent(event))
             {
