@@ -5,4 +5,8 @@
 #include "Subject.h"
 
 namespace Logic {
+
+    Subject::~Subject() {
+
+    }
 } // Logic

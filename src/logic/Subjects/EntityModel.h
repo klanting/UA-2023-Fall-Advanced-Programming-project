@@ -17,6 +17,8 @@ namespace Logic {
         std::pair<bool, Vector2D> collide(std::weak_ptr<Subject> other) override;
         virtual void handleImpassable(std::weak_ptr<Subject> other) override;
 
+        virtual void handleDead(std::vector<std::shared_ptr<Subject>> others) override;
+
         std::shared_ptr<Move::ModeManager> getMoveManager();
 
         virtual bool isConsumable();
@@ -30,7 +32,10 @@ namespace Logic {
         bool isDown() const;
         bool isLeft() const;
         bool isRight() const;
+        virtual ~EntityModel() override;
     protected:
+
+
         Vector2D position;
         Vector2D size;
         double speed;

@@ -9,4 +9,8 @@ namespace Logic {
         consumable = true;
     }
 
+    Collectable::~Collectable() {
+
+    }
+
 } // Logic

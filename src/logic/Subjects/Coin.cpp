@@ -9,4 +9,13 @@ namespace Logic {
 
 
     }
+    void Coin::handleDead(std::vector<std::shared_ptr<Subject>> others) {
+        for (auto o: others){
+            o->changeMode();
+        }
+    }
+
+    Coin::~Coin() {
+
+    }
 } // Logic

@@ -3,7 +3,7 @@
 //
 
 #include "FearMode.h"
-
+#include <iostream>
 namespace Logic {
     namespace Move {
         void FearMode::makeDirection(const Vector2D &to_pacman, const std::vector<Vector2D> &options){

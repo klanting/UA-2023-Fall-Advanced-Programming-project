@@ -148,4 +148,12 @@ namespace Logic {
         return output;
     }
 
+    void EntityModel::handleDead(std::vector<std::shared_ptr<Subject>> others) {
+
+    }
+
+    EntityModel::~EntityModel() {
+
+    }
+
 } // Logic

@@ -10,11 +10,11 @@ namespace Logic {
         Vector2D Mode::findBest(const Vector2D &to_pacman, const std::vector<Vector2D> &options, const std::function<bool(double, double)>& op) const{
 
             Vector2D best_direction(0, 0);
-            double best_angle = std::numeric_limits<double>::max();
+            double best_angle = 0;
 
             for (const Vector2D& o: options){
                 double a = o.getAngle(to_pacman);
-                if (op(a, best_angle)){
+                if (op(a, best_angle) || best_direction == Vector2D{0,0}){
                     best_angle = a;
                     best_direction = o;
                 }
