@@ -74,21 +74,25 @@ namespace Logic {
         for (auto& e: entities){
             e->move();
 
-            std::vector<std::weak_ptr<Subject>> hits = checkCollision(e);
-            if (hits.empty()){
-                continue;
-            }
-
 
             bool hit_wall = false;
-            for (auto hit: hits){
-                if (std::find(not_passable.begin(), not_passable.end(),hit.lock()) != not_passable.end()){
-                    e->handleImpassable(hit);
-                    hit_wall = true;
+            while (true){
+                std::vector<std::weak_ptr<Subject>> hits = checkCollision(e);
+                if (hits.empty()){
+                    break;
+                }
+
+                for (auto hit: hits){
+                    if (std::find(not_passable.begin(), not_passable.end(),hit.lock()) != not_passable.end()){
+                        e->handleImpassable(hit);
+                        hit_wall = true;
+
+                    }
                 }
             }
 
 
+            /*
             if (hit_wall){
                 std::vector<Vector2D> option_directions = {Vector2D{0,1}, Vector2D{0,-1}, Vector2D{1,0}, Vector2D{-1,0}};
                 auto it = std::find(option_directions.begin(), option_directions.end(), e->getMoveManager()->getDirection());
@@ -97,15 +101,17 @@ namespace Logic {
                 }
 
                 e->getMoveManager()->makeDirection(pacman->getPosition()-e->getPosition(), option_directions);
-            }
+            }*/
 
+
+            /*
             for (auto hit: hits){
                 if (hit.lock()->isConsumable()){
-                    hit.lock()->handleDead(entities);
+                    //hit.lock()->handleDead(entities);
 
                     to_be_removed.push_back(hit);
                 }
-            }
+            }*/
 
 
 

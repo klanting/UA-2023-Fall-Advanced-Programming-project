@@ -17,7 +17,7 @@ namespace Logic {
 
         virtual const Vector2D &getPosition() const = 0;
         virtual const Vector2D &getSize() const = 0;
-        virtual std::pair<bool, Vector2D> collide(std::weak_ptr<Subject> other) = 0;
+        virtual std::pair<bool, std::pair<Vector2D, Vector2D>> collide(std::weak_ptr<Subject> other) = 0;
         virtual std::shared_ptr<Move::ModeManager> getMoveManager() = 0;
         virtual void handleImpassable(std::weak_ptr<Subject> other) = 0;
         virtual void handleDead(std::vector<std::shared_ptr<Subject>> others) = 0;

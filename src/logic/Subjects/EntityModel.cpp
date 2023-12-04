@@ -53,7 +53,7 @@ namespace Logic {
         return move_manager;
     }
 
-    std::pair<bool, Vector2D> EntityModel::collide(std::weak_ptr<Subject> other) {
+    std::pair<bool, std::pair<Vector2D, Vector2D>> EntityModel::collide(std::weak_ptr<Subject> other) {
 
         if (other.expired()){
             throw "expired";
@@ -66,60 +66,51 @@ namespace Logic {
         Vector2D center_other = other_lock->getPosition() + other_lock->getSize()*0.5;
 
         Vector2D distance = (center_this_last-center_this);
-        Vector2D t1 = (center_other - (other_lock->getSize()*0.5) + (size*0.5) - center_this)/distance;
-        Vector2D t2 = (center_other + (other_lock->getSize()*0.5) + (size*0.5) - center_this)/distance;
-        Vector2D t3 = (center_other - (other_lock->getSize()*0.5) - (size*0.5) - center_this)/distance;
-        Vector2D t4 = (center_other + (other_lock->getSize()*0.5) - (size*0.5) - center_this)/distance;
-
-        if (!((center_this_last-center_this)[0] == 0 && (center_this_last-center_this)[1] == 0)){
-            std::cout << "t1 " << t1[0] << " " << t1[1] << std::endl;
-            std::cout << "t2 " << t2[0] << " " << t2[1] << std::endl;
-            std::cout << "de " << (center_this_last-center_this)[0] << " " << (center_this_last-center_this)[1] << std::endl;
-        }
-
 
         bool collided = false;
 
-        double best_x = std::numeric_limits<double>::infinity();
-        double best_y = std::numeric_limits<double>::infinity();
-        for (auto t: {t1, t2, t3, t4}){
-            if (t[0] > 0 && t[0] < best_x){
-                //if not in part
-                bool old_between = (center_other- other_lock->getSize()*0.5)[1] <= (center_this_last+ size*0.5)[1] && (center_other + other_lock->getSize()*0.5)[1] >= (center_this_last- size*0.5)[1];
-                bool new_between = (center_other- other_lock->getSize()*0.5)[1] <= (center_this+ size*0.5)[1] && (center_other + other_lock->getSize()*0.5)[1] >= (center_this- size*0.5)[1];
+        double best = std::numeric_limits<double>::infinity();
+        int best_index = -1;
+        for (int i = 0; i < 2; i++){
+            bool old_between = (center_other- other_lock->getSize()*0.5)[(i+1)%2] <= (center_this_last+ size*0.5)[(i+1)%2] && (center_other + other_lock->getSize()*0.5)[(i+1)%2] >= (center_this_last- size*0.5)[(i+1)%2];
+            bool new_between = (center_other- other_lock->getSize()*0.5)[(i+1)%2] <= (center_this+ size*0.5)[(i+1)%2] && (center_other + other_lock->getSize()*0.5)[(i+1)%2] >= (center_this- size*0.5)[(i+1)%2];
 
-                if (!((center_this_last-center_this)[0] == 0 && (center_this_last-center_this)[1] == 0)){
-                    std::cout << "a " << old_between << " " << new_between << std::endl;
-                }
-                if (old_between || new_between){
-                    best_x = t[0];
-                }
-
+            if (!(old_between || new_between)){
+                continue;
             }
-            if (t[1] > 0 && t[1] < best_y){
 
-                bool old_between = (center_other- other_lock->getSize())[0] <= center_this_last[0] && (center_other + other_lock->getSize())[0] >= center_this_last[0];
-                bool new_between = (center_other- other_lock->getSize())[0] <= center_this[0] && (center_other + other_lock->getSize())[0] >= center_this[0];
-
-                if (!((center_this_last-center_this)[0] == 0 && (center_this_last-center_this)[1] == 0)){
-                    std::cout << "b " << old_between << " " << new_between << std::endl;
-                }
-
-                if (old_between || new_between){
-                    best_y = t[1];
-                }
-
-
+            Vector2D change = {0, 0};
+            if (distance[i] > 0){
+                change = size*0.5;
+            }else{
+                change = size*(-0.5);
             }
+
+            Vector2D t1 = (center_other - (other_lock->getSize()*0.5) + change - center_this)/distance;
+            Vector2D t2 = (center_other + (other_lock->getSize()*0.5) + change - center_this)/distance;
+
+            for (auto t: {t1, t2}){
+                if (t[i] > 0 && t[i] < best){
+                    best = t[i];
+                    best_index = i;
+                }
+            }
+
         }
 
-        double max_size = (1);
-        if ((isfinite(best_x) && best_x < max_size) || (isfinite(best_y) && best_y < max_size)){
-            std::cout << best_x << " " << best_y << std::endl;
+        if (best < 1){
             collided = true;
-
         }
-        return std::make_pair(collided, Vector2D{0, 0});
+
+        Vector2D to_collision = (center_this_last*best)+center_this*(1-best);
+        Vector2D bounce_direction = Vector2D{0, 0};
+        if (best_index == 0){
+            bounce_direction = Vector2D{1, 0};
+        }else{
+            bounce_direction = Vector2D{0, 1};
+        }
+
+        return std::make_pair(collided, std::make_pair(to_collision, bounce_direction));
 
         /*
         Vector2D a = position;
@@ -159,8 +150,29 @@ namespace Logic {
 
     void EntityModel::handleImpassable(std::weak_ptr<Subject> other) {
 
-        //auto p = collide(other);
+        auto p = collide(other);
 
+        if (!p.first){
+            return;
+        }
+
+        Vector2D travelled = (position-last_position);
+        Vector2D travelled_before_collision = (p.second.first-(last_position + size*0.5));
+
+        Vector2D mini = std::min(move_manager->getDirection() - p.second.second, move_manager->getDirection() + p.second.second, [](const Vector2D& a, const Vector2D& b) {return a.getLength() < b.getLength();});
+
+
+        Vector2D to_do = mini*(travelled-travelled_before_collision).getLength();
+        //position = (p.second.first - size*0.5);
+        Vector2D a = (p.second.first - size*0.5);
+        Vector2D b = position - (travelled - travelled_before_collision);
+        std::cout << "before " << p.second.first[0] << " "<< p.second.first[1]<< std::endl;
+        position -= (travelled - travelled_before_collision)*1.001;
+
+        std::cout << "blocked" << std::endl;
+        std::cout << "set back " << (travelled - travelled_before_collision)[0] << " "<< (travelled - travelled_before_collision)[1]<< std::endl;
+
+        position += to_do;
         other.lock()->debug_green = true;
         /*
         if (!p.first){
@@ -168,7 +180,6 @@ namespace Logic {
         }*/
 
         //position += p.second.projection(move_manager->getDirection())*1.000001;
-
 
     }
 

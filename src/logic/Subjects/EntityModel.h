@@ -14,7 +14,7 @@ namespace Logic {
 
         void move() override;
         void addObserver(std::shared_ptr<Observer> observer);
-        std::pair<bool, Vector2D> collide(std::weak_ptr<Subject> other) override;
+        std::pair<bool, std::pair<Vector2D, Vector2D>> collide(std::weak_ptr<Subject> other) override;
         virtual void handleImpassable(std::weak_ptr<Subject> other) override;
 
         virtual void handleDead(std::vector<std::shared_ptr<Subject>> others) override;

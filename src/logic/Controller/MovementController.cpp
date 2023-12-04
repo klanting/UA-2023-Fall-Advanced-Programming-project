@@ -27,14 +27,13 @@ namespace Controller {
     void MovementController::check_press(bool pressed, int index, const Vector2D& change) {
         bool pressed_key = pressed_table[index];
         if (pressed && !pressed_key){
-            reset_all_moves();
+            //reset_all_moves();
 
             pressed_table[index] = true;
             data_vector += change;
             std::cout << "P" << index << std::endl;
 
-            for (int i=0; i<4;i++){
-            }
+
         }
 
         if (!pressed && pressed_key){
