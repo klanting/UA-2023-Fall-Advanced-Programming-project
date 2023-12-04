@@ -133,5 +133,19 @@ namespace Logic {
 
     }
 
+    std::vector<Vector2D> EntityModel::splitDirection() {
+        auto v = move_manager->getDirection();
+        auto temp = {Vector2D{v[0], 0}, Vector2D{0, v[1]}};
+        std::vector<Vector2D> output = {};
+
+        for (auto t: temp){
+            if (t == Vector2D{0, 0}){
+                continue;
+            }
+            output.push_back(t);
+        }
+
+        return output;
+    }
 
 } // Logic

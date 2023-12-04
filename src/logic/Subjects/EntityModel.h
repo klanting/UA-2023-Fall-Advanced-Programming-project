@@ -40,6 +40,8 @@ namespace Logic {
 
         std::vector<std::shared_ptr<Observer>> observers;
 
+        std::vector<Vector2D> splitDirection();
+
     };
 
 } // Logic
