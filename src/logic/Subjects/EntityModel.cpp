@@ -175,7 +175,7 @@ namespace Logic {
             Vector2D a = (p.second.first - size*0.5);
             Vector2D b = position - (travelled - travelled_before_collision);
             std::cout << "before " << p.second.first[0] << " "<< p.second.first[1]<< std::endl;
-            position -= (travelled - travelled_before_collision)*1.01;
+            position -= (travelled - travelled_before_collision)*1.0001;
             std::cout << "blocked" << std::endl;
             std::cout << "set back " << (travelled - travelled_before_collision)[0] << " "<< (travelled - travelled_before_collision)[1]<< std::endl;
             std::cout << "check " << std::endl;
