@@ -77,12 +77,12 @@ namespace Logic {
 
             bool hit_wall = false;
             bool fix = true;
-            while (true){
-                bool breaking = false;
+            bool collision = true;
+            while (collision){
                 for (int i = 0; i<3;i++){
                     std::vector<std::weak_ptr<Subject>> hits = checkCollision(e);
                     if (hits.empty()){
-                        breaking = true;
+                        collision = false;
                         break;
                     }
 
@@ -100,9 +100,6 @@ namespace Logic {
                 }
 
 
-                if (breaking){
-                    break;
-                }
 
 
                 fix = false;
