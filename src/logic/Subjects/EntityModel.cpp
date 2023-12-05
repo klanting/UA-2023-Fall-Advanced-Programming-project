@@ -150,13 +150,7 @@ namespace Logic {
 
     void EntityModel::handleImpassable(std::vector<std::weak_ptr<Subject>> others, bool fix) {
 
-        //Vector2D mini = move_manager->getDirection();
-        for (auto other:others){
-            auto p = collide(other);
 
-        }
-
-        Vector2D mini_dir = Vector2D{0, 0};
         for (auto other:others){
             auto p = collide(other);
 
@@ -169,9 +163,8 @@ namespace Logic {
 
             Vector2D mini = std::min(move_manager->getDirection() - p.second.second, move_manager->getDirection()+ p.second.second, [](const Vector2D& a, const Vector2D& b) {return a.getLength() < b.getLength();});
 
-            Vector2D to_do = mini*(travelled-travelled_before_collision).getLength();
-            Vector2D a = (p.second.first - size*0.5);
-            Vector2D b = position - (travelled - travelled_before_collision);
+            //Vector2D to_do = mini*(travelled-travelled_before_collision).getLength();
+            Vector2D to_do = mini*(+(travelled-travelled_before_collision));
             position -= (travelled - travelled_before_collision)*1.0001;
 
             if (fix){
@@ -179,16 +172,9 @@ namespace Logic {
             }
 
             other.lock()->debug_green = true;
-            /*
-            if (!p.first){
-                return;
-            }*/
 
-            //position += p.second.projection(move_manager->getDirection())*1.000001;
         }
-        //std::cout << "mini " << mini.getLength()<< std::endl;
-        //Vector2D to_do = mini*(mini_dir).getLength();
-        //position += to_do;
+
 
 
 

@@ -85,6 +85,7 @@ namespace Logic {
                         collision = false;
                         break;
                     }
+                    std::cout << hits.size() << std::endl;
 
                     std::vector<std::weak_ptr<Subject>> np;
                     for (auto hit: hits){
