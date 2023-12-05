@@ -9,7 +9,7 @@ namespace Logic {
 
     }
 
-    void Wall::handleImpassable(std::vector<std::weak_ptr<Subject>> others) {
+    void Wall::handleImpassable(std::vector<std::weak_ptr<Subject>> others, bool fix) {
 
     }
 } // Logic

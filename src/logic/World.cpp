@@ -76,26 +76,37 @@ namespace Logic {
 
 
             bool hit_wall = false;
+            bool fix = true;
             while (true){
-                std::vector<std::weak_ptr<Subject>> hits = checkCollision(e);
-                if (hits.empty()){
+                bool breaking = false;
+                for (int i = 0; i<3;i++){
+                    std::vector<std::weak_ptr<Subject>> hits = checkCollision(e);
+                    if (hits.empty()){
+                        breaking = true;
+                        break;
+                    }
+
+                    std::vector<std::weak_ptr<Subject>> np;
+                    for (auto hit: hits){
+                        if (std::find(not_passable.begin(), not_passable.end(),hit.lock()) != not_passable.end()){
+                            //e->handleImpassable(hit);
+                            hit_wall = true;
+                            np.push_back(hit);
+
+                        }
+                    }
+
+                    e->handleImpassable(np, fix);
+                }
+
+
+                if (breaking){
                     break;
                 }
 
-                std::vector<std::weak_ptr<Subject>> np;
-                for (auto hit: hits){
-                    if (std::find(not_passable.begin(), not_passable.end(),hit.lock()) != not_passable.end()){
-                        //e->handleImpassable(hit);
-                        hit_wall = true;
-                        np.push_back(hit);
 
-                    }
-                }
+                fix = false;
 
-
-                e->handleImpassable(np);
-
-                break;
             }
 
 

@@ -99,6 +99,7 @@ namespace Logic {
         }
 
         if (best < 1){
+            std::cout << "best " << best << std::endl;
             collided = true;
         }
 
@@ -148,8 +149,16 @@ namespace Logic {
         */
     }
 
-    void EntityModel::handleImpassable(std::vector<std::weak_ptr<Subject>> others) {
+    void EntityModel::handleImpassable(std::vector<std::weak_ptr<Subject>> others, bool fix) {
 
+        //Vector2D mini = move_manager->getDirection();
+        std::cout << "size "<< others.size() << std::endl;
+        for (auto other:others){
+            auto p = collide(other);
+
+        }
+
+        Vector2D mini_dir = Vector2D{0, 0};
         for (auto other:others){
             auto p = collide(other);
 
@@ -160,19 +169,21 @@ namespace Logic {
             Vector2D travelled = (position-last_position);
             Vector2D travelled_before_collision = (p.second.first-(last_position + size*0.5));
 
-            Vector2D mini = std::min(move_manager->getDirection() - p.second.second, move_manager->getDirection() + p.second.second, [](const Vector2D& a, const Vector2D& b) {return a.getLength() < b.getLength();});
-
+            Vector2D mini = std::min(move_manager->getDirection() - p.second.second, move_manager->getDirection()+ p.second.second, [](const Vector2D& a, const Vector2D& b) {return a.getLength() < b.getLength();});
 
             Vector2D to_do = mini*(travelled-travelled_before_collision).getLength();
             Vector2D a = (p.second.first - size*0.5);
             Vector2D b = position - (travelled - travelled_before_collision);
             std::cout << "before " << p.second.first[0] << " "<< p.second.first[1]<< std::endl;
-            position -= (travelled - travelled_before_collision)*1.001;
-
+            position -= (travelled - travelled_before_collision)*1.01;
             std::cout << "blocked" << std::endl;
             std::cout << "set back " << (travelled - travelled_before_collision)[0] << " "<< (travelled - travelled_before_collision)[1]<< std::endl;
+            std::cout << "check " << std::endl;
 
-            position += to_do;
+            if (fix){
+                position += to_do;
+            }
+
             other.lock()->debug_green = true;
             /*
             if (!p.first){
@@ -181,6 +192,10 @@ namespace Logic {
 
             //position += p.second.projection(move_manager->getDirection())*1.000001;
         }
+        //std::cout << "mini " << mini.getLength()<< std::endl;
+        //Vector2D to_do = mini*(mini_dir).getLength();
+        //position += to_do;
+
 
 
     }
