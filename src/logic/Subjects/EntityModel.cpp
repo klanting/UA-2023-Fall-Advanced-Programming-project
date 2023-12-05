@@ -148,38 +148,40 @@ namespace Logic {
         */
     }
 
-    void EntityModel::handleImpassable(std::weak_ptr<Subject> other) {
+    void EntityModel::handleImpassable(std::vector<std::weak_ptr<Subject>> others) {
 
-        auto p = collide(other);
+        for (auto other:others){
+            auto p = collide(other);
 
-        if (!p.first){
-            return;
+            if (!p.first){
+                continue;
+            }
+
+            Vector2D travelled = (position-last_position);
+            Vector2D travelled_before_collision = (p.second.first-(last_position + size*0.5));
+
+            Vector2D mini = std::min(move_manager->getDirection() - p.second.second, move_manager->getDirection() + p.second.second, [](const Vector2D& a, const Vector2D& b) {return a.getLength() < b.getLength();});
+
+
+            Vector2D to_do = mini*(travelled-travelled_before_collision).getLength();
+            Vector2D a = (p.second.first - size*0.5);
+            Vector2D b = position - (travelled - travelled_before_collision);
+            std::cout << "before " << p.second.first[0] << " "<< p.second.first[1]<< std::endl;
+            position -= (travelled - travelled_before_collision)*1.001;
+
+            std::cout << "blocked" << std::endl;
+            std::cout << "set back " << (travelled - travelled_before_collision)[0] << " "<< (travelled - travelled_before_collision)[1]<< std::endl;
+
+            position += to_do;
+            other.lock()->debug_green = true;
+            /*
+            if (!p.first){
+                return;
+            }*/
+
+            //position += p.second.projection(move_manager->getDirection())*1.000001;
         }
 
-        Vector2D travelled = (position-last_position);
-        Vector2D travelled_before_collision = (p.second.first-(last_position + size*0.5));
-
-        Vector2D mini = std::min(move_manager->getDirection() - p.second.second, move_manager->getDirection() + p.second.second, [](const Vector2D& a, const Vector2D& b) {return a.getLength() < b.getLength();});
-
-
-        Vector2D to_do = mini*(travelled-travelled_before_collision).getLength();
-        //position = (p.second.first - size*0.5);
-        Vector2D a = (p.second.first - size*0.5);
-        Vector2D b = position - (travelled - travelled_before_collision);
-        std::cout << "before " << p.second.first[0] << " "<< p.second.first[1]<< std::endl;
-        position -= (travelled - travelled_before_collision)*1.001;
-
-        std::cout << "blocked" << std::endl;
-        std::cout << "set back " << (travelled - travelled_before_collision)[0] << " "<< (travelled - travelled_before_collision)[1]<< std::endl;
-
-        position += to_do;
-        other.lock()->debug_green = true;
-        /*
-        if (!p.first){
-            return;
-        }*/
-
-        //position += p.second.projection(move_manager->getDirection())*1.000001;
 
     }
 

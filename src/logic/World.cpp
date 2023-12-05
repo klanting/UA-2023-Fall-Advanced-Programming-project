@@ -82,13 +82,20 @@ namespace Logic {
                     break;
                 }
 
+                std::vector<std::weak_ptr<Subject>> np;
                 for (auto hit: hits){
                     if (std::find(not_passable.begin(), not_passable.end(),hit.lock()) != not_passable.end()){
-                        e->handleImpassable(hit);
+                        //e->handleImpassable(hit);
                         hit_wall = true;
+                        np.push_back(hit);
 
                     }
                 }
+
+
+                e->handleImpassable(np);
+
+                break;
             }
 
 
