@@ -30,9 +30,8 @@ namespace Logic {
         last_position = position;
 
         position += direction*stopwatch->getDeltaTime()*speed;
-        for (std::shared_ptr<Observer> observer: observers){
-            observer->moved();
-        }
+
+
 
     }
 
@@ -148,34 +147,29 @@ namespace Logic {
         */
     }
 
-    void EntityModel::handleImpassable(std::vector<std::weak_ptr<Subject>> others, bool fix) {
+    void EntityModel::handleImpassable(std::weak_ptr<Subject> other, bool fix) {
 
 
-        for (auto other:others){
-            auto p = collide(other);
+        auto p = collide(other);
 
-            if (!p.first){
-                continue;
-            }
-
-            Vector2D travelled = (position-last_position);
-            Vector2D travelled_before_collision = (p.second.first-(last_position + size*0.5));
-
-            Vector2D mini = std::min(move_manager->getDirection() - p.second.second, move_manager->getDirection()+ p.second.second, [](const Vector2D& a, const Vector2D& b) {return a.getLength() < b.getLength();});
-
-            //Vector2D to_do = mini*(travelled-travelled_before_collision).getLength();
-            Vector2D to_do = mini*(+(travelled-travelled_before_collision));
-            position -= (travelled - travelled_before_collision)*1.0001;
-
-            if (fix){
-                position += to_do;
-            }
-
-            other.lock()->debug_green = true;
-
+        if (!p.first){
+            return;
         }
 
+        Vector2D travelled = (position-last_position);
+        Vector2D travelled_before_collision = (p.second.first-(last_position + size*0.5));
 
+        Vector2D mini = std::min(move_manager->getDirection() - p.second.second, move_manager->getDirection()+ p.second.second, [](const Vector2D& a, const Vector2D& b) {return a.getLength() < b.getLength();});
+
+        //Vector2D to_do = mini*(travelled-travelled_before_collision).getLength();
+        Vector2D to_do = mini*(+(travelled-travelled_before_collision));
+        position -= (travelled - travelled_before_collision)*1.0001;
+
+        if (fix){
+            position += to_do;
+        }
+
+        other.lock()->debug_green = true;
 
 
     }
@@ -189,19 +183,27 @@ namespace Logic {
     }
 
     bool EntityModel::isUp() const {
-        return getDirection() == Vector2D{0, -1};
+        Vector2D change = position-last_position;
+        return (abs(change[1]) > abs(change[0]) && change[1] < 0 && move_manager->getDirection().getLength() > 1) || move_manager->getDirection() == Vector2D{0, -1};
+        //return Vector2D{0, -1}.getAngle(position-last_position) < M_PI/2.0;
     }
 
     bool EntityModel::isDown() const {
-        return getDirection() == Vector2D{0, 1};
+        Vector2D change = position-last_position;
+        return (abs(change[1]) > abs(change[0]) && change[1] > 0 && move_manager->getDirection().getLength() > 1) || move_manager->getDirection() == Vector2D{0, 1};
+        //return Vector2D{0, 1}.getAngle(position-last_position) < M_PI/2.0;
     }
 
     bool EntityModel::isLeft() const {
-        return getDirection() == Vector2D{-1, 0};
+        Vector2D change = position-last_position;
+        return (abs(change[0]) > abs(change[1]) && change[0] < 0 && move_manager->getDirection().getLength() > 1) || move_manager->getDirection() == Vector2D{-1, 0};
+        //return Vector2D{-1, 0}.getAngle(position-last_position) < M_PI/2.0;
     }
 
     bool EntityModel::isRight() const {
-        return getDirection() == Vector2D{1, 0};
+        Vector2D change = position-last_position;
+        return (abs(change[0]) > abs(change[1]) && change[0] > 0 && move_manager->getDirection().getLength() > 1) || move_manager->getDirection() == Vector2D{1, 0};
+        //return Vector2D{1, 0}.getAngle(position-last_position) < M_PI/2.0;
     }
 
     void EntityModel::changeMode() {
@@ -229,6 +231,12 @@ namespace Logic {
 
     EntityModel::~EntityModel() {
 
+    }
+
+    void EntityModel::moveConfirm() {
+        for (std::shared_ptr<Observer> observer: observers){
+            observer->moved();
+        }
     }
 
 } // Logic

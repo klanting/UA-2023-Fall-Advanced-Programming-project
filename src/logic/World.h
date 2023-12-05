@@ -18,7 +18,7 @@ namespace Logic {
         std::vector<std::shared_ptr<Subject>> not_passable;
         std::shared_ptr<Subject> pacman;
 
-        std::vector<std::weak_ptr<Subject>> checkCollision(std::shared_ptr<Subject> s);
+        std::vector<std::weak_ptr<Subject>> checkCollision(std::shared_ptr<Subject> s, bool inpassable = false);
     };
 
 

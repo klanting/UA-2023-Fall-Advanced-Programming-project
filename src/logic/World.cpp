@@ -53,9 +53,15 @@ namespace Logic {
 
     }
 
-    std::vector<std::weak_ptr<Subject>> World::checkCollision(std::shared_ptr<Subject> s) {
+    std::vector<std::weak_ptr<Subject>> World::checkCollision(std::shared_ptr<Subject> s, bool inpassable) {
         std::vector<std::weak_ptr<Subject>> hits;
-        for (std::shared_ptr<Subject> other: entities){
+
+        auto to_check = entities;
+        if (inpassable){
+            to_check = not_passable;
+        }
+
+        for (std::shared_ptr<Subject> other: to_check){
             if (s == other){
                 continue;
             }
@@ -79,36 +85,28 @@ namespace Logic {
             bool fix = true;
             bool collision = true;
             while (collision){
+                std::vector<std::weak_ptr<Subject>> np;
                 for (int i = 0; i<3;i++){
-                    std::vector<std::weak_ptr<Subject>> hits = checkCollision(e);
+                    std::vector<std::weak_ptr<Subject>> hits = checkCollision(e, true);
                     if (hits.empty()){
                         collision = false;
                         break;
                     }
                     std::cout << hits.size() << std::endl;
 
-                    std::vector<std::weak_ptr<Subject>> np;
+
                     for (auto hit: hits){
-                        if (std::find(not_passable.begin(), not_passable.end(),hit.lock()) != not_passable.end()){
-                            //e->handleImpassable(hit);
-                            hit_wall = true;
-                            np.push_back(hit);
+                        e->handleImpassable(hit, fix);
+                        hit_wall = true;
+                        np.push_back(hit);
 
-                        }
                     }
-
-                    e->handleImpassable(np, fix);
                 }
-
-
-
 
                 fix = false;
 
             }
 
-
-            /*
             if (hit_wall){
                 std::vector<Vector2D> option_directions = {Vector2D{0,1}, Vector2D{0,-1}, Vector2D{1,0}, Vector2D{-1,0}};
                 auto it = std::find(option_directions.begin(), option_directions.end(), e->getMoveManager()->getDirection());
@@ -117,19 +115,19 @@ namespace Logic {
                 }
 
                 e->getMoveManager()->makeDirection(pacman->getPosition()-e->getPosition(), option_directions);
-            }*/
+            }
 
 
-            /*
+            std::vector<std::weak_ptr<Subject>> hits = checkCollision(e);
             for (auto hit: hits){
                 if (hit.lock()->isConsumable()){
-                    //hit.lock()->handleDead(entities);
+                    hit.lock()->handleDead(entities);
 
                     to_be_removed.push_back(hit);
                 }
-            }*/
+            }
 
-
+            e->moveConfirm();
 
         }
 
