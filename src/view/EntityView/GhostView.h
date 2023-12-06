@@ -12,6 +12,8 @@ namespace View {
         GhostView(std::weak_ptr<Logic::EntityModel> entity, int color_index);
     private:
         int getTop() override;
+        int getLeft() override;
+        int color_index;
     };
 
 } // View

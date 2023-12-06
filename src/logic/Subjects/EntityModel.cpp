@@ -18,18 +18,28 @@ namespace Logic {
     EntityModel::EntityModel(const Vector2D &position, const Vector2D &size, double speed, std::shared_ptr<Move::ModeManager> move_manager): position{position}, speed{speed}, size{size},
                                                                                                                                              last_position{position} {
         EntityModel::move_manager = move_manager;
+        wait_delay = 0;
     }
 
     void EntityModel::move() {
         //move function
 
-        std::shared_ptr<Stopwatch> stopwatch= Logic::Stopwatch::getInstance();
+
+        std::shared_ptr<Stopwatch> stopwatch = Logic::Stopwatch::getInstance();
+        double delta_time = stopwatch->getDeltaTime();
+        if (delta_time-wait_delay < 0){
+            wait_delay -= delta_time;
+            return;
+        }
+
+        delta_time -= wait_delay;
+        wait_delay = 0;
 
         Vector2D direction = move_manager->getDirection();
 
         last_position = position;
 
-        position += direction*stopwatch->getDeltaTime()*speed;
+        position += direction*delta_time*speed;
 
 
 
@@ -111,40 +121,6 @@ namespace Logic {
 
         return std::make_pair(collided, std::make_pair(to_collision, bounce_direction));
 
-        /*
-        Vector2D a = position;
-        Vector2D b = size + a;
-
-        Vector2D c = other.lock()->getPosition();
-        Vector2D d = other.lock()->getSize() + c;
-
-        std::vector<Vector2D> baselines = {Vector2D{1, 0}, Vector2D{0, 1}};
-        bool collided = true;
-        Vector2D max_overlap = Vector2D{0, 0};
-        for (auto& baseline: baselines){
-            Vector2D a_c = a.projection(baseline);
-            Vector2D b_c = b.projection(baseline);
-            Vector2D c_c = c.projection(baseline);
-            Vector2D d_c = d.projection(baseline);
-
-            bool local_between = between<Logic::Vector2D>(a_c, b_c, c_c) || between<Logic::Vector2D>(c_c,d_c,a_c);
-            if (!local_between){
-                collided = false;
-                break;
-            }
-
-            std::vector<Vector2D> distances = {d_c-a_c, c_c-b_c};
-
-            Vector2D dir = move_manager->getDirection().projection(baseline);
-
-            auto index = std::min_element(distances.begin(), distances.end(), [&dir](const Vector2D& a, const Vector2D& b){return a.getLength() < b.getLength();});
-            max_overlap += *index;
-
-        }
-
-
-        return std::make_pair(collided, max_overlap);
-        */
     }
 
     void EntityModel::handleImpassable(std::weak_ptr<Subject> other, bool fix) {
@@ -159,11 +135,9 @@ namespace Logic {
 
         Vector2D travelled = (position-last_position);
         Vector2D travelled_before_collision = (p.second.first-(last_position + size*0.5));
-        //std::cout << travelled_before_collision.get_normalised()[0] << " " << travelled_before_collision.get_normalised()[1] << std::endl;
 
         Vector2D mini = std::min(move_manager->getDirection() - p.second.second, move_manager->getDirection()+ p.second.second, [](const Vector2D& a, const Vector2D& b) {return a.getLength() < b.getLength();});
 
-        //Vector2D to_do = mini*(travelled-travelled_before_collision).getLength();
         Vector2D to_do = mini*(+(travelled-travelled_before_collision));
         position -= (travelled - travelled_before_collision)*1.0001;
 
@@ -185,21 +159,21 @@ namespace Logic {
     }
 
     bool EntityModel::isUp() const {
-        return getDirectionIndex() == 0;
+        return getDirectionIndex() == 0 || getDirection() == Vector2D{0, -1};
     }
 
     bool EntityModel::isDown() const {
-        return getDirectionIndex() == 1;
+        return getDirectionIndex() == 1 || getDirection() == Vector2D{0, 1};
 
     }
 
     bool EntityModel::isLeft() const {
-        return getDirectionIndex() == 2;
+        return getDirectionIndex() == 2 || getDirection() == Vector2D{-1, 0};
 
     }
 
     bool EntityModel::isRight() const {
-        return getDirectionIndex() == 3;
+        return getDirectionIndex() == 3 || getDirection() == Vector2D{1, 0};
 
     }
 

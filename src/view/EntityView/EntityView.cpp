@@ -38,7 +38,7 @@ namespace View {
 
         int pixel_top = getTop();
 
-        sprite.setTextureRect(sf::IntRect(0, pixel_top, pixel_width, pixel_height));
+        sprite.setTextureRect(sf::IntRect(getLeft(), pixel_top, pixel_width, pixel_height));
 
         RenderWindowSingleton::getInstance()->getWindow()->draw(sprite);
 
@@ -51,6 +51,10 @@ namespace View {
         vertices.push_back(sf::Vertex{sf::Vector2f(data.first[0], data.first[1]), sf::Color::Red});
         RenderWindowSingleton::getInstance()->getWindow()->draw(&vertices[0], vertices.size(), sf::LineStrip);
 
+    }
+
+    int EntityView::getLeft() {
+        return 0;
     }
 
 } // View

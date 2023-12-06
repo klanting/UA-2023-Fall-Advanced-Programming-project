@@ -3,14 +3,13 @@
 //
 
 #include "GhostView.h"
-
+#include <iostream>
 namespace View {
 
 
-
-
-    GhostView::GhostView(std::weak_ptr<Logic::EntityModel> entity, int color_index) : EntityView(entity) {
-        texture.loadFromFile("sprites/Sprites.png", sf::IntRect(color_index*50, 2, 40, 600));
+    GhostView::GhostView(std::weak_ptr<Logic::EntityModel> entity, int color_index) : EntityView(entity), color_index{color_index} {
+        //texture.loadFromFile("sprites/Sprites.png", sf::IntRect(color_index*50, 2, 40, 600));
+        texture.loadFromFile("sprites/Sprites.png", sf::IntRect(0, 2, 40+50*6, 1000));
         sprite.setTexture(texture);
 
     }
@@ -44,6 +43,17 @@ namespace View {
 
         pixel_top += animation_index*50;
 
+        if (entity.lock()->isConsumable()){
+            pixel_top += 550;
+        }
         return pixel_top;
+    }
+
+    int GhostView::getLeft() {
+        if (entity.lock()->isConsumable()){
+            return 0;
+        }
+
+        return color_index*50;
     }
 } // View

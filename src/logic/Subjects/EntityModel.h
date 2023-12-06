@@ -12,7 +12,7 @@ namespace Logic {
     public:
         EntityModel(const Vector2D& position, const Vector2D &size, double speed, std::shared_ptr<Move::ModeManager> move_manager);
 
-        void move() override;
+        virtual void move() override;
         void moveConfirm() override;
         void addObserver(std::shared_ptr<Observer> observer);
         std::pair<bool, std::pair<Vector2D, Vector2D>> collide(std::weak_ptr<Subject> other) override;
@@ -47,6 +47,7 @@ namespace Logic {
         std::vector<std::shared_ptr<Observer>> observers;
 
         std::vector<Vector2D> splitDirection();
+        double wait_delay;
 
     private:
         int getDirectionIndex() const;

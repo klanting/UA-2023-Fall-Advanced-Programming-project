@@ -13,7 +13,7 @@ namespace Logic {
     public:
         virtual std::shared_ptr<Subject> createCoin(const Vector2D& position) = 0;
         virtual std::shared_ptr<Subject> createFruit(const Vector2D& position) = 0;
-        virtual std::shared_ptr<Subject> createGhost(const Vector2D& position) = 0;
+        virtual std::shared_ptr<Subject> createGhost(const Vector2D& position, double wait_delay, int color_index) = 0;
         virtual std::shared_ptr<Subject> createPacman(const Vector2D& position) = 0;
         virtual std::shared_ptr<Subject> createWall(const Vector2D& position, const Vector2D &size) = 0;
     private:

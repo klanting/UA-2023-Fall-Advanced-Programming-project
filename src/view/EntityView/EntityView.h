@@ -20,6 +20,7 @@ namespace View {
     protected:
         void checkAnimation();
         virtual int getTop() = 0;
+        virtual int getLeft();
 
         std::weak_ptr<Logic::EntityModel> entity;
         sf::Sprite sprite;

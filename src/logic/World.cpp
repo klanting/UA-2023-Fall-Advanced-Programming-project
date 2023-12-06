@@ -10,7 +10,7 @@ namespace Logic {
 
     World::World(std::shared_ptr<AbstractFactory> factory) {
 
-        std::shared_ptr<Subject> s = factory->createPacman(Vector2D{0, -0.5});
+        std::shared_ptr<Subject> s = factory->createPacman(Vector2D{0, -0.0725});
         entities.push_back(s);
         pacman = s;
 
@@ -42,13 +42,57 @@ namespace Logic {
             not_passable.push_back(s);
         }
 
+        for (auto w: {Vector2D{-0.885, -0.835}, Vector2D{0.815, -0.035}}){
+            s = factory->createFruit(w);
+            entities.push_back(s);
+        }
+
+        Vector2D ghost_spawn = Vector2D{0-0.07, -0.5};
+        for (int i=0; i<1; i++){
+            double delay = 0;
+            if (delay >= 2){
+                delay = 5.0 * (i);
+            }
+            s = factory->createGhost(ghost_spawn, 5, i);
+            s->getMoveManager()->makeDirection(pacman->getPosition()-s->getPosition(), {Vector2D{0, -1}});
+            entities.push_back(s);
+        }
+
+        std::vector<std::shared_ptr<Subject>> coin_buffer;
+        for (int i=-9; i<9; i++){
+            for (int j=-9; j<0; j++){
+                s = factory->createCoin(Vector2D{i/10.0+0.025, j/10.0+0.0751});
+
+                if (i >= -2 && i <= 1 && j == -5){
+                    continue;
+                }
+                if (i >= -1 && i <= 0 && j == -6){
+                    continue;
+                }
+
+                bool found = false;
+                for (auto np: not_passable){
+                    Vector2D np_pos = np->getPosition();
+                    Vector2D np_pos2 = np->getPosition()+np->getSize();
+                    if (s->getPosition()[0] >= np_pos[0] && s->getPosition()[0] < np_pos2[0] && s->getPosition()[1] >= np_pos[1] && s->getPosition()[1] < np_pos2[1]){
+                        found = true;
+                    }
+                }
+
+                if (!found){
+                    coin_buffer.push_back(s);
+                }
+            }
+        }
+
+        entities.insert(entities.begin(), coin_buffer.begin(), coin_buffer.end());
+
 
     }
 
     std::vector<std::weak_ptr<Subject>> World::checkCollision(std::shared_ptr<Subject> s, bool inpassable) {
         std::vector<std::weak_ptr<Subject>> hits;
 
-        Vector2D best_vector = Vector2D{2, 2};
         auto to_check = entities;
         if (inpassable){
             to_check = not_passable;
@@ -63,8 +107,6 @@ namespace Logic {
             if (p.first){
                 hits.push_back(other);
             }
-
-
 
         }
         return hits;
@@ -131,6 +173,10 @@ namespace Logic {
             auto it = std::find(option_directions.begin(), option_directions.end(), e->getMoveManager()->getDirection());
             if (it != option_directions.end()){
                 option_directions.erase(it);
+            }
+            auto it2 = std::find(option_directions.begin(), option_directions.end(), e->getMoveManager()->getDirection()*-1);
+            if (it2 != option_directions.end()){
+                option_directions.erase(it2);
             }
 
             e->getMoveManager()->makeDirection(pacman->getPosition()-e->getPosition(), option_directions);
