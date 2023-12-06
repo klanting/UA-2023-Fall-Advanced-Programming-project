@@ -159,26 +159,10 @@ namespace Logic {
                     collision = false;
                     break;
                 }
-                //std::cout << hits.size() << std::endl;
-                if (hits.size() == 2){
-                    int k = 0;
-                }
 
-                bool not_corner = true;
-                if (hits.size() == 2){
-                    auto p1 = e->collide(hits[0]);
-                    auto p2 = e->collide(hits[1]);
 
-                    std::cout << "angle " << p1.second.second.getAngle(p2.second.second) << std::endl;
-                    double angle = (e->getPosition()-p1.second.first).getAngle((e->getPosition()-p2.second.first));
-                    if (p1.second.second.getAngle(p2.second.second) > M_PI/36){
-                        not_corner = false;
-                    }
-                }
                 for (auto hit: hits){
-                    e->handleImpassable(hit, fix &&  hits.size() < 3 && not_corner);
-                    //e->handleImpassable(hit, hits.size()==1);2
-                    //e->handleImpassable(hit, first);
+                    e->handleImpassable(hit, fix &&  hits.size() < 3);
                     hit_wall = true;
                     np.push_back(hit);
 

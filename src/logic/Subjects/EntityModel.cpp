@@ -97,7 +97,7 @@ namespace Logic {
 
         }
 
-        if (best < 1){
+        if (best <= 1){
             collided = true;
         }
 
