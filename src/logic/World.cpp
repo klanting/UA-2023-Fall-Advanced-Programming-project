@@ -9,53 +9,6 @@
 namespace Logic {
 
     World::World(std::shared_ptr<AbstractFactory> factory) {
-        //temp reading file
-        /*
-        std::fstream f("maps/opdracht_map.txt");
-
-        double i = -1;
-        double j = -1;
-        while (!f.eof()){
-            char c = f.get();
-            if (c == 'w'){
-                std::shared_ptr<Subject> s = factory->createWall(Vector2D{i, j});
-                entities.push_back(s);
-                not_passable.push_back(s);
-            }
-
-            if (c == 'G'){
-                std::shared_ptr<Subject> s = factory->createGhost(Vector2D{i, j});
-                entities.push_back(s);
-            }
-
-            if (c == 'P'){
-                std::shared_ptr<Subject> s = factory->createPacman(Vector2D{i, j});
-                entities.push_back(s);
-                pacman = s;
-            }
-
-            if (c == 'c'){
-                std::shared_ptr<Subject> s = factory->createCoin(Vector2D{i, j});
-                entities.push_back(s);
-            }
-
-            if (c == 'F'){
-                std::shared_ptr<Subject> s = factory->createFruit(Vector2D{i, j});
-                entities.push_back(s);
-            }
-
-            i += 0.05;
-
-            if (c == '\n'){
-                j += 0.05;
-                i = -1;
-            }
-        }
-
-        for (auto& e: entities){
-            std::shared_ptr<Move::ModeManager> mm = e->getMoveManager();
-            mm->makeDirection(pacman->getPosition()-e->getPosition(), {Vector2D{0,1}, Vector2D{0,-1}, Vector2D{1,0}, Vector2D{-1,0}});
-        }*/
 
         std::shared_ptr<Subject> s = factory->createPacman(Vector2D{0, -0.5});
         entities.push_back(s);
