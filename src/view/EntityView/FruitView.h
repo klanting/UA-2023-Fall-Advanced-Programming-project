@@ -10,7 +10,7 @@ namespace View {
     class FruitView: public EntityView{
     public:
         FruitView(std::weak_ptr<Logic::EntityModel> entity);
-        void moved() override;
+
     private:
         int getTop() override;
     };

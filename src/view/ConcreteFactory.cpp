@@ -64,11 +64,11 @@ namespace View {
     }
 
 
-    std::shared_ptr<Subject> ConcreteFactory::createWall(const Vector2D &position) {
+    std::shared_ptr<Subject> ConcreteFactory::createWall(const Vector2D &position, const Vector2D &size) {
         std::unique_ptr<Move::Mode> mode = std::make_unique<Move::PassiveMode>();
         std::shared_ptr<Move::ModeManager> move_manager = std::make_shared<Move::ModeManager>(std::move(mode));
 
-        std::shared_ptr<Logic::EntityModel> c = std::make_shared<Logic::Wall>(position, move_manager);
+        std::shared_ptr<Logic::EntityModel> c = std::make_shared<Logic::Wall>(position, size, move_manager);
         c->addObserver(std::make_shared<WallView>(c));
         return c;
     }

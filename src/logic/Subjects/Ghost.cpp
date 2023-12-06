@@ -36,5 +36,14 @@ namespace Logic {
         }
     }
 
+    bool Ghost::handleDead(std::vector<std::shared_ptr<Subject>> others) {
+        position = Vector2D{0, 0};
+        consumable = false;
+
+        move_manager->setStrategy(std::make_unique<Move::ChaseMode>());
+        move_manager->makeDirection(Vector2D{1, 0}, {Vector2D{0, -1}});
+        return false;
+    }
+
 
 } // Logic

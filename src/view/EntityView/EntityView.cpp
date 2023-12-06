@@ -33,9 +33,6 @@ namespace View {
 
         sprite.setPosition(data.first[0], data.first[1]);
 
-        int pixel_width = 40;
-        int pixel_height = 40;
-
         sprite.setScale(data.second[0]/(pixel_width-2), data.second[1]/(pixel_height-2));
 
 

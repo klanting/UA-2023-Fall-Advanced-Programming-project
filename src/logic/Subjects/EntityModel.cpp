@@ -156,8 +156,10 @@ namespace Logic {
             return;
         }
 
+
         Vector2D travelled = (position-last_position);
         Vector2D travelled_before_collision = (p.second.first-(last_position + size*0.5));
+        //std::cout << travelled_before_collision.get_normalised()[0] << " " << travelled_before_collision.get_normalised()[1] << std::endl;
 
         Vector2D mini = std::min(move_manager->getDirection() - p.second.second, move_manager->getDirection()+ p.second.second, [](const Vector2D& a, const Vector2D& b) {return a.getLength() < b.getLength();});
 
@@ -183,27 +185,22 @@ namespace Logic {
     }
 
     bool EntityModel::isUp() const {
-        Vector2D change = position-last_position;
-        return (abs(change[1]) > abs(change[0]) && change[1] < 0 && move_manager->getDirection().getLength() > 1) || move_manager->getDirection() == Vector2D{0, -1};
-        //return Vector2D{0, -1}.getAngle(position-last_position) < M_PI/2.0;
+        return getDirectionIndex() == 0;
     }
 
     bool EntityModel::isDown() const {
-        Vector2D change = position-last_position;
-        return (abs(change[1]) > abs(change[0]) && change[1] > 0 && move_manager->getDirection().getLength() > 1) || move_manager->getDirection() == Vector2D{0, 1};
-        //return Vector2D{0, 1}.getAngle(position-last_position) < M_PI/2.0;
+        return getDirectionIndex() == 1;
+
     }
 
     bool EntityModel::isLeft() const {
-        Vector2D change = position-last_position;
-        return (abs(change[0]) > abs(change[1]) && change[0] < 0 && move_manager->getDirection().getLength() > 1) || move_manager->getDirection() == Vector2D{-1, 0};
-        //return Vector2D{-1, 0}.getAngle(position-last_position) < M_PI/2.0;
+        return getDirectionIndex() == 2;
+
     }
 
     bool EntityModel::isRight() const {
-        Vector2D change = position-last_position;
-        return (abs(change[0]) > abs(change[1]) && change[0] > 0 && move_manager->getDirection().getLength() > 1) || move_manager->getDirection() == Vector2D{1, 0};
-        //return Vector2D{1, 0}.getAngle(position-last_position) < M_PI/2.0;
+        return getDirectionIndex() == 3;
+
     }
 
     void EntityModel::changeMode() {
@@ -225,8 +222,8 @@ namespace Logic {
         return output;
     }
 
-    void EntityModel::handleDead(std::vector<std::shared_ptr<Subject>> others) {
-
+    bool EntityModel::handleDead(std::vector<std::shared_ptr<Subject>> others) {
+        return false;
     }
 
     EntityModel::~EntityModel() {
@@ -237,6 +234,28 @@ namespace Logic {
         for (std::shared_ptr<Observer> observer: observers){
             observer->moved();
         }
+    }
+
+    int EntityModel::getDirectionIndex() const{
+        Vector2D change = position-last_position;
+        if (change.getLength() <= 0.000001){
+            return  -1;
+        }
+
+        double smallest_angle = std::numeric_limits<double>::max();
+        int best_index = -1;
+
+        std::vector<Vector2D> directions = {Vector2D{0, -1}, Vector2D{0, 1}, Vector2D{-1, 0}, Vector2D{1, 0}};
+
+        for (int i =0; i<directions.size(); i++){
+            auto v = directions[i];
+            if (v.getAngle(change) < smallest_angle && v.getAngle(move_manager->getDirection()) <= M_PI/3){
+                smallest_angle = v.getAngle(change);
+                best_index = i;
+            }
+
+        }
+        return best_index;
     }
 
 } // Logic

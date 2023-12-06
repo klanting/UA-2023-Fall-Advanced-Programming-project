@@ -13,4 +13,8 @@ namespace Logic {
 
     }
 
+    bool Collectable::handleDead(std::vector<std::shared_ptr<Subject>> others) {
+        return true;
+    }
+
 } // Logic

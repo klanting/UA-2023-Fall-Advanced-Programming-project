@@ -5,7 +5,7 @@
 #include "Wall.h"
 
 namespace Logic {
-    Wall::Wall(const Vector2D &position, std::shared_ptr<Move::ModeManager> move_manager) : EntityModel(position, Vector2D{0.1,0.1}, 0, move_manager) {
+    Wall::Wall(const Vector2D &position, const Vector2D &size, std::shared_ptr<Move::ModeManager> move_manager) : EntityModel(position, size, 0, move_manager) {
 
     }
 

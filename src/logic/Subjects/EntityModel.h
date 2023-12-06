@@ -18,7 +18,7 @@ namespace Logic {
         std::pair<bool, std::pair<Vector2D, Vector2D>> collide(std::weak_ptr<Subject> other) override;
         virtual void handleImpassable(std::weak_ptr<Subject> other, bool fix = false) override;
 
-        virtual void handleDead(std::vector<std::shared_ptr<Subject>> others) override;
+        virtual bool handleDead(std::vector<std::shared_ptr<Subject>> others) override;
 
         std::shared_ptr<Move::ModeManager> getMoveManager();
 
@@ -47,6 +47,9 @@ namespace Logic {
         std::vector<std::shared_ptr<Observer>> observers;
 
         std::vector<Vector2D> splitDirection();
+
+    private:
+        int getDirectionIndex() const;
 
     };
 

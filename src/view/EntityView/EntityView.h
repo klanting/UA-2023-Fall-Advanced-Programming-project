@@ -26,6 +26,9 @@ namespace View {
         sf::Texture texture;
         int animation_index;
         double animation_delay;
+
+        int pixel_width = 40;
+        int pixel_height = 40;
     private:
 
     };

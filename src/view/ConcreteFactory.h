@@ -16,7 +16,7 @@ namespace View {
         std::shared_ptr<Subject> createFruit(const Vector2D& position) override;
         std::shared_ptr<Subject> createGhost(const Vector2D& position) override;
         std::shared_ptr<Subject> createPacman(const Vector2D& position) override;
-        std::shared_ptr<Subject> createWall(const Vector2D& position) override;
+        std::shared_ptr<Subject> createWall(const Vector2D& position, const Vector2D &size) override;
     private:
     };
 
