@@ -4,6 +4,8 @@
 
 #include "LevelState.h"
 #include "../ConcreteFactory.h"
+#include "StateManager.h"
+#include "GameOverState.h"
 namespace View {
     LevelState::LevelState() {
         handler = std::make_unique<Logic::LogicHandler>(std::make_shared<ConcreteFactory>());
@@ -12,7 +14,16 @@ namespace View {
     }
 
     void LevelState::runTick() {
-        handler->doTick();
+        bool playable = handler->doTick();
+        if (playable){
+            return;
+        }
+
+        if (state_manager.expired()){
+            return;
+        }
+
+        state_manager.lock()->Push(std::make_unique<GameOverState>());
     }
 
     void LevelState::acceptCharacter(int input, bool pressed) {
@@ -33,4 +44,6 @@ namespace View {
         }
 
     }
+
+
 } // View

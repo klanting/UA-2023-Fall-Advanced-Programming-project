@@ -15,12 +15,12 @@ namespace View {
     }
 
     void Game::doGameLoop() {
-        window->getWindow()->setKeyRepeatEnabled(false);
-        while (window->getWindow()->isOpen())
+
+        while (window->isOpen())
         {
 
             sf::Event event;
-            while (window->getWindow()->pollEvent(event))
+            while (window->pollEvent(event))
             {
                 if (event.type == sf::Event::KeyPressed || event.type == sf::Event::KeyReleased){
                     bool pressed = event.type == sf::Event::KeyPressed;
@@ -28,16 +28,16 @@ namespace View {
                 }
 
                 if (event.type == sf::Event::Closed){
-                    window->getWindow()->close();
+                    window->close();
                 }
 
             }
 
-            window->getWindow()->clear();
+            window->clear();
 
             state_manager->runTick();
 
-            window->getWindow()->display();
+            window->display();
 
             //sf::sleep(sf::milliseconds(100));
         }

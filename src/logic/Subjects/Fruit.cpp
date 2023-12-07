@@ -11,7 +11,7 @@ namespace Logic {
 
     bool Fruit::handleDead(std::vector<std::shared_ptr<Subject>> others) {
         for (auto o: others){
-            o->changeMode();
+            o->changeMode(true);
         }
         return Collectable::handleDead(others);
 

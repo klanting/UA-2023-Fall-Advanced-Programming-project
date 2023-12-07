@@ -15,14 +15,14 @@ namespace Logic {
         return EntityModel::isConsumable();
     }
 
-    void Ghost::changeMode() {
+    void Ghost::changeMode(bool fear) {
         Vector2D old_direction = move_manager->getDirection();
         Vector2D changed = old_direction.getOpposed();
         if (wait_delay > 0){
             changed = old_direction;
         }
 
-        if (consumable){
+        if (consumable && !fear){
             consumable = false;
 
 
@@ -31,29 +31,33 @@ namespace Logic {
             //to pacman vector is not important
 
 
-            move_manager->makeDirection(Vector2D{1, 0}, {changed});
-        }else{
+            move_manager->makeDirection(Vector2D{2, 2}, {changed});
+        }else if (!consumable && fear){
             consumable = true;
 
             move_manager->setStrategy(std::make_unique<Move::FearMode>());
 
             //to pacman vector is not important
 
-            move_manager->makeDirection(Vector2D{1, 0}, {changed});
+            move_manager->makeDirection(Vector2D{2, 2}, {changed});
         }
     }
 
     bool Ghost::handleDead(std::vector<std::shared_ptr<Subject>> others) {
         EntityModel::handleDead(others);
 
-        position = Vector2D{-size[0]/2, -0.5};
+        EntityModel::goStartPosition();
         consumable = false;
 
         move_manager->setStrategy(std::make_unique<Move::ChaseMode>());
-        move_manager->makeDirection(Vector2D{1, 0}, {Vector2D{0, -1}});
+        move_manager->makeDirection(Vector2D{2, 2}, {Vector2D{0, -1}});
         return false;
     }
 
+    void Ghost::goStartPosition() {
+        EntityModel::goStartPosition();
+        move_manager->makeDirection(Vector2D{2, 2}, {Vector2D{0, -1}});
+    }
 
 
 } // Logic

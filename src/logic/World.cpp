@@ -5,6 +5,7 @@
 #include "World.h"
 #include "fstream"
 #include "iostream"
+#include "functional"
 
 namespace Logic {
 
@@ -119,34 +120,24 @@ namespace Logic {
     }
 
     bool World::doTick() {
+        using ColHandle = void (World::*)(std::shared_ptr<Subject>, std::weak_ptr<Subject>, std::vector<std::weak_ptr<Subject>>&);
         std::vector<std::weak_ptr<Subject>> to_be_removed = {};
 
         for (auto& e: entities){
             e->move();
+            e->moveConfirm();
+            handleInPassable(e);
 
-            handleCollision(e);
-
-
-            if (e != pacman){
-                continue;
+            ColHandle func;
+            if (e == pacman){
+                func = &World::handleActionsPacman;
+            }else{
+                func = &World::handleActions;
             }
 
             std::vector<std::weak_ptr<Subject>> hits = checkCollision(e);
             for (auto hit: hits){
-                if (hit.lock()->isConsumable()){
-                    e->consume(hit);
-                    if (hit.lock()->handleDead(entities)){
-                        to_be_removed.push_back(hit);
-                    }
-
-                } else{
-                    e->handleDead(entities);
-                    lives -= 1;
-
-                    if (lives == 0){
-                        std::cout << "game over" << std::endl;
-                    }
-                }
+                (this->*func)(e, hit, to_be_removed);
             }
 
 
@@ -156,16 +147,17 @@ namespace Logic {
             auto it = std::find(entities.begin(), entities.end(), e.lock());
             entities.erase(it);
         }
+        return lives > 0;
 
     }
 
-    void World::handleCollision(std::shared_ptr<Subject> e) {
+    void World::handleInPassable(std::shared_ptr<Subject> e) {
         bool hit_wall = false;
         bool fix = true;
         bool collision = true;
         while (collision){
             std::vector<std::weak_ptr<Subject>> np;
-            for (int i = 0; i<3;i++){
+            for (int i = 0; i<2;i++){
                 std::vector<std::weak_ptr<Subject>> hits = checkCollision(e, true);
                 if (hits.empty()){
                     collision = false;
@@ -201,4 +193,41 @@ namespace Logic {
 
         e->moveConfirm();
     }
+
+    void World::handleActionsPacman(std::shared_ptr<Subject> e, std::weak_ptr<Subject> hit,
+                                    std::vector<std::weak_ptr<Subject>> &to_be_removed) {
+
+        if (hit.lock()->isConsumable()){
+            e->consume(hit);
+            if (hit.lock()->handleDead(entities)){
+                to_be_removed.push_back(hit);
+            }
+
+        } else{
+            e->handleDead(entities);
+            lives -= 1;
+
+            if (lives == 0){
+                std::cout << "game over" << std::endl;
+            }
+        }
+
+    }
+
+    void World::handleActions(std::shared_ptr<Subject> e, std::weak_ptr<Subject> hit,
+                              std::vector<std::weak_ptr<Subject>> &to_be_removed) {
+        //make sure only ghosts do this
+        if (hit.lock() == pacman){
+            handleActionsPacman(hit.lock(), e, to_be_removed);
+            /*
+            e->consume(hit);
+            if (hit.lock()->handleDead(entities)){
+                to_be_removed.push_back(hit);
+            }*/
+
+        }
+
+    }
+
+
 } // Logic

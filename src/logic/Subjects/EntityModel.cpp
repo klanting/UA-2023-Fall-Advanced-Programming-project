@@ -16,7 +16,7 @@ namespace Logic {
     }
 
     EntityModel::EntityModel(const Vector2D &position, const Vector2D &size, double speed, std::shared_ptr<Move::ModeManager> move_manager): position{position}, speed{speed}, size{size},
-                                                                                                                                             last_position{position} {
+                                                                                                                                             last_position{position}, start_position{position} {
         EntityModel::move_manager = move_manager;
         wait_delay = 0;
     }
@@ -177,7 +177,7 @@ namespace Logic {
 
     }
 
-    void EntityModel::changeMode() {
+    void EntityModel::changeMode(bool fear) {
 
     }
 
@@ -239,6 +239,12 @@ namespace Logic {
         for (std::shared_ptr<Observer> observer: observers){
             observer->consume(other);
         }
+    }
+
+    void EntityModel::goStartPosition() {
+        last_position = start_position;
+        position = start_position;
+
     }
 
 } // Logic

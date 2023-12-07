@@ -31,17 +31,19 @@ namespace View {
 
         PixelData data = Camera::getInstance()->toPixels(e->getPosition(), e->getSize());
 
-        sprite.setPosition(data.first[0], data.first[1]);
-
-        sprite.setScale(data.second[0]/(pixel_width-2), data.second[1]/(pixel_height-2));
+        std::unique_ptr<sf::Sprite> sprite = std::make_unique<sf::Sprite>();
+        sprite->setTexture(texture);
+        sprite->setPosition(data.first[0], data.first[1]);
+        sprite->setScale(data.second[0]/(pixel_width-2), data.second[1]/(pixel_height-2));
 
 
         int pixel_top = getTop();
 
-        sprite.setTextureRect(sf::IntRect(getLeft(), pixel_top, pixel_width, pixel_height));
+        sprite->setTextureRect(sf::IntRect(getLeft(), pixel_top, pixel_width, pixel_height));
 
-        RenderWindowSingleton::getInstance()->getWindow()->draw(sprite);
+        RenderWindowSingleton::getInstance()->draw(entity, std::move(sprite));
 
+        /*
         //debug reasons
         std::vector<sf::Vertex> vertices;
         vertices.push_back(sf::Vertex{sf::Vector2f(data.first[0], data.first[1]), sf::Color::Red});
@@ -49,8 +51,14 @@ namespace View {
         vertices.push_back(sf::Vertex{sf::Vector2f((data.first+data.second)[0], (data.first+data.second)[1]), sf::Color::Red});
         vertices.push_back(sf::Vertex{sf::Vector2f((data.first+data.second)[0], (data.first)[1]), sf::Color::Red});
         vertices.push_back(sf::Vertex{sf::Vector2f(data.first[0], data.first[1]), sf::Color::Red});
-        RenderWindowSingleton::getInstance()->getWindow()->draw(&vertices[0], vertices.size(), sf::LineStrip);
 
+        std::unique_ptr<sf::VertexArray> square = std::make_unique<sf::VertexArray>(sf::LineStrip);
+        for (auto& v: vertices){
+            square->append(v);
+        }
+
+        RenderWindowSingleton::getInstance()->draw(entity, std::move(square));
+        */
     }
 
     int EntityView::getLeft() {

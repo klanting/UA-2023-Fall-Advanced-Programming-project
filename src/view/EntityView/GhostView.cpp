@@ -10,7 +10,7 @@ namespace View {
     GhostView::GhostView(std::weak_ptr<Logic::EntityModel> entity, int color_index) : EntityView(entity), color_index{color_index} {
         //texture.loadFromFile("sprites/Sprites.png", sf::IntRect(color_index*50, 2, 40, 600));
         texture.loadFromFile("sprites/Sprites.png", sf::IntRect(0, 2, 40+50*6, 1000));
-        sprite.setTexture(texture);
+        //sprite.setTexture(texture);
 
     }
 

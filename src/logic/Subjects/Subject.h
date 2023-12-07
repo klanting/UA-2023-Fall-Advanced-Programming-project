@@ -23,7 +23,8 @@ namespace Logic {
         virtual void handleImpassable(std::weak_ptr<Subject> other, bool fix = false) = 0;
         virtual bool handleDead(std::vector<std::shared_ptr<Subject>> others) = 0;
         virtual void consume(std::weak_ptr<Subject> other) = 0;
-        virtual void changeMode() = 0;
+        virtual void changeMode(bool fear) = 0;
+        virtual void goStartPosition() = 0;
         virtual ~Subject();
 
         bool debug_green = false;

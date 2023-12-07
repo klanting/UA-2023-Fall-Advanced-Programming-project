@@ -25,7 +25,7 @@ namespace View {
         virtual int getLeft();
 
         std::weak_ptr<Logic::EntityModel> entity;
-        sf::Sprite sprite;
+
         sf::Texture texture;
         int animation_index;
         double animation_delay;

@@ -29,7 +29,13 @@ namespace View {
         vertices.push_back(sf::Vertex{sf::Vector2f((data.first+data.second)[0], (data.first+data.second)[1]), color});
         vertices.push_back(sf::Vertex{sf::Vector2f((data.first+data.second)[0], (data.first)[1]), color});
         vertices.push_back(sf::Vertex{sf::Vector2f(data.first[0], data.first[1]), color});
-        RenderWindowSingleton::getInstance()->getWindow()->draw(&vertices[0], vertices.size(), sf::LineStrip);
+
+        std::unique_ptr<sf::VertexArray> square = std::make_unique<sf::VertexArray>(sf::LineStrip);
+        for (auto& v: vertices){
+            square->append(v);
+        }
+
+        RenderWindowSingleton::getInstance()->draw(entity, std::move(square));
     }
 
     WallView::WallView(std::weak_ptr<Logic::EntityModel> entity) : EntityView(entity) {

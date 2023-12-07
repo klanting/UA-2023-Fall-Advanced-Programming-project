@@ -14,9 +14,10 @@ namespace Logic {
 
     }
 
-    void LogicHandler::doTick() {
+    bool LogicHandler::doTick() {
 
-        world->doTick();
+        bool alive = world->doTick();
         Stopwatch::getInstance()->doTick();
+        return alive;
     }
 } // Logic

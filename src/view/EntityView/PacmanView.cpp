@@ -11,7 +11,7 @@ namespace View {
 
     PacmanView::PacmanView(std::weak_ptr<Logic::EntityModel> entity) : EntityView(entity) {
         texture.loadFromFile("sprites/Sprites.png", sf::IntRect(850, 2, 40, 600));
-        sprite.setTexture(texture);
+        //sprite.setTexture(texture);
 
     }
 

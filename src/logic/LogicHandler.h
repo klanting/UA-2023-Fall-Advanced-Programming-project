@@ -14,7 +14,7 @@ namespace Logic {
     public:
         LogicHandler(std::shared_ptr<AbstractFactory> factory);
 
-        void doTick();
+        bool doTick();
     private:
         std::unique_ptr<Logic::World> world;
         std::shared_ptr<Controller::Controller> controller;

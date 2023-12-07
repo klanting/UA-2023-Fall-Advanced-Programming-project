@@ -23,7 +23,7 @@ namespace Logic {
         std::shared_ptr<Move::ModeManager> getMoveManager();
 
         virtual bool isConsumable();
-        virtual void changeMode();
+        virtual void changeMode(bool fear) override;
 
         const Vector2D &getPosition() const;
         const Vector2D &getSize() const;
@@ -36,8 +36,9 @@ namespace Logic {
         bool isLeft() const;
         bool isRight() const;
         virtual ~EntityModel() override;
+        void goStartPosition() override;
     protected:
-
+        Vector2D start_position;
         Vector2D last_position;
         Vector2D position;
         Vector2D size;
