@@ -12,7 +12,7 @@ namespace Logic {
     World::World(std::shared_ptr<AbstractFactory> factory) {
         lives = 3;
 
-        std::shared_ptr<Subject> s = factory->createPacman(Vector2D{0, -0.0725});
+        std::shared_ptr<EntityModel> s = factory->createPacman(Vector2D{0, -0.0725});
         entities.push_back(s);
         pacman = s;
 
@@ -65,7 +65,7 @@ namespace Logic {
             entities.push_back(s);
         }
 
-        std::vector<std::shared_ptr<Subject>> coin_buffer;
+        std::vector<std::shared_ptr<EntityModel>> coin_buffer;
         for (int i=-9; i<9; i++){
             for (int j=-9; j<0; j++){
                 s = factory->createCoin(Vector2D{i/10.0+0.025, j/10.0+0.0751});
@@ -97,15 +97,15 @@ namespace Logic {
 
     }
 
-    std::vector<std::weak_ptr<Subject>> World::checkCollision(std::shared_ptr<Subject> s, bool inpassable) {
-        std::vector<std::weak_ptr<Subject>> hits;
+    std::vector<std::weak_ptr<EntityModel>> World::checkCollision(std::shared_ptr<EntityModel> s, bool inpassable) {
+        std::vector<std::weak_ptr<EntityModel>> hits;
 
         auto to_check = entities;
         if (inpassable){
             to_check = not_passable;
         }
 
-        for (std::shared_ptr<Subject> other: to_check){
+        for (std::shared_ptr<EntityModel> other: to_check){
             if (s == other){
                 continue;
             }
@@ -120,12 +120,11 @@ namespace Logic {
     }
 
     bool World::doTick() {
-        using ColHandle = void (World::*)(std::shared_ptr<Subject>, std::weak_ptr<Subject>, std::vector<std::weak_ptr<Subject>>&);
-        std::vector<std::weak_ptr<Subject>> to_be_removed = {};
+        using ColHandle = void (World::*)(std::shared_ptr<EntityModel>, std::weak_ptr<EntityModel>, std::vector<std::weak_ptr<EntityModel>>&);
+        std::vector<std::weak_ptr<EntityModel>> to_be_removed = {};
 
         for (auto& e: entities){
             e->move();
-            e->moveConfirm();
             handleInPassable(e);
 
             ColHandle func;
@@ -135,7 +134,7 @@ namespace Logic {
                 func = &World::handleActions;
             }
 
-            std::vector<std::weak_ptr<Subject>> hits = checkCollision(e);
+            std::vector<std::weak_ptr<EntityModel>> hits = checkCollision(e);
             for (auto hit: hits){
                 (this->*func)(e, hit, to_be_removed);
             }
@@ -151,14 +150,14 @@ namespace Logic {
 
     }
 
-    void World::handleInPassable(std::shared_ptr<Subject> e) {
+    void World::handleInPassable(std::shared_ptr<EntityModel> e) {
         bool hit_wall = false;
         bool fix = true;
         bool collision = true;
         while (collision){
-            std::vector<std::weak_ptr<Subject>> np;
+            std::vector<std::weak_ptr<EntityModel>> np;
             for (int i = 0; i<2;i++){
-                std::vector<std::weak_ptr<Subject>> hits = checkCollision(e, true);
+                std::vector<std::weak_ptr<EntityModel>> hits = checkCollision(e, true);
                 if (hits.empty()){
                     collision = false;
                     break;
@@ -191,11 +190,10 @@ namespace Logic {
             e->getMoveManager()->makeDirection(pacman->getPosition()-e->getPosition(), option_directions);
         }
 
-        e->moveConfirm();
     }
 
-    void World::handleActionsPacman(std::shared_ptr<Subject> e, std::weak_ptr<Subject> hit,
-                                    std::vector<std::weak_ptr<Subject>> &to_be_removed) {
+    void World::handleActionsPacman(std::shared_ptr<EntityModel> e, std::weak_ptr<EntityModel> hit,
+                                    std::vector<std::weak_ptr<EntityModel>> &to_be_removed) {
 
         if (hit.lock()->isConsumable()){
             e->consume(hit);
@@ -214,8 +212,8 @@ namespace Logic {
 
     }
 
-    void World::handleActions(std::shared_ptr<Subject> e, std::weak_ptr<Subject> hit,
-                              std::vector<std::weak_ptr<Subject>> &to_be_removed) {
+    void World::handleActions(std::shared_ptr<EntityModel> e, std::weak_ptr<EntityModel> hit,
+                              std::vector<std::weak_ptr<EntityModel>> &to_be_removed) {
         //make sure only ghosts do this
         if (hit.lock() == pacman){
             handleActionsPacman(hit.lock(), e, to_be_removed);

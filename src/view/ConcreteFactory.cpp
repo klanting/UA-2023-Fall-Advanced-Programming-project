@@ -24,7 +24,7 @@
 #include "../logic/Score.h"
 
 namespace View {
-    std::shared_ptr<Subject> ConcreteFactory::createCoin(const Vector2D& position) {
+    std::shared_ptr<EntityModel> ConcreteFactory::createCoin(const Vector2D& position) {
         std::unique_ptr<Move::Mode> mode = std::make_unique<Move::PassiveMode>();
         std::shared_ptr<Move::ModeManager> move_manager = std::make_shared<Move::ModeManager>(std::move(mode));
 
@@ -34,7 +34,7 @@ namespace View {
         return c;
     }
 
-    std::shared_ptr<Subject> ConcreteFactory::createFruit(const Vector2D &position) {
+    std::shared_ptr<EntityModel> ConcreteFactory::createFruit(const Vector2D &position) {
         std::unique_ptr<Move::Mode> mode = std::make_unique<Move::PassiveMode>();
         std::shared_ptr<Move::ModeManager> move_manager = std::make_shared<Move::ModeManager>(std::move(mode));
 
@@ -43,7 +43,7 @@ namespace View {
         return c;
     }
 
-    std::shared_ptr<Subject> ConcreteFactory::createGhost(const Vector2D &position, double wait_delay, int color_index) {
+    std::shared_ptr<EntityModel> ConcreteFactory::createGhost(const Vector2D &position, double wait_delay, int color_index) {
         std::unique_ptr<Move::Mode> mode = std::make_unique<Move::ChaseMode>();
         std::shared_ptr<Move::ModeManager> move_manager = std::make_shared<Move::ModeManager>(std::move(mode));
 
@@ -52,7 +52,7 @@ namespace View {
         return c;
     }
 
-    std::shared_ptr<Subject> ConcreteFactory::createPacman(const Vector2D &position) {
+    std::shared_ptr<EntityModel> ConcreteFactory::createPacman(const Vector2D &position) {
 
         std::unique_ptr<Move::Mode> mode = std::make_unique<Move::ControlMode>();
         std::shared_ptr<Move::ModeManager> move_manager = std::make_shared<Move::ModeManager>(std::move(mode));
@@ -64,7 +64,7 @@ namespace View {
     }
 
 
-    std::shared_ptr<Subject> ConcreteFactory::createWall(const Vector2D &position, const Vector2D &size) {
+    std::shared_ptr<EntityModel> ConcreteFactory::createWall(const Vector2D &position, const Vector2D &size) {
         std::unique_ptr<Move::Mode> mode = std::make_unique<Move::PassiveMode>();
         std::shared_ptr<Move::ModeManager> move_manager = std::make_shared<Move::ModeManager>(std::move(mode));
 

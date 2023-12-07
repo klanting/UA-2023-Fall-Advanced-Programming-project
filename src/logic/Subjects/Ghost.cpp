@@ -43,7 +43,7 @@ namespace Logic {
         }
     }
 
-    bool Ghost::handleDead(std::vector<std::shared_ptr<Subject>> others) {
+    bool Ghost::handleDead(std::vector<std::shared_ptr<EntityModel>> others) {
         EntityModel::handleDead(others);
 
         EntityModel::goStartPosition();

@@ -12,7 +12,7 @@ namespace Logic {
         Ghost(const Vector2D& position, double wait_delay, std::shared_ptr<Move::ModeManager> move_manager);
         bool isConsumable() override;
         void changeMode(bool fear) override;
-        bool handleDead(std::vector<std::shared_ptr<Subject>> others) override;
+        bool handleDead(std::vector<std::shared_ptr<EntityModel>> others) override;
         void goStartPosition() override;
     private:
     };

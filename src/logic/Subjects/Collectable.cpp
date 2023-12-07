@@ -13,7 +13,7 @@ namespace Logic {
 
     }
 
-    bool Collectable::handleDead(std::vector<std::shared_ptr<Subject>> others) {
+    bool Collectable::handleDead(std::vector<std::shared_ptr<EntityModel>> others) {
         EntityModel::handleDead(others);
         return true;
     }

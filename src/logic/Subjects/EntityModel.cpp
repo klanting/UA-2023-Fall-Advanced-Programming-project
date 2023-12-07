@@ -9,11 +9,7 @@
 #include <math.h>
 #include <vector>
 namespace Logic {
-    template <typename T>
-    bool between(T a, T b, T c){
-        //returns true if c is between a and b
-        return a <= c && c <= b;
-    }
+
 
     EntityModel::EntityModel(const Vector2D &position, const Vector2D &size, double speed, std::shared_ptr<Move::ModeManager> move_manager): position{position}, speed{speed}, size{size},
                                                                                                                                              last_position{position}, start_position{position} {
@@ -42,13 +38,13 @@ namespace Logic {
         position += direction*delta_time*speed;
 
 
+        for (std::shared_ptr<Observer> observer: observers){
+            observer->moved();
+        }
 
     }
 
 
-    void EntityModel::addObserver(std::shared_ptr<Observer> observer) {
-        observers.push_back(observer);
-    }
 
     const Vector2D &EntityModel::getPosition() const {
         return position;
@@ -62,7 +58,7 @@ namespace Logic {
         return move_manager;
     }
 
-    std::pair<bool, std::pair<Vector2D, Vector2D>> EntityModel::collide(std::weak_ptr<Subject> other) {
+    std::pair<bool, std::pair<Vector2D, Vector2D>> EntityModel::collide(std::weak_ptr<EntityModel> other) {
 
         if (other.expired()){
             throw "expired";
@@ -123,7 +119,7 @@ namespace Logic {
 
     }
 
-    void EntityModel::handleImpassable(std::weak_ptr<Subject> other, bool fix) {
+    void EntityModel::handleImpassable(std::weak_ptr<EntityModel> other, bool fix) {
 
 
         auto p = collide(other);
@@ -131,7 +127,6 @@ namespace Logic {
         if (!p.first){
             return;
         }
-
 
         Vector2D travelled = (position-last_position);
         Vector2D travelled_before_collision = (p.second.first-(last_position + size*0.5));
@@ -145,8 +140,10 @@ namespace Logic {
             position += to_do;
         }
 
-        other.lock()->debug_green = true;
 
+        for (std::shared_ptr<Observer> observer: observers){
+            observer->moved();
+        }
 
     }
 
@@ -196,7 +193,7 @@ namespace Logic {
         return output;
     }
 
-    bool EntityModel::handleDead(std::vector<std::shared_ptr<Subject>> others) {
+    bool EntityModel::handleDead(std::vector<std::shared_ptr<EntityModel>> others) {
         for (std::shared_ptr<Observer> observer: observers){
             observer->died();
         }
@@ -207,11 +204,7 @@ namespace Logic {
 
     }
 
-    void EntityModel::moveConfirm() {
-        for (std::shared_ptr<Observer> observer: observers){
-            observer->moved();
-        }
-    }
+
 
     int EntityModel::getDirectionIndex() const{
         Vector2D change = position-last_position;
@@ -235,7 +228,7 @@ namespace Logic {
         return best_index;
     }
 
-    void EntityModel::consume(std::weak_ptr<Subject> other) {
+    void EntityModel::consume(std::weak_ptr<EntityModel> other) {
         for (std::shared_ptr<Observer> observer: observers){
             observer->consume(other);
         }

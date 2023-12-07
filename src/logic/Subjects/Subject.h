@@ -9,26 +9,15 @@
 #include <functional>
 #include <memory>
 namespace Logic {
+    class Observer;
     class Subject {
     public:
         Subject() = default;
-        virtual void move() = 0;
-        virtual void moveConfirm() = 0;
-        virtual bool isConsumable() = 0;
 
-        virtual const Vector2D &getPosition() const = 0;
-        virtual const Vector2D &getSize() const = 0;
-        virtual std::pair<bool, std::pair<Vector2D, Vector2D>> collide(std::weak_ptr<Subject> other) = 0;
-        virtual std::shared_ptr<Move::ModeManager> getMoveManager() = 0;
-        virtual void handleImpassable(std::weak_ptr<Subject> other, bool fix = false) = 0;
-        virtual bool handleDead(std::vector<std::shared_ptr<Subject>> others) = 0;
-        virtual void consume(std::weak_ptr<Subject> other) = 0;
-        virtual void changeMode(bool fear) = 0;
-        virtual void goStartPosition() = 0;
+        void addObserver(std::shared_ptr<Observer> observer);
         virtual ~Subject();
-
-        bool debug_green = false;
     protected:
+        std::vector<std::shared_ptr<Observer>> observers;
 
 
     };

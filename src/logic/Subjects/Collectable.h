@@ -11,7 +11,7 @@ namespace Logic {
     public:
         Collectable(const Vector2D& position, const Vector2D& size, std::shared_ptr<Move::ModeManager> move_manager);
         virtual ~Collectable() override;
-        virtual bool handleDead(std::vector<std::shared_ptr<Subject>> others) override;
+        virtual bool handleDead(std::vector<std::shared_ptr<EntityModel>> others) override;
     private:
 
     };

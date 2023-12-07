@@ -9,7 +9,7 @@ namespace Logic {
 
     }
 
-    bool Pacman::handleDead(std::vector<std::shared_ptr<Subject>> others) {
+    bool Pacman::handleDead(std::vector<std::shared_ptr<EntityModel>> others) {
         for (auto other: others){
             other->goStartPosition();
         }
