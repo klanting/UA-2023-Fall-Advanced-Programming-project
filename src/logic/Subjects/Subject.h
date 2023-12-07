@@ -22,6 +22,7 @@ namespace Logic {
         virtual std::shared_ptr<Move::ModeManager> getMoveManager() = 0;
         virtual void handleImpassable(std::weak_ptr<Subject> other, bool fix = false) = 0;
         virtual bool handleDead(std::vector<std::shared_ptr<Subject>> others) = 0;
+        virtual void consume(std::weak_ptr<Subject> other) = 0;
         virtual void changeMode() = 0;
         virtual ~Subject();
 

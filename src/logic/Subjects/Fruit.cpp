@@ -13,6 +13,7 @@ namespace Logic {
         for (auto o: others){
             o->changeMode();
         }
-        return true;
+        return Collectable::handleDead(others);
+
     }
 } // Logic

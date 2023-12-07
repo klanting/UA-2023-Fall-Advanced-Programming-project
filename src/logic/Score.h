@@ -11,8 +11,12 @@ namespace Logic {
     class Score: public Observer{
     public:
         Score(std::weak_ptr<EntityModel> pacman);
+        void consume(std::weak_ptr<Subject> other) override;
         void moved() override;
+        void died() override;
     private:
+        double score;
+        double time_till_last;
         std::weak_ptr<Subject> pacman;
     };
 

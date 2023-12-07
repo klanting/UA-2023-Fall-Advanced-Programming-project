@@ -29,6 +29,8 @@ namespace Logic {
         const Vector2D &getSize() const;
         Vector2D getDirection() const;
 
+        void consume(std::weak_ptr<Subject> other);
+
         bool isUp() const;
         bool isDown() const;
         bool isLeft() const;

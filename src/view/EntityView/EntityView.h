@@ -16,6 +16,8 @@ namespace View {
     public:
         EntityView(std::weak_ptr<Logic::EntityModel> entity);
         virtual void moved();
+        void consume(std::weak_ptr<Logic::Subject> other) override;
+        void died() override;
 
     protected:
         void checkAnimation();

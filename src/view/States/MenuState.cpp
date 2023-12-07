@@ -5,8 +5,26 @@
 #include "MenuState.h"
 #include "StateManager.h"
 #include "LevelState.h"
+#include "../RenderWindowSingleton.h"
+
 namespace View {
     void MenuState::runTick() {
+        sf::Text title;
+
+        sf::Font font;
+        font.loadFromFile("arial.ttf");
+        title.setFont(font);
+
+        title.setString("Pacman");
+        title.setCharacterSize(100);
+        title.setFillColor(sf::Color{255, 255, 0});
+        title.setPosition(100, 100);
+        title.setStyle(sf::Text::Bold);
+
+        RenderWindowSingleton::getInstance()->getWindow()->draw(title);
+
+
+
 
     }
 

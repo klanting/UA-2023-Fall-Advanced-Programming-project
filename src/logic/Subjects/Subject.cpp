@@ -9,4 +9,5 @@ namespace Logic {
     Subject::~Subject() {
 
     }
+
 } // Logic

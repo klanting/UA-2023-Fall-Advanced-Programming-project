@@ -9,6 +9,7 @@
 namespace Logic {
 
     World::World(std::shared_ptr<AbstractFactory> factory) {
+        lives = 3;
 
         std::shared_ptr<Subject> s = factory->createPacman(Vector2D{0, -0.0725});
         entities.push_back(s);
@@ -48,12 +49,17 @@ namespace Logic {
         }
 
         Vector2D ghost_spawn = Vector2D{0-0.07, -0.5};
-        for (int i=0; i<1; i++){
+        for (int i=0; i<4; i++){
             double delay = 0;
-            if (delay >= 2){
-                delay = 5.0 * (i);
+
+            if (i == 1){
+                delay = 1;
             }
-            s = factory->createGhost(ghost_spawn, 5, i);
+            if (i>= 2){
+                delay = 5.0 * (i-1);
+            }
+
+            s = factory->createGhost(ghost_spawn, delay, i);
             s->getMoveManager()->makeDirection(pacman->getPosition()-s->getPosition(), {Vector2D{0, -1}});
             entities.push_back(s);
         }
@@ -112,7 +118,7 @@ namespace Logic {
         return hits;
     }
 
-    void World::doTick() {
+    bool World::doTick() {
         std::vector<std::weak_ptr<Subject>> to_be_removed = {};
 
         for (auto& e: entities){
@@ -120,18 +126,29 @@ namespace Logic {
 
             handleCollision(e);
 
+
+            if (e != pacman){
+                continue;
+            }
+
             std::vector<std::weak_ptr<Subject>> hits = checkCollision(e);
             for (auto hit: hits){
                 if (hit.lock()->isConsumable()){
+                    e->consume(hit);
                     if (hit.lock()->handleDead(entities)){
                         to_be_removed.push_back(hit);
                     }
 
+                } else{
+                    e->handleDead(entities);
+                    lives -= 1;
 
+                    if (lives == 0){
+                        std::cout << "game over" << std::endl;
+                    }
                 }
             }
 
-            e->moveConfirm();
 
         }
 
@@ -181,5 +198,7 @@ namespace Logic {
 
             e->getMoveManager()->makeDirection(pacman->getPosition()-e->getPosition(), option_directions);
         }
+
+        e->moveConfirm();
     }
 } // Logic

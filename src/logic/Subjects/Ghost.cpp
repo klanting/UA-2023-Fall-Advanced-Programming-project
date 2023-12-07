@@ -44,6 +44,8 @@ namespace Logic {
     }
 
     bool Ghost::handleDead(std::vector<std::shared_ptr<Subject>> others) {
+        EntityModel::handleDead(others);
+
         position = Vector2D{-size[0]/2, -0.5};
         consumable = false;
 

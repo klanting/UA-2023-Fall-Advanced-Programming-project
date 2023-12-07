@@ -197,6 +197,9 @@ namespace Logic {
     }
 
     bool EntityModel::handleDead(std::vector<std::shared_ptr<Subject>> others) {
+        for (std::shared_ptr<Observer> observer: observers){
+            observer->died();
+        }
         return false;
     }
 
@@ -230,6 +233,12 @@ namespace Logic {
 
         }
         return best_index;
+    }
+
+    void EntityModel::consume(std::weak_ptr<Subject> other) {
+        for (std::shared_ptr<Observer> observer: observers){
+            observer->consume(other);
+        }
     }
 
 } // Logic
