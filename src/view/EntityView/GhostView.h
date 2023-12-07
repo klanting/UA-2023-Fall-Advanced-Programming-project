@@ -1,19 +1,22 @@
-//
-// Created by tibov on 30/11/23.
-//
+
 
 #ifndef PROJECTPACMAN_GHOSTVIEW_H
 #define PROJECTPACMAN_GHOSTVIEW_H
 #include "EntityView.h"
-namespace View {
+#include "../../logic/Subjects/Ghost.h"
+namespace Logic{
+    class Ghost;
+}
 
+namespace View {
     class GhostView: public EntityView{
     public:
-        GhostView(std::weak_ptr<Logic::EntityModel> entity, int color_index);
+        GhostView(std::weak_ptr<Logic::Ghost> entity, int color_index);
     private:
         int getTop() override;
         int getLeft() override;
         int color_index;
+        std::weak_ptr<Logic::Ghost> ghost;
     };
 
 } // View

@@ -9,6 +9,7 @@
 #include "MenuState.h"
 namespace View {
     void GameOverState::runTick() {
+        key_press_delay -= Logic::Stopwatch::getInstance()->getDeltaTime();
         renderUI();
     }
 
@@ -21,6 +22,11 @@ namespace View {
         if (state_manager.expired()){
             return;
         }
+
+        if (key_press_delay > 0){
+            return;
+        }
+
         state_manager.lock()->Pop(2);
     }
 

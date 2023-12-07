@@ -6,6 +6,7 @@
 #define PROJECTPACMAN_OBSERVER_H
 #include <memory>
 #include "Subjects/Subject.h"
+
 namespace Logic {
     class Observer {
     public:

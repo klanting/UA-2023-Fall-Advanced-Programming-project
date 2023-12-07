@@ -71,5 +71,9 @@ namespace Logic {
         }
     }
 
+    bool Ghost::AlmostChase() const{
+        return fear_time < 3;
+    }
+
 
 } // Logic

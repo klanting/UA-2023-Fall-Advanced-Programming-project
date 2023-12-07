@@ -15,7 +15,7 @@ namespace View {
         void runTick() override;
         void acceptCharacter(int input, bool pressed) override;
     private:
-        void renderUI();
+        void renderUI() override;
         int animation_index = 0;
         double animation_delay = 0.5;
         sf::Texture texture;

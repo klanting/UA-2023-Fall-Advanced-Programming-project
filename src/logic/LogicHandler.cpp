@@ -5,12 +5,14 @@
 #include "LogicHandler.h"
 #include <iostream>
 #include "Stopwatch.h"
+
 namespace Logic {
     LogicHandler::LogicHandler(std::shared_ptr<AbstractFactory> factory) {
         std::cout << "logic handler started" << std::endl;
         //temp concrete factory creating
-        Controller::MovementController::getInstance();
-        world = std::make_unique<World>(factory);
+        Controller::MovementController::getInstance()->clear();
+        score = std::make_shared<Score>();
+        world = std::make_unique<World>(factory, score);
 
     }
 
@@ -19,5 +21,13 @@ namespace Logic {
         bool alive = world->doTick();
         Stopwatch::getInstance()->doTick();
         return alive;
+    }
+
+    const std::shared_ptr<Score> &LogicHandler::getScore() const {
+        return score;
+    }
+
+    int LogicHandler::getLives() const {
+        return world->getLives();
     }
 } // Logic

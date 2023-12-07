@@ -61,4 +61,9 @@ namespace Controller {
         }
         data_vector = Vector2D{0, 0};
     }
+
+    void MovementController::clear() {
+        reset_all_moves();
+
+    }
 } // Controller

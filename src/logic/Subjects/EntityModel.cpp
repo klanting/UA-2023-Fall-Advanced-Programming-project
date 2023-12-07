@@ -18,8 +18,6 @@ namespace Logic {
     }
 
     void EntityModel::move() {
-        //move function
-
 
         std::shared_ptr<Stopwatch> stopwatch = Logic::Stopwatch::getInstance();
         double delta_time = stopwatch->getDeltaTime();

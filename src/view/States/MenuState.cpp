@@ -7,7 +7,7 @@
 #include "LevelState.h"
 
 #include "../../logic/Stopwatch.h"
-#include "../Camera.h"
+
 #include "../../logic/Vector2D.h"
 namespace View {
     void MenuState::runTick() {

@@ -14,6 +14,7 @@ namespace View {
     }
 
     void LevelState::runTick() {
+        renderUI();
         bool playable = handler->doTick();
         if (playable){
             return;
@@ -43,6 +44,35 @@ namespace View {
                 break;
         }
 
+    }
+
+    void LevelState::renderUI() {
+        std::unique_ptr<sf::Text> score = std::make_unique<sf::Text>();
+        sf::Font font;
+        font.loadFromFile("arial.ttf");
+        score->setString("Score: "+std::to_string(handler->getScore()->getScore()));
+        score->setFont(font);
+        score->setCharacterSize(50);
+        score->setFillColor(sf::Color{255, 255, 0});
+
+        auto p = Camera::getInstance()->toPixels(Vector2D{-0.9, 0.2}, Vector2D{0, 0});
+
+        score->setPosition(p.first[0], p.first[1]);
+
+        RenderWindowSingleton::getInstance()->draw_bufferless(std::move(score));
+
+        std::unique_ptr<sf::Text> lives = std::make_unique<sf::Text>();
+
+        lives->setString("Lives: "+std::to_string(handler->getLives()));
+        lives->setFont(font);
+        lives->setCharacterSize(50);
+        lives->setFillColor(sf::Color{255, 255, 0});
+
+        p = Camera::getInstance()->toPixels(Vector2D{-0.9, 0.4}, Vector2D{0, 0});
+
+        lives->setPosition(p.first[0], p.first[1]);
+
+        RenderWindowSingleton::getInstance()->draw_bufferless(std::move(lives));
     }
 
 

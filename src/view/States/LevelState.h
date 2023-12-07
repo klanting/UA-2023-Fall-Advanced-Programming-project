@@ -15,6 +15,7 @@ namespace View {
         void runTick() override;
         void acceptCharacter(int input, bool pressed) override;
     private:
+        void renderUI() override;
         std::unique_ptr<Logic::LogicHandler> handler;
         std::weak_ptr<Controller::Controller> controller;
 

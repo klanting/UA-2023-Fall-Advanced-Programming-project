@@ -6,6 +6,8 @@
 #define PROJECTPACMAN_STATE_H
 #include <memory>
 #include <iostream>
+#include "../RenderWindowSingleton.h"
+#include "../Camera.h"
 namespace View {
     class StateManager;
     class State {
@@ -17,6 +19,7 @@ namespace View {
         void setManager(std::weak_ptr<StateManager> state_manager);
 
     protected:
+        virtual void renderUI() = 0;
         std::weak_ptr<StateManager> state_manager;
     };
 

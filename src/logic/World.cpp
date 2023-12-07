@@ -9,10 +9,10 @@
 
 namespace Logic {
 
-    World::World(std::shared_ptr<AbstractFactory> factory) {
+    World::World(std::shared_ptr<AbstractFactory> factory, std::shared_ptr<Score> score) {
         lives = 3;
 
-        std::shared_ptr<EntityModel> s = factory->createPacman(Vector2D{0, -0.0725});
+        std::shared_ptr<EntityModel> s = factory->createPacman(Vector2D{0, -0.0725}, score);
         entities.push_back(s);
         pacman = s;
 
@@ -225,6 +225,10 @@ namespace Logic {
 
         }
 
+    }
+
+    int World::getLives() const {
+        return lives;
     }
 
 

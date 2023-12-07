@@ -19,7 +19,7 @@ namespace Controller {
         virtual void moveDown(bool pressed) = 0;
         virtual void moveLeft(bool pressed) = 0;
         virtual void moveRight(bool pressed) = 0;
-
+        virtual void clear() = 0;
         const Vector2D &getDataVector() const;
 
     protected:

@@ -17,7 +17,7 @@ namespace Controller {
         void moveDown(bool pressed) override;
         void moveLeft(bool pressed) override;
         void moveRight(bool pressed) override;
-
+        void clear() override;
     private:
         MovementController();
         inline static std::shared_ptr<MovementController> _instance;

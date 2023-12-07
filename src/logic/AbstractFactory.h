@@ -7,6 +7,7 @@
 #include "Subjects/EntityModel.h"
 #include "Vector2D.h"
 #include "Controller/Controller.h"
+#include "Score.h"
 namespace Logic {
 
     class AbstractFactory {
@@ -14,7 +15,7 @@ namespace Logic {
         virtual std::shared_ptr<EntityModel> createCoin(const Vector2D& position) = 0;
         virtual std::shared_ptr<EntityModel> createFruit(const Vector2D& position) = 0;
         virtual std::shared_ptr<EntityModel> createGhost(const Vector2D& position, double wait_delay, int color_index) = 0;
-        virtual std::shared_ptr<EntityModel> createPacman(const Vector2D& position) = 0;
+        virtual std::shared_ptr<EntityModel> createPacman(const Vector2D& position, std::shared_ptr<Score> score) = 0;
         virtual std::shared_ptr<EntityModel> createWall(const Vector2D& position, const Vector2D &size) = 0;
     private:
     };
