@@ -13,6 +13,7 @@ namespace Logic {
     }
 
     Stopwatch::Stopwatch() {
+        tick_iteration = 0;
         start_time = steady_clock::now();
         end_time = start_time;
 
@@ -20,14 +21,19 @@ namespace Logic {
 
     }
 
-    double Stopwatch::getDeltaTime() {
+    double Stopwatch::getDeltaTime() const{
         return std::chrono::duration<double>(end_time-start_time).count();
     }
 
     void Stopwatch::doTick() {
         start_time = end_time;
         end_time = steady_clock::now();
+        tick_iteration += 1;
 
+    }
+
+    int Stopwatch::getTickIteration() const {
+        return tick_iteration;
     }
 
 

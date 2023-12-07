@@ -32,6 +32,8 @@ namespace View {
 
         int pixel_width = 40;
         int pixel_height = 40;
+
+        int last_tick_iteration = -1;
     private:
 
     };

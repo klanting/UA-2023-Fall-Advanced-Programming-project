@@ -25,17 +25,17 @@ namespace Logic {
         double delta_time = stopwatch->getDeltaTime();
         if (delta_time-wait_delay < 0){
             wait_delay -= delta_time;
-            return;
+
+        }else{
+            delta_time -= wait_delay;
+            wait_delay = 0;
+
+            Vector2D direction = move_manager->getDirection();
+
+            last_position = position;
+
+            position += direction*delta_time*speed;
         }
-
-        delta_time -= wait_delay;
-        wait_delay = 0;
-
-        Vector2D direction = move_manager->getDirection();
-
-        last_position = position;
-
-        position += direction*delta_time*speed;
 
 
         for (std::shared_ptr<Observer> observer: observers){

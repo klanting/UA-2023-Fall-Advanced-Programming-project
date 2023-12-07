@@ -11,6 +11,12 @@ namespace View {
     }
 
     void EntityView::checkAnimation() {
+        int last_tick = Logic::Stopwatch::getInstance()->getTickIteration();
+        if (last_tick_iteration == last_tick){
+            return;
+        }
+        last_tick_iteration = last_tick;
+
         double d = Logic::Stopwatch::getInstance()->getDeltaTime();
         animation_delay -= d;
         while (animation_delay < 0){
@@ -43,22 +49,6 @@ namespace View {
 
         RenderWindowSingleton::getInstance()->draw(entity, std::move(sprite));
 
-        /*
-        //debug reasons
-        std::vector<sf::Vertex> vertices;
-        vertices.push_back(sf::Vertex{sf::Vector2f(data.first[0], data.first[1]), sf::Color::Red});
-        vertices.push_back(sf::Vertex{sf::Vector2f((data.first)[0], (data.first+data.second)[1]), sf::Color::Red});
-        vertices.push_back(sf::Vertex{sf::Vector2f((data.first+data.second)[0], (data.first+data.second)[1]), sf::Color::Red});
-        vertices.push_back(sf::Vertex{sf::Vector2f((data.first+data.second)[0], (data.first)[1]), sf::Color::Red});
-        vertices.push_back(sf::Vertex{sf::Vector2f(data.first[0], data.first[1]), sf::Color::Red});
-
-        std::unique_ptr<sf::VertexArray> square = std::make_unique<sf::VertexArray>(sf::LineStrip);
-        for (auto& v: vertices){
-            square->append(v);
-        }
-
-        RenderWindowSingleton::getInstance()->draw(entity, std::move(square));
-        */
     }
 
     int EntityView::getLeft() {

@@ -34,6 +34,7 @@ namespace Logic {
             move_manager->makeDirection(Vector2D{2, 2}, {changed});
         }else if (!consumable && fear){
             consumable = true;
+            fear_time = 8;
 
             move_manager->setStrategy(std::make_unique<Move::FearMode>());
 
@@ -57,6 +58,17 @@ namespace Logic {
     void Ghost::goStartPosition() {
         EntityModel::goStartPosition();
         move_manager->makeDirection(Vector2D{2, 2}, {Vector2D{0, -1}});
+    }
+
+    void Ghost::move() {
+        EntityModel::move();
+        if (consumable){
+            fear_time -= Stopwatch::getInstance()->getDeltaTime();
+            if (fear_time < 0){
+                fear_time = 0;
+                changeMode(false);
+            }
+        }
     }
 
 

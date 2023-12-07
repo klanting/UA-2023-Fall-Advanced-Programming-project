@@ -14,7 +14,9 @@ namespace Logic {
         void changeMode(bool fear) override;
         bool handleDead(std::vector<std::shared_ptr<EntityModel>> others) override;
         void goStartPosition() override;
+        void move() override;
     private:
+        double fear_time;
     };
 
 } // Logic
