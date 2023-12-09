@@ -9,6 +9,7 @@
 #include "vector"
 #include "AbstractFactory.h"
 #include "Score.h"
+#include <map>
 namespace Logic {
 
     class World {
@@ -22,6 +23,10 @@ namespace Logic {
         std::vector<std::shared_ptr<EntityModel>> entities;
         std::vector<std::shared_ptr<EntityModel>> not_passable;
         std::shared_ptr<EntityModel> pacman;
+        std::shared_ptr<EntityModel> debug_ghost;
+
+        std::map<std::shared_ptr<EntityModel>, std::pair<Vector2D, Vector2D>> intersection_map;
+        void linkIntersections(std::shared_ptr<EntityModel> entity);
 
         std::vector<std::weak_ptr<EntityModel>> checkCollision(std::shared_ptr<EntityModel> s, bool inpassable = false);
         void handleInPassable(std::shared_ptr<EntityModel> e);

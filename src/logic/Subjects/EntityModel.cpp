@@ -238,4 +238,8 @@ namespace Logic {
 
     }
 
+    void EntityModel::setPosition(const Vector2D &position) {
+        EntityModel::position = position;
+    }
+
 } // Logic

@@ -30,6 +30,7 @@ namespace Logic {
         Vector2D operator+() const;
         Vector2D get_normalised() const;
         Vector2D getOpposed();
+        Vector2D rotate(double angle);
 
 
     private:

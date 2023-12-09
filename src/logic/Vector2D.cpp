@@ -100,5 +100,10 @@ namespace Logic {
         return Vector2D(x/scalar.x, y/scalar.y);
     }
 
+    Vector2D Vector2D::rotate(double angle) {
+        return Vector2D(this->x* cos(angle)+this->y*sin(angle), -1*this->x* sin(angle)+this->y*cos(angle));
+    }
+
+
 
 } // Logic

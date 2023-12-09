@@ -7,7 +7,6 @@
 #include "Subject.h"
 #include "../Stopwatch.h"
 namespace Logic {
-    class Observer;
     class EntityModel: public Subject{
     public:
         EntityModel(const Vector2D& position, const Vector2D &size, double speed, std::shared_ptr<Move::ModeManager> move_manager);
@@ -36,6 +35,10 @@ namespace Logic {
         bool isRight() const;
         virtual ~EntityModel() override;
         virtual void goStartPosition();
+
+        void setPosition(const Vector2D &position);
+
+        bool debug_green = false;
     protected:
         Vector2D start_position;
         Vector2D last_position;
