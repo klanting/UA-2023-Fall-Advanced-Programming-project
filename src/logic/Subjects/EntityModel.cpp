@@ -239,7 +239,12 @@ namespace Logic {
     }
 
     void EntityModel::setPosition(const Vector2D &position) {
+        EntityModel::last_position = position;
         EntityModel::position = position;
+
+        for (std::shared_ptr<Observer> observer: observers){
+            observer->moved();
+        }
     }
 
     const Vector2D &EntityModel::getLastPosition() const {
