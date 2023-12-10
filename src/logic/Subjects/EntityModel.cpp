@@ -242,4 +242,8 @@ namespace Logic {
         EntityModel::position = position;
     }
 
+    const Vector2D &EntityModel::getLastPosition() const {
+        return last_position;
+    }
+
 } // Logic

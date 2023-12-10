@@ -38,6 +38,8 @@ namespace Logic {
 
         void setPosition(const Vector2D &position);
 
+        const Vector2D &getLastPosition() const;
+
         bool debug_green = false;
     protected:
         Vector2D start_position;

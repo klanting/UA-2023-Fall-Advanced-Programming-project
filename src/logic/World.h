@@ -25,7 +25,9 @@ namespace Logic {
         std::shared_ptr<EntityModel> pacman;
         std::shared_ptr<EntityModel> debug_ghost;
 
-        std::map<std::shared_ptr<EntityModel>, std::pair<Vector2D, Vector2D>> intersection_map;
+        std::map<std::shared_ptr<EntityModel>, std::tuple<Vector2D, Vector2D, bool>> intersection_map;
+        std::map<std::shared_ptr<EntityModel>, Vector2D> intersection_center;
+
         void linkIntersections(std::shared_ptr<EntityModel> entity);
 
         std::vector<std::weak_ptr<EntityModel>> checkCollision(std::shared_ptr<EntityModel> s, bool inpassable = false);
