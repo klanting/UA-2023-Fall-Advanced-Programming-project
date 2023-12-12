@@ -11,6 +11,7 @@ namespace Logic {
 
     World::World(std::shared_ptr<AbstractFactory> factory, std::shared_ptr<Score> score) {
         lives = 3;
+        consumable_count = 0;
 
         std::shared_ptr<EntityModel> s = factory->createPacman(Vector2D{0, -0.0725}, score);
         entities.push_back(s);
@@ -47,6 +48,7 @@ namespace Logic {
         for (auto w: {Vector2D{-0.885, -0.835}, Vector2D{0.815, -0.035}}){
             s = factory->createFruit(w);
             entities.push_back(s);
+            consumable_count += 1;
         }
 
         Vector2D ghost_spawn = Vector2D{0-0.07, -0.5};
@@ -91,6 +93,7 @@ namespace Logic {
 
                 if (!found){
                     coin_buffer.push_back(s);
+                    consumable_count += 1;
                 }
             }
         }
@@ -150,8 +153,16 @@ namespace Logic {
         for (auto e: to_be_removed){
             auto it = std::find(entities.begin(), entities.end(), e.lock());
             entities.erase(it);
+            consumable_count -=1;
         }
-        return lives > 0;
+
+        bool alive = lives > 0;
+        bool still_food = consumable_count > 0;
+        if (lives && !still_food){
+
+        }
+
+        return alive && still_food;
 
     }
 
@@ -193,7 +204,7 @@ namespace Logic {
                 option_directions.erase(it2);
             }
 
-            std::cout << "col" << std::endl;
+            //std::cout << "col" << std::endl;
             e->getMoveManager()->makeDirection(pacman->getPosition()-e->getPosition(), option_directions);
 
             /*
@@ -303,18 +314,18 @@ namespace Logic {
 
             if (intersect && !std::get<2>(it->second)){
                 just_changed = true;
-                std::cout << "r2" << std::endl;
-                std::cout << "c " << center[0] << " " <<center[1] << std::endl;
+                //std::cout << "r2" << std::endl;
+                //std::cout << "c " << center[0] << " " <<center[1] << std::endl;
 
 
 
                 //std::cout << "t " << (dir.getOpposed()*latest_low.getDistance(e_low)*1.1)[0] << " " <<(dir.getOpposed()*latest_low.getDistance(e_low)*1.1)[1] << std::endl;
-                std::cout << "angle " << (best_high-center).getAngle((latest_low-center)) << std::endl;
+                //std::cout << "angle " << (best_high-center).getAngle((latest_low-center)) << std::endl;
                 double angle = (best_high-center).getAngle((latest_low-center));
                 if (angle >= M_PI/2*0.9 && angle <= M_PI || true){
                     Vector2D to = entity->getPosition() - entity->getPosition()*(+dir) + ((latest_low+best_high)*0.5- entity->getSize()*0.5)*(+dir);
-                    std::cout << "u " << entity->getPosition()[0] << " " <<entity->getPosition()[1] << std::endl;
-                    std::cout << "v " << to[0] << " " <<to[1] << std::endl;
+                    //std::cout << "u " << entity->getPosition()[0] << " " <<entity->getPosition()[1] << std::endl;
+                    //std::cout << "v " << to[0] << " " <<to[1] << std::endl;
 
                     //entity->getMoveManager()->makeDirection(pacman->getPosition(), {Vector2D{0, 0}});
                     entity->getMoveManager()->makeDirection(pacman->getPosition(), {i_dir, i_dir.getOpposed(), dir});

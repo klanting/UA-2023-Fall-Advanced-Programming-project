@@ -13,8 +13,11 @@ namespace View {
         void runTick() override;
         void acceptCharacter(int input, bool pressed) override;
     private:
+        void renderUI();
 
     };
+
+
 
 } // View
 

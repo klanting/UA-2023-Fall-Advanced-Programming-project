@@ -14,10 +14,11 @@ namespace Logic {
         time_till_last += Stopwatch::getInstance()->getDeltaTime();
     }
 
-    void Score::consume(std::weak_ptr<Subject> other) {
+    void Score::consume(std::weak_ptr<EntityModel> other) {
         auto o = other.lock();
 
-        score += std::min(1.0*(1/time_till_last), 100.0);
+        score += std::max(5.0*(2-time_till_last), 1.0);
+        score += o->bonus();
         time_till_last = 0;
         std::cout << "score " << score << std::endl;
     }
@@ -33,5 +34,9 @@ namespace Logic {
     void Score::addObserved(std::weak_ptr<EntityModel> pacman) {
         Score::pacman = pacman;
 
+    }
+
+    void Score::finishedLvl() {
+        score += 100;
     }
 } // Logic

@@ -15,6 +15,7 @@ namespace Logic {
         void goStartPosition() override;
         void move() override;
         bool AlmostChase() const;
+        int bonus() const override;
     private:
         double fear_time;
     };

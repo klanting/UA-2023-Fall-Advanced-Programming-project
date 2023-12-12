@@ -8,6 +8,7 @@
 #include <iostream>
 #include "../RenderWindowSingleton.h"
 #include "../Camera.h"
+#include "../../logic/Stopwatch.h"
 namespace View {
     class StateManager;
     class State {

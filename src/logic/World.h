@@ -36,6 +36,7 @@ namespace Logic {
         void handleActions(std::shared_ptr<EntityModel> e, std::weak_ptr<EntityModel> hit, std::vector<std::weak_ptr<EntityModel>>& to_be_removed);
 
         int lives;
+        int consumable_count;
     };
 
 

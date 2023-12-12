@@ -16,4 +16,8 @@ namespace Logic {
         return Collectable::handleDead(others);
 
     }
+
+    int Fruit::bonus() const {
+        return 100;
+    }
 } // Logic

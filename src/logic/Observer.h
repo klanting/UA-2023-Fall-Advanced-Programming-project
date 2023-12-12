@@ -11,8 +11,9 @@ namespace Logic {
     class Observer {
     public:
         virtual void moved() = 0;
-        virtual void consume(std::weak_ptr<Subject> other) = 0;
+        virtual void consume(std::weak_ptr<EntityModel> other) = 0;
         virtual void died() = 0;
+        virtual void finishedLvl() = 0;
     private:
 
     };

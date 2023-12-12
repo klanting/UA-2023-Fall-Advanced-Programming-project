@@ -11,6 +11,7 @@ namespace View {
     void GameOverState::runTick() {
         key_press_delay -= Logic::Stopwatch::getInstance()->getDeltaTime();
         renderUI();
+        Logic::Stopwatch::getInstance()->doTick();
     }
 
     void GameOverState::acceptCharacter(int input, bool pressed) {

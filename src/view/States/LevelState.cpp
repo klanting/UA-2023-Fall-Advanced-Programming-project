@@ -6,6 +6,9 @@
 #include "../ConcreteFactory.h"
 #include "StateManager.h"
 #include "GameOverState.h"
+#include "PausedState.h"
+#include "VictoryState.h"
+#include "../Scoreboard.h"
 namespace View {
     LevelState::LevelState() {
         handler = std::make_unique<Logic::LogicHandler>(std::make_shared<ConcreteFactory>());
@@ -24,10 +27,25 @@ namespace View {
             return;
         }
 
-        state_manager.lock()->Push(std::make_unique<GameOverState>());
+
+
+        if (handler->getLives() > 0){
+
+            state_manager.lock()->Push(std::make_unique<VictoryState>());
+            handler->nextLevel();
+
+        }else{
+            state_manager.lock()->Push(std::make_unique<GameOverState>());
+            Scoreboard::getInstance()->add(handler->getScore()->getScore());
+        }
+
     }
 
     void LevelState::acceptCharacter(int input, bool pressed) {
+
+        if (state_manager.expired()){
+            return;
+        }
 
         switch (input) {
             case 73:
@@ -41,6 +59,14 @@ namespace View {
                 break;
             case 74:
                 controller.lock()->moveDown(pressed);
+                break;
+            case 36:
+                if (!pressed){
+                    return;
+                }
+
+                std::cout << "Paused" << std::endl;
+                state_manager.lock()->Push(std::make_unique<PausedState>());
                 break;
         }
 

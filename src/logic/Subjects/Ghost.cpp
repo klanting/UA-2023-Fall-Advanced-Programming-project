@@ -75,5 +75,9 @@ namespace Logic {
         return fear_time < 3;
     }
 
+    int Ghost::bonus() const {
+        return 200;
+    }
+
 
 } // Logic

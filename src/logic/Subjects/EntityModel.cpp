@@ -251,4 +251,8 @@ namespace Logic {
         return last_position;
     }
 
+    int EntityModel::bonus() const{
+        return 0;
+    }
+
 } // Logic

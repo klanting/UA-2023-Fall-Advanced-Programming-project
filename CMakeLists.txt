@@ -114,7 +114,9 @@ set(view
         src/view/Camera.cpp
         src/view/Camera.h
         src/view/RenderWindowSingleton.cpp
-        src/view/RenderWindowSingleton.h)
+        src/view/RenderWindowSingleton.h
+        src/view/Scoreboard.cpp
+        src/view/Scoreboard.h)
 
 
 ADD_EXECUTABLE(ProjectPacman

@@ -9,9 +9,11 @@
 #include "../../logic/Stopwatch.h"
 
 #include "../../logic/Vector2D.h"
+#include "../Scoreboard.h"
 namespace View {
     void MenuState::runTick() {
         renderUI();
+        Logic::Stopwatch::getInstance()->doTick();
     }
 
     void MenuState::acceptCharacter(int input, bool pressed) {
@@ -50,8 +52,7 @@ namespace View {
             RenderWindowSingleton::getInstance()->draw_bufferless(std::move(logo));
         }
 
-
-        Logic::Stopwatch::getInstance()->doTick();
+        Scoreboard::getInstance()->render();
 
     }
 
