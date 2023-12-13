@@ -322,7 +322,7 @@ namespace Logic {
                 //std::cout << "t " << (dir.getOpposed()*latest_low.getDistance(e_low)*1.1)[0] << " " <<(dir.getOpposed()*latest_low.getDistance(e_low)*1.1)[1] << std::endl;
                 //std::cout << "angle " << (best_high-center).getAngle((latest_low-center)) << std::endl;
                 double angle = (best_high-center).getAngle((latest_low-center));
-                if (angle >= M_PI/2*0.9 && angle <= M_PI || true){
+                if (angle >= M_PI/2*0.9 && angle <= M_PI){
                     Vector2D to = entity->getPosition() - entity->getPosition()*(+dir) + ((latest_low+best_high)*0.5- entity->getSize()*0.5)*(+dir);
                     //std::cout << "u " << entity->getPosition()[0] << " " <<entity->getPosition()[1] << std::endl;
                     //std::cout << "v " << to[0] << " " <<to[1] << std::endl;
