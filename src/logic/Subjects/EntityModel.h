@@ -52,8 +52,6 @@ namespace Logic {
 
         std::shared_ptr<Move::ModeManager> move_manager;
 
-
-
         std::vector<Vector2D> splitDirection();
         double wait_delay;
 

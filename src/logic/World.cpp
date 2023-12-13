@@ -10,8 +10,8 @@
 
 namespace Logic {
 
-    World::World(std::shared_ptr<AbstractFactory> factory, std::shared_ptr<Score> score, double difficulty) {
-        lives = 3;
+    World::World(std::shared_ptr<AbstractFactory> factory, std::shared_ptr<Score> score, double difficulty, int lives) {
+        World::lives = lives;
         consumable_count = 0;
 
         std::shared_ptr<EntityModel> s = factory->createPacman(Vector2D{0, -0.0725}, score);
@@ -183,11 +183,13 @@ namespace Logic {
 
 
                 for (auto hit: hits){
-                    e->handleImpassable(hit, fix &&  hits.size() < 3);
+                    e->handleImpassable(hit, fix);
                     hit_wall = true;
                     np.push_back(hit);
 
                 }
+
+
             }
 
             fix = false;

@@ -13,7 +13,7 @@ namespace Logic {
         Controller::MovementController::getInstance()->clear();
         difficulty_index = 1;
         score = std::make_shared<Score>();
-        world = std::make_unique<World>(factory, score, difficulty_index);
+        world = std::make_unique<World>(factory, score, difficulty_index, 3);
 
     }
 
@@ -36,7 +36,8 @@ namespace Logic {
         std::cout << "next lvl created" << std::endl;
         Controller::MovementController::getInstance()->clear();
         difficulty_index += 0.1;
-        world = std::make_unique<World>(factory, score, difficulty_index);
+        int remaining_lives = world->getLives();
+        world = std::make_unique<World>(factory, score, difficulty_index, remaining_lives);
 
     }
 } // Logic
