@@ -7,6 +7,7 @@
 #include "iostream"
 #include "functional"
 
+
 namespace Logic {
 
     World::World(std::shared_ptr<AbstractFactory> factory, std::shared_ptr<Score> score, double difficulty) {
@@ -51,6 +52,7 @@ namespace Logic {
             consumable_count += 1;
         }
 
+        intersection_handler = std::make_shared<IntersectionHandler>(not_passable, pacman);
         Vector2D ghost_spawn = Vector2D{0-0.07, -0.5};
         for (int i=0; i<1; i++){
             double delay = 0;
@@ -66,7 +68,7 @@ namespace Logic {
             s->getMoveManager()->makeDirection(pacman->getPosition()-s->getPosition(), {Vector2D{0, -1}});
             entities.push_back(s);
 
-            linkIntersections(s);
+            intersection_handler->linkIntersections(s);
             debug_ghost = s;
         }
 
@@ -148,7 +150,7 @@ namespace Logic {
 
         }
 
-        linkIntersections(debug_ghost);
+        intersection_handler->linkIntersections(debug_ghost);
 
         for (auto e: to_be_removed){
             auto it = std::find(entities.begin(), entities.end(), e.lock());
@@ -204,15 +206,17 @@ namespace Logic {
                 option_directions.erase(it2);
             }
 
+            if (e == debug_ghost){
+                std::cout<< "collision from " << e->getDirection()[0] << " " << e->getDirection()[1] << std::endl;
+            }
             //std::cout << "col" << std::endl;
+
             e->getMoveManager()->makeDirection(pacman->getPosition()-e->getPosition(), option_directions);
 
-            /*
-            auto iti = intersection_map.find(e);
-            if (iti != intersection_map.end()){
+            if (e == debug_ghost){
+                std::cout<< "collision to " << e->getDirection()[0] << " " << e->getDirection()[1] << std::endl;
+            }
 
-                intersection_map.erase(iti);
-            }*/
 
         }
 
@@ -257,162 +261,6 @@ namespace Logic {
         return lives;
     }
 
-    void World::linkIntersections(std::shared_ptr<EntityModel> entity) {
-
-        Vector2D dir = entity->getDirection();
-        Vector2D center = entity->getPosition() + entity->getSize()*0.5;
-
-        Vector2D i_dir = dir.rotate(-1*M_PI/2.0);
-
-        Vector2D low_bound = i_dir+dir;
-        Vector2D high_bound = i_dir+dir.getOpposed();
-
-        Vector2D l_low = entity->getLastPosition() + entity->getSize()*0.5 + entity->getSize()*(i_dir+dir)*0.5;
-
-        Vector2D e_low = center + entity->getSize()*(i_dir+dir)*0.5;
-        Vector2D e_high = center + entity->getSize()*(i_dir+dir.getOpposed())*0.5;
-
-        auto iti = intersection_center.find(entity);
-        if (iti != intersection_center.end()){
-            if (center.getDistance(iti->second) < 0.12){
-                return;
-            }
-        }
-
-
-        bool just_changed = false;
-        auto it = intersection_map.find(entity);
-        if (it != intersection_map.end() && !(std::get<0>(it->second)== Vector2D{10, 10} || std::get<1>(it->second) == Vector2D{10,10})){
-            Vector2D latest_low = std::get<0>(it->second);
-            Vector2D latest_high = std::get<1>(it->second);
-            //std::cout << "a " << e_low[0] << " " << e_low[1] << std::endl;
-            if (low_bound.getAngle(latest_low-e_low) <= M_PI/4.0){
-                return;
-            }
-
-            //caclulater high again
-            Vector2D best_high = Vector2D{10, 10};
-            for (auto p: not_passable){
-                Vector2D p_center = p->getPosition() + p->getSize()*0.5;
-                if ((center-p_center).projection(i_dir).getLength() > (entity->getSize().getLength()+p->getSize().getLength())/2.0+ 0.02){
-                    continue;
-                }
-                Vector2D high = p_center + p->getSize()*(i_dir.getOpposed()+dir)*0.5;
-
-                if (high.getDistance(e_high) < best_high.getDistance(e_high) && high_bound.getAngle(high-e_high) <= M_PI/4.0*1.1){
-                    best_high = high;
-                }
-
-
-            }
-
-
-            bool intersect = latest_low.getDistance(best_high) >= entity->getSize()[0] && latest_low.getDistance(best_high) < entity->getSize()[0]*2;
-            //bool intersect2 = (latest_low-e_low).getAngle((latest_high-e_high)) >= M_PI/2.0*0.9;
-
-
-
-            if (intersect && !std::get<2>(it->second)){
-                just_changed = true;
-                //std::cout << "r2" << std::endl;
-                //std::cout << "c " << center[0] << " " <<center[1] << std::endl;
-
-
-
-                //std::cout << "t " << (dir.getOpposed()*latest_low.getDistance(e_low)*1.1)[0] << " " <<(dir.getOpposed()*latest_low.getDistance(e_low)*1.1)[1] << std::endl;
-                //std::cout << "angle " << (best_high-center).getAngle((latest_low-center)) << std::endl;
-                double angle = (best_high-center).getAngle((latest_low-center));
-                if (angle >= M_PI/2*0.9 && angle <= M_PI){
-                    Vector2D to = entity->getPosition() - entity->getPosition()*(+dir) + ((latest_low+best_high)*0.5- entity->getSize()*0.5)*(+dir);
-                    //std::cout << "u " << entity->getPosition()[0] << " " <<entity->getPosition()[1] << std::endl;
-                    //std::cout << "v " << to[0] << " " <<to[1] << std::endl;
-
-                    //entity->getMoveManager()->makeDirection(pacman->getPosition(), {Vector2D{0, 0}});
-                    entity->getMoveManager()->makeDirection(pacman->getPosition(), {i_dir, i_dir.getOpposed(), dir});
-
-                    if (entity->getDirection().getAngle(dir) > 0.01){
-                        entity->setPosition(to);
-
-                    }
-
-                    if (iti == intersection_center.end()){
-                        intersection_center.insert({entity, to+entity->getSize()*0.5});
-                    }else{
-                        iti->second = center;
-                    }
-
-
-                }
-
-                //entity->getMoveManager()->makeDirection(pacman->getPosition(), {i_dir, i_dir.getOpposed(), dir});
-
-
-
-
-
-
-            }
-
-
-
-
-        }
-
-        Vector2D best_low = Vector2D{10, 10};
-        std::weak_ptr<EntityModel> best_model_low;
-
-        Vector2D best_high = Vector2D{10, 10};
-        std::weak_ptr<EntityModel> best_model_high;
-        //lowest low
-        for (auto p: not_passable){
-            Vector2D p_center = p->getPosition() + p->getSize()*0.5;
-            if ((center-p_center).projection(i_dir).getLength() > (entity->getSize().getLength()+p->getSize().getLength())/2.0+ 0.02){
-                continue;
-            }
-
-            //std::cout << "a" << std::endl;
-
-            Vector2D low = p_center + p->getSize()*(i_dir.getOpposed()+dir.getOpposed())*0.5;
-            Vector2D high = p_center + p->getSize()*(i_dir.getOpposed()+dir)*0.5;
-
-            if (low.getDistance(e_low) < best_low.getDistance(e_low) && low_bound.getAngle(low-e_low) <= M_PI/4.0*1.1){
-                best_low = low;
-                best_model_low = p;
-            }
-
-            if (high.getDistance(e_high) < best_high.getDistance(e_high) && high_bound.getAngle(high-e_high) <= M_PI/4.0*1.1){
-                best_high = high;
-                best_model_high = p;
-            }
-
-
-        }
-
-        if (!best_model_low.expired()){
-            best_model_low.lock()->debug_green = true;
-        }
-        if (!best_model_high.expired()){
-            best_model_high.lock()->debug_green = true;
-        }
-
-        if (best_model_low.lock() == best_model_high.lock()){
-            if (it != intersection_map.end()){
-                intersection_map.erase(it);
-            }
-
-            return;
-        }
-
-
-        if (it == intersection_map.end()){
-            intersection_map.insert({entity, std::make_tuple(best_low, best_high, just_changed)});
-        }else{
-            it->second = std::make_tuple(best_low, best_high, just_changed);
-        }
-        //intersection_map.insert({entity, std::make_pair(best_low, best_high)});
-        //intersection_map[entity] = std::make_pair(best_low, best_high);
-
-    }
 
 
 } // Logic

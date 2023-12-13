@@ -10,6 +10,7 @@
 #include "AbstractFactory.h"
 #include "Score.h"
 #include <map>
+#include "IntersectionHandler.h"
 namespace Logic {
 
     class World {
@@ -24,11 +25,7 @@ namespace Logic {
         std::vector<std::shared_ptr<EntityModel>> not_passable;
         std::shared_ptr<EntityModel> pacman;
         std::shared_ptr<EntityModel> debug_ghost;
-
-        std::map<std::shared_ptr<EntityModel>, std::tuple<Vector2D, Vector2D, bool>> intersection_map;
-        std::map<std::shared_ptr<EntityModel>, Vector2D> intersection_center;
-
-        void linkIntersections(std::shared_ptr<EntityModel> entity);
+        std::shared_ptr<IntersectionHandler> intersection_handler;
 
         std::vector<std::weak_ptr<EntityModel>> checkCollision(std::shared_ptr<EntityModel> s, bool inpassable = false);
         void handleInPassable(std::shared_ptr<EntityModel> e);

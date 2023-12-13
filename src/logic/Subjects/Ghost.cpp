@@ -9,7 +9,7 @@
 namespace Logic {
     Ghost::Ghost(const Vector2D &position, double wait_delay, std::shared_ptr<Move::ModeManager> move_manager, double difficulty) : EntityModel(position, Vector2D{0.12,0.12}, 0.4*difficulty, move_manager) {
         Ghost::wait_delay = wait_delay;
-        total_fear_time = 8*difficulty;
+        total_fear_time = 8/difficulty;
     }
 
     bool Ghost::isConsumable() {
