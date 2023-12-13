@@ -56,8 +56,6 @@ namespace View {
         }
 
 
-        Logic::Stopwatch::getInstance()->doTick();
-
     }
 
     GameOverState::GameOverState() {

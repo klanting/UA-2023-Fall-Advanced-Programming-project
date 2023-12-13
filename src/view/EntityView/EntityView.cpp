@@ -55,11 +55,15 @@ namespace View {
         return 0;
     }
 
-    void EntityView::consume(std::weak_ptr<Logic::Subject> other) {
+    void EntityView::consume(std::weak_ptr<Logic::EntityModel> other) {
 
     }
 
     void EntityView::died() {
+
+    }
+
+    void EntityView::finishedLvl() {
 
     }
 

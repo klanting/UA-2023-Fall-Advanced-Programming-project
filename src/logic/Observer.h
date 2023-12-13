@@ -5,7 +5,7 @@
 #ifndef PROJECTPACMAN_OBSERVER_H
 #define PROJECTPACMAN_OBSERVER_H
 #include <memory>
-#include "Subjects/Subject.h"
+#include "Subjects/EntityModel.h"
 
 namespace Logic {
     class Observer {
