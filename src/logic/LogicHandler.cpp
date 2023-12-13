@@ -11,9 +11,9 @@ namespace Logic {
         std::cout << "logic handler started" << std::endl;
         //temp concrete factory creating
         Controller::MovementController::getInstance()->clear();
-
+        difficulty_index = 1;
         score = std::make_shared<Score>();
-        world = std::make_unique<World>(factory, score);
+        world = std::make_unique<World>(factory, score, difficulty_index);
 
     }
 
@@ -35,7 +35,8 @@ namespace Logic {
     void LogicHandler::nextLevel() {
         std::cout << "next lvl created" << std::endl;
         Controller::MovementController::getInstance()->clear();
-        world = std::make_unique<World>(factory, score);
+        difficulty_index += 0.1;
+        world = std::make_unique<World>(factory, score, difficulty_index);
 
     }
 } // Logic

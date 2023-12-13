@@ -7,8 +7,9 @@
 #include "../MoveStrategy/FearMode.h"
 #include <iostream>
 namespace Logic {
-    Ghost::Ghost(const Vector2D &position, double wait_delay, std::shared_ptr<Move::ModeManager> move_manager) : EntityModel(position, Vector2D{0.12,0.12}, 0.4,move_manager) {
+    Ghost::Ghost(const Vector2D &position, double wait_delay, std::shared_ptr<Move::ModeManager> move_manager, double difficulty) : EntityModel(position, Vector2D{0.12,0.12}, 0.4*difficulty, move_manager) {
         Ghost::wait_delay = wait_delay;
+        total_fear_time = 8*difficulty;
     }
 
     bool Ghost::isConsumable() {
@@ -22,6 +23,7 @@ namespace Logic {
             changed = old_direction;
         }
 
+
         if (consumable && !fear){
             consumable = false;
 
@@ -34,14 +36,18 @@ namespace Logic {
             move_manager->makeDirection(Vector2D{2, 2}, {changed});
         }else if (!consumable && fear){
             consumable = true;
-            fear_time = 8;
+            fear_time = total_fear_time;
 
             move_manager->setStrategy(std::make_unique<Move::FearMode>());
 
             //to pacman vector is not important
 
             move_manager->makeDirection(Vector2D{2, 2}, {changed});
+
+        }else if(fear){
+            fear_time = total_fear_time;
         }
+
     }
 
     bool Ghost::handleDead(std::vector<std::shared_ptr<EntityModel>> others) {

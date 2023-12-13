@@ -8,7 +8,7 @@
 namespace Logic {
     class Ghost: public EntityModel{
     public:
-        Ghost(const Vector2D& position, double wait_delay, std::shared_ptr<Move::ModeManager> move_manager);
+        Ghost(const Vector2D& position, double wait_delay, std::shared_ptr<Move::ModeManager> move_manager, double difficulty);
         bool isConsumable() override;
         void changeMode(bool fear) override;
         bool handleDead(std::vector<std::shared_ptr<EntityModel>> others) override;
@@ -18,6 +18,7 @@ namespace Logic {
         int bonus() const override;
     private:
         double fear_time;
+        double total_fear_time;
     };
 
 } // Logic

@@ -13,7 +13,7 @@ class StateManager: public std::enable_shared_from_this<StateManager>{
         StateManager(std::unique_ptr<State> state);
         void Push(std::unique_ptr<State> state);
         void Pop(int amount);
-        void acceptCharacter(int input, bool pressed);
+        void acceptCharacter(int input, bool pressed, const Logic::Vector2D& v);
         void runTick();
 
 

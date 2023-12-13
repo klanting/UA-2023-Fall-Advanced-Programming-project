@@ -23,13 +23,13 @@ namespace View {
 
     }
 
-    void StateManager::acceptCharacter(int input, bool pressed) {
+    void StateManager::acceptCharacter(int input, bool pressed, const Logic::Vector2D& v) {
         if (!first_ptr_set){
             state_stack.top()->setManager(weak_from_this());
             first_ptr_set = true;
         }
 
-        state_stack.top()->acceptCharacter(input, pressed);
+        state_stack.top()->acceptCharacter(input, pressed, v);
 
     }
 

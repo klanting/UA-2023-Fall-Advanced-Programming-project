@@ -4,7 +4,7 @@
 
 #include "Game.h"
 #include <iostream>
-
+#include "States/VictoryState.h"
 using namespace std;
 namespace View {
     typedef sf::RenderWindow RW;
@@ -22,10 +22,11 @@ namespace View {
             sf::Event event;
             while (window->pollEvent(event))
             {
-                if (event.type == sf::Event::KeyPressed || event.type == sf::Event::KeyReleased){
+                if (event.type == sf::Event::KeyPressed || event.type == sf::Event::KeyReleased || event.type == sf::Event::MouseButtonPressed){
                     bool pressed = event.type == sf::Event::KeyPressed;
-                    processInput(event.key.code, pressed);
+                    processInput(event.key.code, pressed, Logic::Vector2D{(double) event.mouseButton.x, (double) event.mouseButton.y});
                 }
+
 
                 if (event.type == sf::Event::Closed){
                     window->close();
@@ -44,7 +45,7 @@ namespace View {
 
     }
 
-    void Game::processInput(int input, bool pressed) {
-        state_manager->acceptCharacter(input, pressed);
+    void Game::processInput(int input, bool pressed, const Logic::Vector2D& v) {
+        state_manager->acceptCharacter(input, pressed, v);
     }
 } // View

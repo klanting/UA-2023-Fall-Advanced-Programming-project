@@ -25,6 +25,7 @@ namespace Logic {
         std::unique_ptr<Logic::World> world;
         std::shared_ptr<Score> score;
         std::shared_ptr<Controller::Controller> controller;
+        double difficulty_index;
     };
 
 } // Logic

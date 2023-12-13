@@ -43,11 +43,11 @@ namespace View {
         return c;
     }
 
-    std::shared_ptr<EntityModel> ConcreteFactory::createGhost(const Vector2D &position, double wait_delay, int color_index) {
+    std::shared_ptr<EntityModel> ConcreteFactory::createGhost(const Vector2D &position, double wait_delay, int color_index, double difficulty) {
         std::unique_ptr<Move::Mode> mode = std::make_unique<Move::ChaseMode>();
         std::shared_ptr<Move::ModeManager> move_manager = std::make_shared<Move::ModeManager>(std::move(mode));
 
-        std::shared_ptr<Logic::Ghost> c = std::make_shared<Logic::Ghost>(position, wait_delay, move_manager);
+        std::shared_ptr<Logic::Ghost> c = std::make_shared<Logic::Ghost>(position, wait_delay, move_manager, difficulty);
         c->addObserver(std::make_shared<GhostView>(c, color_index));
         return c;
     }

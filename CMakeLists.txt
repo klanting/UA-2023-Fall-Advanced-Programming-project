@@ -116,7 +116,11 @@ set(view
         src/view/RenderWindowSingleton.cpp
         src/view/RenderWindowSingleton.h
         src/view/Scoreboard.cpp
-        src/view/Scoreboard.h)
+        src/view/Scoreboard.h
+        src/view/Button.cpp
+        src/view/Button.h
+        src/view/StartButton.cpp
+        src/view/StartButton.h)
 
 
 ADD_EXECUTABLE(ProjectPacman

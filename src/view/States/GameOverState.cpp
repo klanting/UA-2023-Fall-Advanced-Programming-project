@@ -14,7 +14,7 @@ namespace View {
         Logic::Stopwatch::getInstance()->doTick();
     }
 
-    void GameOverState::acceptCharacter(int input, bool pressed) {
+    void GameOverState::acceptCharacter(int input, bool pressed, const Logic::Vector2D& v) {
         std::cout << "back_to_menu" << std::endl;
         if (!pressed){
             return;

@@ -14,7 +14,7 @@ namespace Logic {
 
     class World {
     public:
-        World(std::shared_ptr<AbstractFactory> factory, std::shared_ptr<Score> score);
+        World(std::shared_ptr<AbstractFactory> factory, std::shared_ptr<Score> score, double difficulty);
         bool doTick();
 
         int getLives() const;

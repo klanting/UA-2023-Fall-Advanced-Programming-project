@@ -6,6 +6,7 @@
 #define PROJECTPACMAN_MENUSTATE_H
 #include "State.h"
 #include "../RenderWindowSingleton.h"
+#include "../StartButton.h"
 namespace View {
 
     class MenuState: public State{
@@ -13,13 +14,13 @@ namespace View {
 
         MenuState();
         void runTick() override;
-        void acceptCharacter(int input, bool pressed) override;
+        void acceptCharacter(int input, bool pressed, const Logic::Vector2D& v) override;
     private:
         void renderUI() override;
         int animation_index = 0;
         double animation_delay = 0.5;
         sf::Texture texture;
-
+        StartButton play_button;
     };
 
 } // View

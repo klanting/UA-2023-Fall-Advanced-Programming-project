@@ -12,7 +12,7 @@ namespace View {
     public:
         GameOverState();
         void runTick() override;
-        void acceptCharacter(int input, bool pressed) override;
+        void acceptCharacter(int input, bool pressed, const Logic::Vector2D& v) override;
     private:
         void renderUI() override;
         int animation_index = 0;

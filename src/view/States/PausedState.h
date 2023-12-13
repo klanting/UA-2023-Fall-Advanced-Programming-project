@@ -5,15 +5,18 @@
 #ifndef PROJECTPACMAN_PAUSEDSTATE_H
 #define PROJECTPACMAN_PAUSEDSTATE_H
 #include "State.h"
+#include "../StartButton.h"
 namespace View {
 
     class PausedState: public State {
     public:
-        PausedState() = default;
+        PausedState();
         void runTick() override;
-        void acceptCharacter(int input, bool pressed) override;
+        void acceptCharacter(int input, bool pressed, const Logic::Vector2D& v) override;
     private:
         void renderUI();
+        sf::Texture texture;
+        StartButton continue_button;
 
     };
 

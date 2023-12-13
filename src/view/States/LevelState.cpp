@@ -41,7 +41,7 @@ namespace View {
 
     }
 
-    void LevelState::acceptCharacter(int input, bool pressed) {
+    void LevelState::acceptCharacter(int input, bool pressed, const Logic::Vector2D& v) {
 
         if (state_manager.expired()){
             return;

@@ -13,7 +13,7 @@ namespace View {
     public:
         LevelState();
         void runTick() override;
-        void acceptCharacter(int input, bool pressed) override;
+        void acceptCharacter(int input, bool pressed, const Logic::Vector2D& v) override;
     private:
         void renderUI() override;
         std::unique_ptr<Logic::LogicHandler> handler;

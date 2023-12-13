@@ -9,7 +9,7 @@
 
 namespace Logic {
 
-    World::World(std::shared_ptr<AbstractFactory> factory, std::shared_ptr<Score> score) {
+    World::World(std::shared_ptr<AbstractFactory> factory, std::shared_ptr<Score> score, double difficulty) {
         lives = 3;
         consumable_count = 0;
 
@@ -62,7 +62,7 @@ namespace Logic {
                 delay = 5.0 * (i-1);
             }
 
-            s = factory->createGhost(ghost_spawn, delay, i);
+            s = factory->createGhost(ghost_spawn, delay, i, difficulty);
             s->getMoveManager()->makeDirection(pacman->getPosition()-s->getPosition(), {Vector2D{0, -1}});
             entities.push_back(s);
 
@@ -83,7 +83,7 @@ namespace Logic {
                 }
 
                 bool found = false;
-                for (auto np: not_passable){
+                for (auto np: entities){
                     Vector2D np_pos = np->getPosition();
                     Vector2D np_pos2 = np->getPosition()+np->getSize();
                     if (s->getPosition()[0] >= np_pos[0] && s->getPosition()[0] < np_pos2[0] && s->getPosition()[1] >= np_pos[1] && s->getPosition()[1] < np_pos2[1]){
