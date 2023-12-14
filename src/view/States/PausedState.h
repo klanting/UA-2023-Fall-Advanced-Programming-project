@@ -5,7 +5,7 @@
 #ifndef PROJECTPACMAN_PAUSEDSTATE_H
 #define PROJECTPACMAN_PAUSEDSTATE_H
 #include "State.h"
-#include "../StartButton.h"
+#include "../UIObjects/StartButton.h"
 namespace View {
 
     class PausedState: public State {

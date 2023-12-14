@@ -3,9 +3,9 @@
 //
 
 #include "Button.h"
-#include "Camera.h"
+#include "../Camera.h"
 namespace View {
-    Button::Button(const Logic::Vector2D &position, const Logic::Vector2D &size): position{position}, size{size} {
+    Button::Button(const Logic::Vector2D &position, const Logic::Vector2D &size): UIObject(position, size) {
     }
 
     bool Button::isClicked(const Logic::Vector2D &click_position) {
@@ -18,7 +18,7 @@ namespace View {
         return x && y;
     }
 
-    Button::Button():position{Logic::Vector2D{0,0}}, size{Logic::Vector2D{0,0}} {
+    Button::Button(): UIObject(Logic::Vector2D{0,0}, Logic::Vector2D{0,0}) {
 
     }
 

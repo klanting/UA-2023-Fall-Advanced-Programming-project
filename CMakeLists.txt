@@ -119,12 +119,14 @@ set(view
         src/view/RenderWindowSingleton.h
         src/view/Scoreboard.cpp
         src/view/Scoreboard.h
-        src/view/Button.cpp
-        src/view/Button.h
-        src/view/StartButton.cpp
-        src/view/StartButton.h
+        src/view/UIObjects/Button.cpp
+        src/view/UIObjects/Button.h
+        src/view/UIObjects/StartButton.cpp
+        src/view/UIObjects/StartButton.h
         src/view/EntityView/IntersectionView.cpp
-        src/view/EntityView/IntersectionView.h)
+        src/view/EntityView/IntersectionView.h
+        src/view/UIObjects/UIObject.cpp
+        src/view/UIObjects/UIObject.h)
 
 
 ADD_EXECUTABLE(ProjectPacman

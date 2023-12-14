@@ -3,7 +3,7 @@
 //
 
 #include "StartButton.h"
-#include "Camera.h"
+#include "../Camera.h"
 
 namespace View {
     StartButton::StartButton(const Logic::Vector2D &position, const Logic::Vector2D &size): Button{position, size} {

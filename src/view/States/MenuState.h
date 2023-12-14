@@ -6,7 +6,7 @@
 #define PROJECTPACMAN_MENUSTATE_H
 #include "State.h"
 #include "../RenderWindowSingleton.h"
-#include "../StartButton.h"
+#include "../UIObjects/StartButton.h"
 namespace View {
 
     class MenuState: public State{
