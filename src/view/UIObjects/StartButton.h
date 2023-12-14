@@ -14,6 +14,7 @@ namespace View {
         void render() const override;
     private:
         sf::Texture texture;
+        std::shared_ptr<sf::Sprite> button_print;
 
 
     };

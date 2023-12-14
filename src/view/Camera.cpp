@@ -25,4 +25,6 @@ namespace View {
 
         return std::make_pair(pixelPosition, pixelSize);
     }
+
+
 } // View

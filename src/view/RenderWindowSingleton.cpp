@@ -36,7 +36,7 @@ namespace View {
         return window->getSize();
     }
 
-    void RenderWindowSingleton::draw_bufferless(std::unique_ptr<sf::Drawable> s) {
+    void RenderWindowSingleton::draw_bufferless(std::shared_ptr<sf::Drawable> s) {
         window->draw(*s);
     }
 

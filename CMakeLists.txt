@@ -127,6 +127,10 @@ set(view
         src/view/EntityView/IntersectionView.h
         src/view/UIObjects/UIObject.cpp
         src/view/UIObjects/UIObject.h
+        src/view/UIObjects/ContinueButton.cpp
+        src/view/UIObjects/ContinueButton.h
+        src/view/UIObjects/MenuButton.cpp
+        src/view/UIObjects/MenuButton.h
 )
 
 

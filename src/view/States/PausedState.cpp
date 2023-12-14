@@ -36,9 +36,9 @@ namespace View {
 
     void PausedState::renderUI() {
 
-        std::vector<int> top_positions = {404, 69+70+18};
-        std::vector<Logic::Vector2D> positions = {Logic::Vector2D{-0.85, -0.8}, Logic::Vector2D{-0.5, 0}};
-        std::vector<int> heights = {34, 17};
+        std::vector<int> top_positions = {404};
+        std::vector<Logic::Vector2D> positions = {Logic::Vector2D{-0.85, -0.8}};
+        std::vector<int> heights = {34};
         for (int i =0; i<top_positions.size(); i++){
             std::unique_ptr<sf::Sprite> logo = std::make_unique<sf::Sprite>();
             logo->setTexture(texture);
@@ -66,8 +66,8 @@ namespace View {
     PausedState::PausedState() {
         texture.loadFromFile("sprites/pacman_menu.png", sf::IntRect(0, 0, 450, 500));
 
-        continue_button = {Logic::Vector2D{-0.45, 0.5}, Logic::Vector2D{0.91, 0.32}};
-        home_button = {Logic::Vector2D{-0.95, 0.5}, Logic::Vector2D{0.91, 0.32}};
+        continue_button = {Logic::Vector2D{-0.175, -0.1}, Logic::Vector2D{0.35, 0.32}};
+        home_button = {Logic::Vector2D{0.6, 0.65}, Logic::Vector2D{0.35, 0.32}};
 
     }
 }

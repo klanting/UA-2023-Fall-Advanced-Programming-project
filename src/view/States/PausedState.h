@@ -6,6 +6,8 @@
 #define PROJECTPACMAN_PAUSEDSTATE_H
 #include "State.h"
 #include "../UIObjects/StartButton.h"
+#include "../UIObjects/ContinueButton.h"
+#include "../UIObjects/MenuButton.h"
 namespace View {
 
     class PausedState: public State {
@@ -16,8 +18,8 @@ namespace View {
     private:
         void renderUI();
         sf::Texture texture;
-        StartButton continue_button;
-        StartButton home_button;
+        ContinueButton continue_button;
+        MenuButton home_button;
 
     };
 

@@ -15,7 +15,7 @@ namespace View {
 
         //const std::shared_ptr<RW> &getWindow() const;
         void draw(std::weak_ptr<Logic::EntityModel> e, std::shared_ptr<sf::Drawable> s);
-        void draw_bufferless(std::unique_ptr<sf::Drawable> s);
+        void draw_bufferless(std::shared_ptr<sf::Drawable> s);
         bool isOpen();
         bool pollEvent(sf::Event& event);
         void display();
