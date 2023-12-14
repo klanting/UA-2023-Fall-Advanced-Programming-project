@@ -19,7 +19,8 @@ namespace Logic {
         pacman = s;
 
         std::vector<std::pair<Vector2D, Vector2D>> wall_positions = {};
-        std::fstream f("maps/wall_positions2.txt");
+        std::vector<std::pair<Vector2D, Vector2D>> intersection_positions = {};
+        std::fstream f("maps/map_data.txt");
 
         std::string buffer;
         std::vector<double> doubles;
@@ -31,7 +32,12 @@ namespace Logic {
                 buffer = "";
             }else if (c == '\n'){
                 doubles.push_back(std::stod(buffer));
-                wall_positions.push_back({Vector2D{doubles[0], doubles[1]}, Vector2D{doubles[2], doubles[3]}});
+                if (doubles[0] == 0){
+                    wall_positions.push_back({Vector2D{doubles[1], doubles[2]}, Vector2D{doubles[3], doubles[4]}});
+                }else if (doubles[0] == 1){
+                   intersection_positions.push_back({Vector2D{doubles[1], doubles[2]}, Vector2D{doubles[3], doubles[4]}});
+                }
+
                 doubles = {};
                 buffer = "";
             }else{
@@ -52,7 +58,12 @@ namespace Logic {
             consumable_count += 1;
         }
 
-        intersection_handler = std::make_shared<IntersectionHandler>(not_passable, pacman);
+        for (auto w: intersection_positions){
+            s = factory->createIntersection(w.first, w.second);
+            intersection.push_back(s);
+        }
+
+        //intersection_handler = std::make_shared<IntersectionHandler>(not_passable, pacman);
         Vector2D ghost_spawn = Vector2D{0-0.07, -0.5};
         for (int i=0; i<1; i++){
             double delay = 0;
@@ -68,7 +79,7 @@ namespace Logic {
             s->getMoveManager()->makeDirection(pacman->getPosition()-s->getPosition(), {Vector2D{0, -1}});
             entities.push_back(s);
 
-            intersection_handler->linkIntersections(s);
+            //intersection_handler->linkIntersections(s);
             debug_ghost = s;
         }
 
@@ -105,12 +116,14 @@ namespace Logic {
 
     }
 
-    std::vector<std::weak_ptr<EntityModel>> World::checkCollision(std::shared_ptr<EntityModel> s, bool inpassable) {
+    std::vector<std::weak_ptr<EntityModel>> World::checkCollision(std::shared_ptr<EntityModel> s, int type) {
         std::vector<std::weak_ptr<EntityModel>> hits;
 
         auto to_check = entities;
-        if (inpassable){
+        if (type == 1){
             to_check = not_passable;
+        }else if (type == 2){
+            to_check = intersection;
         }
 
         for (std::shared_ptr<EntityModel> other: to_check){
@@ -147,10 +160,32 @@ namespace Logic {
                 (this->*func)(e, hit, to_be_removed);
             }
 
+            std::vector<std::weak_ptr<EntityModel>> hits_intersection = checkCollision(e, 2);
+            for (auto hit: hits_intersection){
+                auto it = last_intersection.find(e);
+                if (it != last_intersection.end()){
+                    if (it->second == hit.lock()){
+
+                        e->handleImpassable(hit, false);
+                        Vector2D old_dir = e->getDirection();
+                        e->getMoveManager()->makeDirection(pacman->getPosition()-e->getPosition(), {old_dir.rotate(M_PI/2.0), old_dir.rotate(-1*M_PI/2.0)});
+                        last_intersection.erase(it);
+                        continue;
+                    }
+                }
+                std::cout << "intersection" << std::endl;
+
+                if (it != last_intersection.end()){
+                    it->second = hit.lock();
+                }else{
+                    last_intersection.insert({e, hit.lock()});
+                }
+            }
+
 
         }
 
-        intersection_handler->linkIntersections(debug_ghost);
+        //intersection_handler->linkIntersections(debug_ghost);
 
         for (auto e: to_be_removed){
             auto it = std::find(entities.begin(), entities.end(), e.lock());
@@ -158,11 +193,12 @@ namespace Logic {
             consumable_count -=1;
         }
 
+        for (auto i: intersection){
+            i->move();
+        }
+
         bool alive = lives > 0;
         bool still_food = consumable_count > 0;
-        if (lives && !still_food){
-
-        }
 
         return alive && still_food;
 
@@ -175,7 +211,7 @@ namespace Logic {
         while (collision){
             std::vector<std::weak_ptr<EntityModel>> np;
             for (int i = 0; i<2;i++){
-                std::vector<std::weak_ptr<EntityModel>> hits = checkCollision(e, true);
+                std::vector<std::weak_ptr<EntityModel>> hits = checkCollision(e, 1);
                 if (hits.empty()){
                     collision = false;
                     break;
@@ -208,16 +244,9 @@ namespace Logic {
                 option_directions.erase(it2);
             }
 
-            if (e == debug_ghost){
-                std::cout<< "collision from " << e->getDirection()[0] << " " << e->getDirection()[1] << std::endl;
-            }
             //std::cout << "col" << std::endl;
 
             e->getMoveManager()->makeDirection(pacman->getPosition()-e->getPosition(), option_directions);
-
-            if (e == debug_ghost){
-                std::cout<< "collision to " << e->getDirection()[0] << " " << e->getDirection()[1] << std::endl;
-            }
 
 
         }

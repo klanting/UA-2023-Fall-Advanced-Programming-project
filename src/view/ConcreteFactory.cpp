@@ -8,12 +8,14 @@
 #include "../logic/Subjects/Ghost.h"
 #include "../logic/Subjects/Pacman.h"
 #include "../logic/Subjects/Wall.h"
+#include "../logic/Subjects/Intersection.h"
 
 #include "EntityView/CoinView.h"
 #include "EntityView/FruitView.h"
 #include "EntityView/GhostView.h"
 #include "EntityView/PacmanView.h"
 #include "EntityView/WallView.h"
+#include "EntityView/IntersectionView.h"
 
 #include "../logic/MoveStrategy/ControlMode.h"
 #include "../logic/MoveStrategy/PassiveMode.h"
@@ -71,6 +73,15 @@ namespace View {
 
         std::shared_ptr<Logic::EntityModel> c = std::make_shared<Logic::Wall>(position, size, move_manager);
         c->addObserver(std::make_shared<WallView>(c));
+        return c;
+    }
+
+    std::shared_ptr<EntityModel> ConcreteFactory::createIntersection(const Vector2D &position, const Vector2D &size) {
+        std::unique_ptr<Move::Mode> mode = std::make_unique<Move::PassiveMode>();
+        std::shared_ptr<Move::ModeManager> move_manager = std::make_shared<Move::ModeManager>(std::move(mode));
+
+        std::shared_ptr<Logic::EntityModel> c = std::make_shared<Logic::Intersection>(position, size, move_manager);
+        c->addObserver(std::make_shared<IntersectionView>(c));
         return c;
     }
 } // View

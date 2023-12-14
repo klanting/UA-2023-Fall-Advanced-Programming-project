@@ -25,9 +25,13 @@ namespace Logic {
         std::vector<std::shared_ptr<EntityModel>> not_passable;
         std::shared_ptr<EntityModel> pacman;
         std::shared_ptr<EntityModel> debug_ghost;
-        std::shared_ptr<IntersectionHandler> intersection_handler;
+        //std::shared_ptr<IntersectionHandler> intersection_handler;
+        std::vector<std::shared_ptr<EntityModel>> intersection;
 
-        std::vector<std::weak_ptr<EntityModel>> checkCollision(std::shared_ptr<EntityModel> s, bool inpassable = false);
+        //last intersection
+        std::map<std::shared_ptr<EntityModel>, std::shared_ptr<EntityModel>> last_intersection;
+
+        std::vector<std::weak_ptr<EntityModel>> checkCollision(std::shared_ptr<EntityModel> s, int type = 0);
         void handleInPassable(std::shared_ptr<EntityModel> e);
         void handleActionsPacman(std::shared_ptr<EntityModel> e, std::weak_ptr<EntityModel> hit, std::vector<std::weak_ptr<EntityModel>>& to_be_removed);
         void handleActions(std::shared_ptr<EntityModel> e, std::weak_ptr<EntityModel> hit, std::vector<std::weak_ptr<EntityModel>>& to_be_removed);

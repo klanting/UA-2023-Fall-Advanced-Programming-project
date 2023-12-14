@@ -52,6 +52,8 @@ set(subjects
         src/logic/Subjects/Coin.h
         src/logic/Subjects/Fruit.cpp
         src/logic/Subjects/Fruit.h
+        src/logic/Subjects/Intersection.cpp
+        src/logic/Subjects/Intersection.h
 )
 
 set(move_strategies
@@ -122,7 +124,9 @@ set(view
         src/view/Button.cpp
         src/view/Button.h
         src/view/StartButton.cpp
-        src/view/StartButton.h)
+        src/view/StartButton.h
+        src/view/EntityView/IntersectionView.cpp
+        src/view/EntityView/IntersectionView.h)
 
 
 ADD_EXECUTABLE(ProjectPacman

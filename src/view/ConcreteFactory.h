@@ -17,6 +17,7 @@ namespace View {
         std::shared_ptr<EntityModel> createGhost(const Vector2D& position, double wait_delay, int color_index, double difficulty) override;
         std::shared_ptr<EntityModel> createPacman(const Vector2D& position, std::shared_ptr<Score> score) override;
         std::shared_ptr<EntityModel> createWall(const Vector2D& position, const Vector2D &size) override;
+        std::shared_ptr<EntityModel> createIntersection(const Vector2D& position, const Vector2D &size) override;
     private:
     };
 
