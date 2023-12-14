@@ -9,7 +9,7 @@
 namespace Logic {
     Ghost::Ghost(const Vector2D &position, double wait_delay, std::shared_ptr<Move::ModeManager> move_manager, double difficulty) : EntityModel(position, Vector2D{0.12,0.12}, 0.4*difficulty, move_manager) {
         Ghost::wait_delay = wait_delay;
-        total_fear_time = 8/difficulty;
+        total_fear_time = 8.0/difficulty;
     }
 
     bool Ghost::isConsumable() {
@@ -63,6 +63,11 @@ namespace Logic {
 
     void Ghost::goStartPosition() {
         EntityModel::goStartPosition();
+
+        //delay to prevent all ghosts being inside each other at the start
+        double d = Random::getInstance()->getRandom();
+        wait_delay += d;
+
         move_manager->makeDirection(Vector2D{2, 2}, {Vector2D{0, -1}});
     }
 
