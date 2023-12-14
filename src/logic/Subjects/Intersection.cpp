@@ -10,7 +10,7 @@ namespace Logic {
 
     }
 
-    void Intersection::handleImpassable(std::weak_ptr<EntityModel> other, bool fix) {
+    void Intersection::handleInpassable(std::weak_ptr<EntityModel> other, bool fix) {
 
     }
 } // Logic

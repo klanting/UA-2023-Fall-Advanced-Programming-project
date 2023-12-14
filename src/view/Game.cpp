@@ -40,6 +40,8 @@ namespace View {
 
             window->display();
 
+            //sf::sleep(sf::milliseconds(100));
+
         }
 
     }

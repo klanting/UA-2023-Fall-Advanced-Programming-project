@@ -65,7 +65,7 @@ namespace Logic {
 
         //intersection_handler = std::make_shared<IntersectionHandler>(not_passable, pacman);
         Vector2D ghost_spawn = Vector2D{0-0.07, -0.5};
-        for (int i=0; i<1; i++){
+        for (int i=0; i<4; i++){
             double delay = 0;
 
             if (i == 1){
@@ -78,9 +78,6 @@ namespace Logic {
             s = factory->createGhost(ghost_spawn, delay, i, difficulty);
             s->getMoveManager()->makeDirection(pacman->getPosition()-s->getPosition(), {Vector2D{0, -1}});
             entities.push_back(s);
-
-            //intersection_handler->linkIntersections(s);
-            debug_ghost = s;
         }
 
         std::vector<std::shared_ptr<EntityModel>> coin_buffer;
@@ -141,51 +138,18 @@ namespace Logic {
     }
 
     bool World::doTick() {
-        using ColHandle = void (World::*)(std::shared_ptr<EntityModel>, std::weak_ptr<EntityModel>, std::vector<std::weak_ptr<EntityModel>>&);
-        std::vector<std::weak_ptr<EntityModel>> to_be_removed = {};
+        to_be_removed.clear();
 
         for (auto& e: entities){
             e->move();
             handleInPassable(e);
 
-            ColHandle func;
-            if (e == pacman){
-                func = &World::handleActionsPacman;
-            }else{
-                func = &World::handleActions;
-            }
+            handleHit(e);
 
-            std::vector<std::weak_ptr<EntityModel>> hits = checkCollision(e);
-            for (auto hit: hits){
-                (this->*func)(e, hit, to_be_removed);
-            }
-
-            std::vector<std::weak_ptr<EntityModel>> hits_intersection = checkCollision(e, 2);
-            for (auto hit: hits_intersection){
-                auto it = last_intersection.find(e);
-                if (it != last_intersection.end()){
-                    if (it->second == hit.lock()){
-
-                        e->handleImpassable(hit, false);
-                        Vector2D old_dir = e->getDirection();
-                        e->getMoveManager()->makeDirection(pacman->getPosition()-e->getPosition(), {old_dir.rotate(M_PI/2.0), old_dir.rotate(-1*M_PI/2.0)});
-                        last_intersection.erase(it);
-                        continue;
-                    }
-                }
-                std::cout << "intersection" << std::endl;
-
-                if (it != last_intersection.end()){
-                    it->second = hit.lock();
-                }else{
-                    last_intersection.insert({e, hit.lock()});
-                }
-            }
+            handleIntersection(e);
 
 
         }
-
-        //intersection_handler->linkIntersections(debug_ghost);
 
         for (auto e: to_be_removed){
             auto it = std::find(entities.begin(), entities.end(), e.lock());
@@ -217,15 +181,11 @@ namespace Logic {
                     break;
                 }
 
-
                 for (auto hit: hits){
-                    e->handleImpassable(hit, fix);
+                    e->handleInpassable(hit, fix);
                     hit_wall = true;
                     np.push_back(hit);
-
                 }
-
-
             }
 
             fix = false;
@@ -244,17 +204,18 @@ namespace Logic {
                 option_directions.erase(it2);
             }
 
-            //std::cout << "col" << std::endl;
+            std::vector<Vector2D> option_resulting = getFutureDirections(e, option_directions);
+            if (option_resulting.empty()){
+                option_resulting.push_back(e->getDirection().getOpposed());
+            }
 
-            e->getMoveManager()->makeDirection(pacman->getPosition()-e->getPosition(), option_directions);
-
+            e->getMoveManager()->makeDirection(pacman->getPosition()-e->getPosition(), option_resulting);
 
         }
 
     }
 
-    void World::handleActionsPacman(std::shared_ptr<EntityModel> e, std::weak_ptr<EntityModel> hit,
-                                    std::vector<std::weak_ptr<EntityModel>> &to_be_removed) {
+    void World::handleActionsPacman(std::shared_ptr<EntityModel> e, std::weak_ptr<EntityModel> hit) {
 
         if (hit.lock()->isConsumable()){
             e->consume(hit);
@@ -273,16 +234,10 @@ namespace Logic {
 
     }
 
-    void World::handleActions(std::shared_ptr<EntityModel> e, std::weak_ptr<EntityModel> hit,
-                              std::vector<std::weak_ptr<EntityModel>> &to_be_removed) {
+    void World::handleActions(std::shared_ptr<EntityModel> e, std::weak_ptr<EntityModel> hit) {
         //make sure only ghosts do this
         if (hit.lock() == pacman){
-            handleActionsPacman(hit.lock(), e, to_be_removed);
-            /*
-            e->consume(hit);
-            if (hit.lock()->handleDead(entities)){
-                to_be_removed.push_back(hit);
-            }*/
+            handleActionsPacman(hit.lock(), e);
 
         }
 
@@ -292,6 +247,69 @@ namespace Logic {
         return lives;
     }
 
+    void World::handleHit(std::shared_ptr<EntityModel> e) {
+        using ColHandle = void (World::*)(std::shared_ptr<EntityModel>, std::weak_ptr<EntityModel>);
+        ColHandle func;
+        if (e == pacman){
+            func = &World::handleActionsPacman;
+        }else{
+            func = &World::handleActions;
+        }
+
+        std::vector<std::weak_ptr<EntityModel>> hits = checkCollision(e);
+        for (auto hit: hits){
+            (this->*func)(e, hit);
+        }
+
+    }
+
+    std::vector<Vector2D>
+    World::getFutureDirections(std::shared_ptr<EntityModel> e, const std::vector<Vector2D> &options) {
+        std::vector<Vector2D> option_resulting = {};
+        for (auto o: options){
+
+
+            Vector2D resultPos = e->getPosition()+o*0.05;
+            bool walkable = true;
+            for (auto np: not_passable){
+                if (e->collideFuture(np, resultPos)){
+                    walkable = false;
+                }
+            }
+            if (walkable){
+                option_resulting.push_back(o);
+            }
+        }
+
+        return option_resulting;
+    }
+
+    void World::handleIntersection(std::shared_ptr<EntityModel> e) {
+        std::vector<std::weak_ptr<EntityModel>> hits_intersection = checkCollision(e, 2);
+        for (auto hit: hits_intersection){
+            auto it = last_intersection.find(e);
+            if (it != last_intersection.end()){
+                if (it->second == hit.lock()){
+
+                    e->handleInpassable(hit, false);
+                    Vector2D old_dir = e->getDirection();
+
+                    std::vector<Vector2D> option_directions = {old_dir.rotate(M_PI/2.0), old_dir.rotate(-1*M_PI/2.0), old_dir};
+                    std::vector<Vector2D> resulting = getFutureDirections(e, option_directions);
+                    e->getMoveManager()->makeDirection(pacman->getPosition()-e->getPosition(), resulting);
+                    last_intersection.erase(it);
+                    continue;
+                }
+            }
+
+            if (it != last_intersection.end()){
+                it->second = hit.lock();
+            }else{
+                last_intersection.insert({e, hit.lock()});
+            }
+        }
+
+    }
 
 
 } // Logic

@@ -12,7 +12,7 @@ namespace Logic {
 
 
     EntityModel::EntityModel(const Vector2D &position, const Vector2D &size, double speed, std::shared_ptr<Move::ModeManager> move_manager): position{position}, speed{speed}, size{size},
-                                                                                                                                             last_position{position}, start_position{position} {
+                                                                                                                                             last_position{position}, start_position{position}{
         EntityModel::move_manager = move_manager;
         wait_delay = 0;
     }
@@ -54,6 +54,18 @@ namespace Logic {
 
     std::shared_ptr<Move::ModeManager> EntityModel::getMoveManager() {
         return move_manager;
+    }
+
+    bool EntityModel::collideFuture(std::weak_ptr<EntityModel> other, const Vector2D &new_pos) {
+        Vector2D temp = last_position;
+        last_position = position;
+        position = new_pos;
+        bool hit = collide(other).first;
+
+        position = last_position;
+        last_position = temp;
+
+        return hit;
     }
 
     std::pair<bool, std::pair<Vector2D, Vector2D>> EntityModel::collide(std::weak_ptr<EntityModel> other) {
@@ -117,7 +129,7 @@ namespace Logic {
 
     }
 
-    void EntityModel::handleImpassable(std::weak_ptr<EntityModel> other, bool fix) {
+    void EntityModel::handleInpassable(std::weak_ptr<EntityModel> other, bool fix) {
 
 
         auto p = collide(other);
@@ -131,10 +143,10 @@ namespace Logic {
 
         Vector2D mini = std::min(move_manager->getDirection() - p.second.second, move_manager->getDirection()+ p.second.second, [](const Vector2D& a, const Vector2D& b) {return a.getLength() < b.getLength();});
 
-        Vector2D to_do = mini*(+(travelled-travelled_before_collision));
         position -= (travelled - travelled_before_collision)*1.0001;
 
         if (fix){
+            Vector2D to_do = mini*(+(travelled-travelled_before_collision));
             position += to_do;
         }
 
@@ -176,20 +188,7 @@ namespace Logic {
 
     }
 
-    std::vector<Vector2D> EntityModel::splitDirection() {
-        auto v = move_manager->getDirection();
-        auto temp = {Vector2D{v[0], 0}, Vector2D{0, v[1]}};
-        std::vector<Vector2D> output = {};
 
-        for (auto t: temp){
-            if (t == Vector2D{0, 0}){
-                continue;
-            }
-            output.push_back(t);
-        }
-
-        return output;
-    }
 
     bool EntityModel::handleDead(std::vector<std::shared_ptr<EntityModel>> others) {
         for (std::shared_ptr<Observer> observer: observers){
@@ -238,21 +237,19 @@ namespace Logic {
 
     }
 
-    void EntityModel::setPosition(const Vector2D &position) {
-        EntityModel::last_position = position;
-        EntityModel::position = position;
 
-        for (std::shared_ptr<Observer> observer: observers){
-            observer->moved();
-        }
-    }
 
-    const Vector2D &EntityModel::getLastPosition() const {
-        return last_position;
-    }
+
 
     int EntityModel::bonus() const{
         return 0;
     }
+
+    void EntityModel::persistMovement() {
+        last_position = position;
+
+    }
+
+
 
 } // Logic

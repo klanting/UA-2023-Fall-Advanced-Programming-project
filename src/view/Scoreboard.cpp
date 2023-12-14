@@ -46,12 +46,12 @@ namespace View {
 
     void Scoreboard::add(unsigned int score) {
         scores.push_back(score);
+        std::sort(scores.begin(), scores.end(), std::greater<>());
 
     }
 
     Scoreboard::~Scoreboard() {
         std::fstream score_file{"scoreboard"};
-        std::sort(scores.begin(), scores.end(), std::greater<>());
         for (int i=0; i<5; i++){
             if (scores.size() <= i){
                 break;

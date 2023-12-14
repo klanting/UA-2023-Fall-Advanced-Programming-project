@@ -12,9 +12,10 @@ namespace Logic {
         EntityModel(const Vector2D& position, const Vector2D &size, double speed, std::shared_ptr<Move::ModeManager> move_manager);
 
         virtual void move();
-
         std::pair<bool, std::pair<Vector2D, Vector2D>> collide(std::weak_ptr<EntityModel> other);
-        virtual void handleImpassable(std::weak_ptr<EntityModel> other, bool fix = false);
+        bool collideFuture(std::weak_ptr<EntityModel> other, const Vector2D &new_pos);
+
+        virtual void handleInpassable(std::weak_ptr<EntityModel> other, bool fix = false);
 
         virtual bool handleDead(std::vector<std::shared_ptr<EntityModel>> others);
 
@@ -26,6 +27,7 @@ namespace Logic {
         const Vector2D &getPosition() const;
         const Vector2D &getSize() const;
         Vector2D getDirection() const;
+        void persistMovement();
 
         void consume(std::weak_ptr<EntityModel> other);
 
@@ -36,12 +38,10 @@ namespace Logic {
         virtual ~EntityModel() override;
         virtual void goStartPosition();
 
-        void setPosition(const Vector2D &position);
-
-        const Vector2D &getLastPosition() const;
 
         bool debug_green = false;
         virtual int bonus() const;
+
     protected:
         Vector2D start_position;
         Vector2D last_position;
@@ -50,9 +50,11 @@ namespace Logic {
         double speed;
         bool consumable = false;
 
+
+
         std::shared_ptr<Move::ModeManager> move_manager;
 
-        std::vector<Vector2D> splitDirection();
+
         double wait_delay;
 
     private:

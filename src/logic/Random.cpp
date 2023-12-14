@@ -3,7 +3,7 @@
 //
 
 #include "Random.h"
-
+#include <iostream>
 namespace Logic {
 
     std::shared_ptr<Random> Random::getInstance() {

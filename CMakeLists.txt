@@ -91,8 +91,6 @@ set(logic
         src/logic/Observer.h
         src/logic/Score.cpp
         src/logic/Score.h
-        src/logic/IntersectionHandler.cpp
-        src/logic/IntersectionHandler.h
 )
 
 

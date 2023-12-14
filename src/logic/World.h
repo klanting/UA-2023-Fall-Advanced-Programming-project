@@ -10,7 +10,7 @@
 #include "AbstractFactory.h"
 #include "Score.h"
 #include <map>
-#include "IntersectionHandler.h"
+
 namespace Logic {
 
     class World {
@@ -24,18 +24,22 @@ namespace Logic {
         std::vector<std::shared_ptr<EntityModel>> entities;
         std::vector<std::shared_ptr<EntityModel>> not_passable;
         std::shared_ptr<EntityModel> pacman;
-        std::shared_ptr<EntityModel> debug_ghost;
-        //std::shared_ptr<IntersectionHandler> intersection_handler;
-        std::vector<std::shared_ptr<EntityModel>> intersection;
 
-        //last intersection
+        std::vector<std::shared_ptr<EntityModel>> intersection;
         std::map<std::shared_ptr<EntityModel>, std::shared_ptr<EntityModel>> last_intersection;
 
         std::vector<std::weak_ptr<EntityModel>> checkCollision(std::shared_ptr<EntityModel> s, int type = 0);
-        void handleInPassable(std::shared_ptr<EntityModel> e);
-        void handleActionsPacman(std::shared_ptr<EntityModel> e, std::weak_ptr<EntityModel> hit, std::vector<std::weak_ptr<EntityModel>>& to_be_removed);
-        void handleActions(std::shared_ptr<EntityModel> e, std::weak_ptr<EntityModel> hit, std::vector<std::weak_ptr<EntityModel>>& to_be_removed);
 
+        void handleInPassable(std::shared_ptr<EntityModel> e);
+        void handleHit(std::shared_ptr<EntityModel> e);
+        void handleIntersection(std::shared_ptr<EntityModel> e);
+
+        void handleActionsPacman(std::shared_ptr<EntityModel> e, std::weak_ptr<EntityModel> hit);
+        void handleActions(std::shared_ptr<EntityModel> e, std::weak_ptr<EntityModel> hit);
+
+        std::vector<Vector2D> getFutureDirections(std::shared_ptr<EntityModel> e, const std::vector<Vector2D>& options);
+
+        std::vector<std::weak_ptr<EntityModel>> to_be_removed;
         int lives;
         int consumable_count;
     };
