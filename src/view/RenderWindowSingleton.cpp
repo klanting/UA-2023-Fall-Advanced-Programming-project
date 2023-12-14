@@ -19,8 +19,8 @@ namespace View {
 
 
 
-    void RenderWindowSingleton::draw(std::weak_ptr<Logic::EntityModel> e, std::unique_ptr<sf::Drawable>  s) {
-        draw_buffer[e.lock()] = std::move(s);
+    void RenderWindowSingleton::draw(std::weak_ptr<Logic::EntityModel> e, std::shared_ptr<sf::Drawable>  s) {
+        draw_buffer[e.lock()] = s;
     }
 
     void RenderWindowSingleton::display() {

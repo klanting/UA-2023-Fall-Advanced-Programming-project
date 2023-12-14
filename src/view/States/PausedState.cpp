@@ -21,6 +21,10 @@ namespace View {
             if (continue_button.isClicked(v)){
                 state_manager.lock()->Pop(1);
             }
+
+            if (home_button.isClicked(v)){
+                state_manager.lock()->Pop(2);
+            }
         }
 
         if (!pressed){
@@ -55,6 +59,7 @@ namespace View {
         }
 
         continue_button.render();
+        home_button.render();
 
     }
 
@@ -62,6 +67,7 @@ namespace View {
         texture.loadFromFile("sprites/pacman_menu.png", sf::IntRect(0, 0, 450, 500));
 
         continue_button = {Logic::Vector2D{-0.45, 0.5}, Logic::Vector2D{0.91, 0.32}};
+        home_button = {Logic::Vector2D{-0.95, 0.5}, Logic::Vector2D{0.91, 0.32}};
 
     }
 }

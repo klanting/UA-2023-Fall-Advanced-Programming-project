@@ -21,6 +21,8 @@ namespace View {
 
     template<typename T>
     EntityView<T>::EntityView(std::weak_ptr<T> entity): entity{entity}, animation_index{0}, animation_delay{0.25} {
+        sprite = std::make_shared<sf::Sprite>();
+        sprite->setTexture(texture);
 
     }
 
@@ -53,8 +55,6 @@ namespace View {
 
         PixelData data = Camera::getInstance()->toPixels(e->getPosition(), e->getSize());
 
-        std::unique_ptr<sf::Sprite> sprite = std::make_unique<sf::Sprite>();
-        sprite->setTexture(texture);
         sprite->setPosition(data.first[0], data.first[1]);
         sprite->setScale(data.second[0]/(pixel_width-2), data.second[1]/(pixel_height-2));
 
@@ -63,7 +63,7 @@ namespace View {
 
         sprite->setTextureRect(sf::IntRect(getLeft(), pixel_top, pixel_width, pixel_height));
 
-        RenderWindowSingleton::getInstance()->draw(entity, std::move(sprite));
+        RenderWindowSingleton::getInstance()->draw(entity, sprite);
 
     }
 

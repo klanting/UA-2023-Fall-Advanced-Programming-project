@@ -31,12 +31,12 @@ namespace View {
         vertices.push_back(sf::Vertex{sf::Vector2f((data.first+data.second)[0], (data.first)[1]), color});
         vertices.push_back(sf::Vertex{sf::Vector2f(data.first[0], data.first[1]), color});
 
-        std::unique_ptr<sf::VertexArray> square = std::make_unique<sf::VertexArray>(sf::LineStrip);
+        std::shared_ptr<sf::VertexArray> square = std::make_shared<sf::VertexArray>(sf::LineStrip);
         for (auto& v: vertices){
             square->append(v);
         }
 
-        RenderWindowSingleton::getInstance()->draw(entity, std::move(square));
+        RenderWindowSingleton::getInstance()->draw(entity, square);
     }
 
     WallView::WallView(std::weak_ptr<Logic::Wall> entity) : EntityView(entity) {

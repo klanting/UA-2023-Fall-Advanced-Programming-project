@@ -5,6 +5,9 @@
 #ifndef PROJECTPACMAN_UIOBJECT_H
 #define PROJECTPACMAN_UIOBJECT_H
 #include "../../logic/Vector2D.h"
+#include <SFML/Graphics.hpp>
+#include <memory>
+#include "../RenderWindowSingleton.h"
 namespace View {
 
     class UIObject {

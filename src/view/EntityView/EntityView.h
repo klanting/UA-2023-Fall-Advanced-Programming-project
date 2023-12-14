@@ -37,6 +37,8 @@ namespace View {
 
         int last_tick_iteration = -1;
 
+        std::shared_ptr<sf::Sprite> sprite;
+
     private:
 
     };

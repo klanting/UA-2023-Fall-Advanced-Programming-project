@@ -17,6 +17,7 @@ namespace View {
         void renderUI();
         sf::Texture texture;
         StartButton continue_button;
+        StartButton home_button;
 
     };
 

@@ -126,7 +126,8 @@ set(view
         src/view/EntityView/IntersectionView.cpp
         src/view/EntityView/IntersectionView.h
         src/view/UIObjects/UIObject.cpp
-        src/view/UIObjects/UIObject.h)
+        src/view/UIObjects/UIObject.h
+)
 
 
 ADD_EXECUTABLE(ProjectPacman
