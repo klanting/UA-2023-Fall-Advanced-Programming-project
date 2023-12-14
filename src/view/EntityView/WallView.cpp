@@ -39,7 +39,7 @@ namespace View {
         RenderWindowSingleton::getInstance()->draw(entity, std::move(square));
     }
 
-    WallView::WallView(std::weak_ptr<Logic::EntityModel> entity) : EntityView(entity) {
+    WallView::WallView(std::weak_ptr<Logic::Wall> entity) : EntityView(entity) {
 
     }
 

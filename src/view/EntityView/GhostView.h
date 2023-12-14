@@ -9,14 +9,14 @@ namespace Logic{
 }
 
 namespace View {
-    class GhostView: public EntityView{
+
+    class GhostView: public EntityView<Logic::Ghost>{
     public:
         GhostView(std::weak_ptr<Logic::Ghost> entity, int color_index);
     private:
         int getTop() override;
         int getLeft() override;
         int color_index;
-        std::weak_ptr<Logic::Ghost> ghost;
     };
 
 } // View

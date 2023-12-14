@@ -4,13 +4,28 @@
 
 #include "EntityView.h"
 #include "../../logic/Stopwatch.h"
+#include "../../logic/Subjects/Ghost.h"
+#include "../../logic/Subjects/Coin.h"
+#include "../../logic/Subjects/Fruit.h"
+#include "../../logic/Subjects/Pacman.h"
+#include "../../logic/Subjects/Wall.h"
+#include "../../logic/Subjects/Intersection.h"
 #include <iostream>
 namespace View {
-    EntityView::EntityView(std::weak_ptr<Logic::EntityModel> entity): entity{entity}, animation_index{0}, animation_delay{0.25} {
+    template class EntityView<Logic::Ghost>;
+    template class EntityView<Logic::Coin>;
+    template class EntityView<Logic::Fruit>;
+    template class EntityView<Logic::Pacman>;
+    template class EntityView<Logic::Wall>;
+    template class EntityView<Logic::Intersection>;
+
+    template<typename T>
+    EntityView<T>::EntityView(std::weak_ptr<T> entity): entity{entity}, animation_index{0}, animation_delay{0.25} {
 
     }
 
-    void EntityView::checkAnimation() {
+    template<typename T>
+    void EntityView<T>::checkAnimation() {
         int last_tick = Logic::Stopwatch::getInstance()->getTickIteration();
         if (last_tick_iteration == last_tick){
             return;
@@ -26,7 +41,8 @@ namespace View {
 
     }
 
-    void EntityView::moved() {
+    template<typename T>
+    void EntityView<T>::moved() {
         typedef std::pair<Logic::Vector2D, Logic::Vector2D> PixelData;
 
         if (entity.expired()){
@@ -51,19 +67,23 @@ namespace View {
 
     }
 
-    int EntityView::getLeft() {
+    template<typename T>
+    int EntityView<T>::getLeft() {
         return 0;
     }
 
-    void EntityView::consume(std::weak_ptr<Logic::EntityModel> other) {
+    template<typename T>
+    void EntityView<T>::consume(std::weak_ptr<Logic::EntityModel> other) {
 
     }
 
-    void EntityView::died() {
+    template<typename T>
+    void EntityView<T>::died() {
 
     }
 
-    void EntityView::finishedLvl() {
+    template<typename T>
+    void EntityView<T>::finishedLvl() {
 
     }
 

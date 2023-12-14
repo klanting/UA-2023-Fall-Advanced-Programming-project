@@ -9,7 +9,6 @@ namespace View {
 
     GhostView::GhostView(std::weak_ptr<Logic::Ghost> entity, int color_index) : EntityView(entity), color_index{color_index} {
         texture.loadFromFile("sprites/Sprites.png", sf::IntRect(0, 2, 40+50*6, 1000));
-        ghost = entity;
 
     }
 
@@ -51,7 +50,7 @@ namespace View {
     int GhostView::getLeft() {
         int pixel_left = color_index*50;
         if (entity.lock()->isConsumable()){
-            if (!ghost.lock()->AlmostChase()){
+            if (!entity.lock()->AlmostChase()){
                 return 0;
             }
 

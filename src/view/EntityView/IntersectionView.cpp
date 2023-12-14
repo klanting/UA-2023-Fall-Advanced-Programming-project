@@ -5,7 +5,7 @@
 #include "IntersectionView.h"
 
 namespace View {
-    IntersectionView::IntersectionView(std::weak_ptr<Logic::EntityModel> entity) : EntityView(entity) {
+    IntersectionView::IntersectionView(std::weak_ptr<Logic::Intersection> entity) : EntityView(entity) {
 
     }
 

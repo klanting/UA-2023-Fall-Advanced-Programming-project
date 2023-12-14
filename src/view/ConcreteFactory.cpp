@@ -30,7 +30,7 @@ namespace View {
         std::unique_ptr<Move::Mode> mode = std::make_unique<Move::PassiveMode>();
         std::shared_ptr<Move::ModeManager> move_manager = std::make_shared<Move::ModeManager>(std::move(mode));
 
-        std::shared_ptr<Logic::EntityModel> c = std::make_shared<Logic::Coin>(position, move_manager);
+        std::shared_ptr<Logic::Coin> c = std::make_shared<Logic::Coin>(position, move_manager);
 
         c->addObserver(std::make_shared<CoinView>(c));
         return c;
@@ -40,7 +40,7 @@ namespace View {
         std::unique_ptr<Move::Mode> mode = std::make_unique<Move::PassiveMode>();
         std::shared_ptr<Move::ModeManager> move_manager = std::make_shared<Move::ModeManager>(std::move(mode));
 
-        std::shared_ptr<Logic::EntityModel> c = std::make_shared<Logic::Fruit>(position, move_manager);
+        std::shared_ptr<Logic::Fruit> c = std::make_shared<Logic::Fruit>(position, move_manager);
         c->addObserver(std::make_shared<FruitView>(c));
         return c;
     }
@@ -59,7 +59,7 @@ namespace View {
         std::unique_ptr<Move::Mode> mode = std::make_unique<Move::ControlMode>();
         std::shared_ptr<Move::ModeManager> move_manager = std::make_shared<Move::ModeManager>(std::move(mode));
 
-        std::shared_ptr<Logic::EntityModel> c = std::make_shared<Logic::Pacman>(position, move_manager);
+        std::shared_ptr<Logic::Pacman> c = std::make_shared<Logic::Pacman>(position, move_manager);
         c->addObserver(std::make_shared<PacmanView>(c));
         c->addObserver(score);
         score->addObserved(c);
@@ -71,7 +71,7 @@ namespace View {
         std::unique_ptr<Move::Mode> mode = std::make_unique<Move::PassiveMode>();
         std::shared_ptr<Move::ModeManager> move_manager = std::make_shared<Move::ModeManager>(std::move(mode));
 
-        std::shared_ptr<Logic::EntityModel> c = std::make_shared<Logic::Wall>(position, size, move_manager);
+        std::shared_ptr<Logic::Wall> c = std::make_shared<Logic::Wall>(position, size, move_manager);
         c->addObserver(std::make_shared<WallView>(c));
         return c;
     }
@@ -80,7 +80,7 @@ namespace View {
         std::unique_ptr<Move::Mode> mode = std::make_unique<Move::PassiveMode>();
         std::shared_ptr<Move::ModeManager> move_manager = std::make_shared<Move::ModeManager>(std::move(mode));
 
-        std::shared_ptr<Logic::EntityModel> c = std::make_shared<Logic::Intersection>(position, size, move_manager);
+        std::shared_ptr<Logic::Intersection> c = std::make_shared<Logic::Intersection>(position, size, move_manager);
         c->addObserver(std::make_shared<IntersectionView>(c));
         return c;
     }

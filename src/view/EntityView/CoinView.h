@@ -5,11 +5,12 @@
 #ifndef PROJECTPACMAN_COINVIEW_H
 #define PROJECTPACMAN_COINVIEW_H
 #include "EntityView.h"
+#include "../../logic/Subjects/Coin.h"
 namespace View {
 
-    class CoinView: public EntityView{
+    class CoinView: public EntityView<Logic::Coin>{
     public:
-        CoinView(std::weak_ptr<Logic::EntityModel> entity);
+        CoinView(std::weak_ptr<Logic::Coin> entity);
     private:
         int getTop() override;
     };

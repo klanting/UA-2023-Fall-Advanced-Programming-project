@@ -5,11 +5,12 @@
 #ifndef PROJECTPACMAN_PACMANVIEW_H
 #define PROJECTPACMAN_PACMANVIEW_H
 #include "EntityView.h"
+#include "../../logic/Subjects/Pacman.h"
 namespace View {
 
-    class PacmanView: public EntityView{
+    class PacmanView: public EntityView<Logic::Pacman>{
     public:
-        PacmanView(std::weak_ptr<Logic::EntityModel> entity);
+        PacmanView(std::weak_ptr<Logic::Pacman> entity);
     private:
         int getTop() override;
         int pacman_row;

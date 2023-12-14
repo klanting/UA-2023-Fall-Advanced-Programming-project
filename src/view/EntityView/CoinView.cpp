@@ -6,7 +6,7 @@
 #include <iostream>
 namespace View {
 
-    CoinView::CoinView(std::weak_ptr<Logic::EntityModel> entity) : EntityView(entity) {
+    CoinView::CoinView(std::weak_ptr<Logic::Coin> entity) : EntityView(entity) {
         texture.loadFromFile("sprites/Sprites.png", sf::IntRect(400+10, 452+10, 40, 600));
 
         pixel_width = 20;

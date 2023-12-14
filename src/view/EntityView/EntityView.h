@@ -12,9 +12,10 @@
 #include "../RenderWindowSingleton.h"
 namespace View {
 
+    template<typename T>
     class EntityView: public Logic::Observer{
     public:
-        EntityView(std::weak_ptr<Logic::EntityModel> entity);
+        EntityView(std::weak_ptr<T> entity);
         virtual void moved();
         void consume(std::weak_ptr<Logic::EntityModel> other) override;
         void died() override;
@@ -25,7 +26,7 @@ namespace View {
         virtual int getTop() = 0;
         virtual int getLeft();
 
-        std::weak_ptr<Logic::EntityModel> entity;
+        std::weak_ptr<T> entity;
 
         sf::Texture texture;
         int animation_index;
