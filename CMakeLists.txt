@@ -133,6 +133,10 @@ set(view
         src/view/UIObjects/MenuButton.h
         src/view/UIObjects/Image.cpp
         src/view/UIObjects/Image.h
+        src/view/UIObjects/Animation.cpp
+        src/view/UIObjects/Animation.h
+        src/view/UIObjects/ImageAnimation.cpp
+        src/view/UIObjects/ImageAnimation.h
 )
 
 
