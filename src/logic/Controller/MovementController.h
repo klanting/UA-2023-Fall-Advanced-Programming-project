@@ -7,6 +7,9 @@
 #include "Controller.h"
 namespace Controller {
 
+    /**
+     * Here is a MovementController, that decides the direction based on which input keys
+     * */
     class MovementController: public Controller{
     public:
         static std::shared_ptr<MovementController> getInstance();

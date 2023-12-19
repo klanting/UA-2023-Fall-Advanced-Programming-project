@@ -25,10 +25,11 @@ namespace Controller {
 
 
     void MovementController::check_press(bool pressed, int index, const Vector2D& change) {
+        //Check if key is already pressed
         bool pressed_key = pressed_table[index];
-        if (pressed && !pressed_key){
-            //reset_all_moves();
 
+        //On key Press
+        if (pressed && !pressed_key){
             pressed_table[index] = true;
             data_vector += change;
             std::cout << "P" << index << std::endl;
@@ -36,6 +37,7 @@ namespace Controller {
 
         }
 
+        //On key Release
         if (!pressed && pressed_key){
             pressed_table[index] = false;
             data_vector -= change;
@@ -56,6 +58,7 @@ namespace Controller {
     }
 
     void MovementController::reset_all_moves() {
+        //Reset all keys that are pressed
         for (int i=0; i<4; i++){
             pressed_table[i] = false;
         }
@@ -63,6 +66,7 @@ namespace Controller {
     }
 
     void MovementController::clear() {
+        //Interface from the outside to clear all moves
         reset_all_moves();
 
     }

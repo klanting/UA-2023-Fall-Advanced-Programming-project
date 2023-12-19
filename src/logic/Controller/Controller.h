@@ -8,9 +8,13 @@
 #include <vector>
 #include "../Vector2D.h"
 namespace Controller {
-
-
     using namespace Logic;
+
+    /**
+     * Here is the controller defined, this allows an easy interface to control
+     * certain entities
+     * This class is an Abstract class so it is possible to add other controllers with other behaviours
+     * */
     class Controller {
     public:
         Controller();
