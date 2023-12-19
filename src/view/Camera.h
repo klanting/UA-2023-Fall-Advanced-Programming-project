@@ -6,6 +6,7 @@
 #define PROJECTPACMAN_CAMERA_H
 #include <memory>
 #include "../logic/Vector2D.h"
+#include "RenderWindowSingleton.h"
 namespace View {
 
     class Camera {

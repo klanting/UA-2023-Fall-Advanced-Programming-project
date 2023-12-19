@@ -12,11 +12,11 @@ namespace Logic {
         EntityModel(const Vector2D& position, const Vector2D &size, double speed, std::shared_ptr<Move::ModeManager> move_manager);
 
         virtual void move();
+
         std::pair<bool, std::pair<Vector2D, Vector2D>> collide(std::weak_ptr<EntityModel> other);
         bool collideFuture(std::weak_ptr<EntityModel> other, const Vector2D &new_pos);
 
         virtual void handleInpassable(std::weak_ptr<EntityModel> other, bool fix = false);
-
         virtual bool handleDead(std::vector<std::shared_ptr<EntityModel>> others);
 
         std::shared_ptr<Move::ModeManager> getMoveManager();

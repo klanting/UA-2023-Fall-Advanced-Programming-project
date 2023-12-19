@@ -11,7 +11,9 @@ namespace View {
 
     std::shared_ptr<Camera> Camera::getInstance() {
         if (!_instance){
-            _instance = std::shared_ptr<Camera>(new Camera{1000, 1000});
+            sf::Vector2<unsigned int> s = RenderWindowSingleton::getInstance()->getSize();
+            unsigned int min_size = std::min(s.x, s.y);
+            _instance = std::shared_ptr<Camera>(new Camera{min_size, min_size});
         }
         return _instance;
     }
