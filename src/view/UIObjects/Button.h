@@ -8,6 +8,7 @@
 #include "../RenderWindowSingleton.h"
 #include "UIObject.h"
 #include "../Camera.h"
+#include "Image.h"
 namespace View {
 
     class Button: public UIObject{

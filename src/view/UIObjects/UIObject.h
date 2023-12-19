@@ -8,6 +8,7 @@
 #include <SFML/Graphics.hpp>
 #include <memory>
 #include "../RenderWindowSingleton.h"
+#include "../Camera.h"
 namespace View {
 
     class UIObject {

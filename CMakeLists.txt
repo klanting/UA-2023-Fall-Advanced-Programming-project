@@ -131,6 +131,8 @@ set(view
         src/view/UIObjects/ContinueButton.h
         src/view/UIObjects/MenuButton.cpp
         src/view/UIObjects/MenuButton.h
+        src/view/UIObjects/Image.cpp
+        src/view/UIObjects/Image.h
 )
 
 

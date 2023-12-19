@@ -13,8 +13,7 @@ namespace View {
         MenuButton(const Logic::Vector2D& position, const Logic::Vector2D& size);
         void render() const override;
     private:
-        sf::Texture texture;
-        std::shared_ptr<sf::Sprite> button_print;
+        std::shared_ptr<Image> image;
 
     };
 
