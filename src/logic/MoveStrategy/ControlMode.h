@@ -12,6 +12,9 @@
 namespace Logic {
     namespace Move {
 
+        /**
+         * This Mode will depend his Direction on a Controller
+         * */
         class ControlMode: public Mode{
         public:
             ControlMode() =default;

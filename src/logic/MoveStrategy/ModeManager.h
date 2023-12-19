@@ -9,6 +9,10 @@
 namespace Logic {
     namespace Move {
 
+        /**
+         * This class can be seen as a Strategy Manager
+         * Each Strategy referred to as Mode decides the behaviour of an entity with regards of deciding a direction
+         * */
         class ModeManager {
         public:
             ModeManager(std::unique_ptr<Mode> mode);

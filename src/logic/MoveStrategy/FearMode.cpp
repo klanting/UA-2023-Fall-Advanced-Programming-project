@@ -6,7 +6,9 @@
 #include <iostream>
 namespace Logic {
     namespace Move {
-        void FearMode::makeDirection(const Vector2D &to_pacman, const std::vector<Vector2D> &options){
+        void FearMode::makeDirection(const Vector2D &to_entity, const std::vector<Vector2D> &options){
+
+            //decide between random choice or Manhattan choice
             std::shared_ptr<Random> r = Random::getInstance();
             double choice_value = r->getRandom();
 
@@ -15,8 +17,8 @@ namespace Logic {
                 //this choice will choose a random option
                 direction = takeRandom(options);
             }else{
-                //this choice is chose closest option
-                direction = findBest(to_pacman, options, std::greater());
+                //this choice is will choose the Direction that brings the Entity closest to Entity
+                direction = findBest(to_entity, options, std::greater());
             }
         }
     } // Logic

@@ -10,6 +10,7 @@ namespace Logic {
         }
 
         const Vector2D &ControlMode::getDirection() const {
+            //give the direction given by the controller
             return Controller::MovementController::getInstance()->getDataVector();
         }
 

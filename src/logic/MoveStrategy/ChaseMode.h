@@ -8,10 +8,15 @@
 namespace Logic {
     namespace Move {
 
+        /**
+         * Chase Mode will decide its direction by the following steps
+         * 50% chance it takes a random direction (within possible options)
+         * 50% chance it want to minimize the Manhattan distance with a give Entity Direction in my project: Direction to Pacman
+         * */
         class ChaseMode: public Mode{
         public:
             ChaseMode() = default;
-            void makeDirection(const Vector2D& to_pacman, const std::vector<Vector2D>& options) override;
+            void makeDirection(const Vector2D& to_entity, const std::vector<Vector2D>& options) override;
         private:
 
         };

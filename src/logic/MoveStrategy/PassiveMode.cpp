@@ -7,7 +7,7 @@
 namespace Logic {
     namespace Move {
         void PassiveMode::makeDirection(const Vector2D &to_pacman, const std::vector<Vector2D> &options){
-            //returns the 0 vector
+            //whatever happens keeps storing the empty vector{}
             direction =  Vector2D{0, 0};
         }
     } // Logic

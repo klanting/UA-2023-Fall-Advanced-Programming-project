@@ -8,6 +8,11 @@
 namespace Logic {
     namespace Move {
 
+        /**
+         * This Mode will make sure the direction will always be {0, 0}
+         * This Mode is made to make certain entities unmovable
+         * In my project: Walls, Fruits, Coins, Intersections
+         * */
         class PassiveMode: public Mode{
         public:
             PassiveMode() = default;

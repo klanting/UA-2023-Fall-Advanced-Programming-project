@@ -10,6 +10,10 @@
 #include <memory>
 namespace Logic {
     class Observer;
+
+    /**
+     * Abstract class to be able to add observers to entities
+     * */
     class Subject {
     public:
         Subject() = default;

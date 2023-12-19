@@ -13,15 +13,18 @@
 namespace Logic {
     namespace Move {
 
+        /**
+         * this mode decides which direction an entity goes to
+         * */
         class Mode {
         public:
             Mode();
-            virtual void makeDirection(const Vector2D& to_pacman, const std::vector<Vector2D>& options) = 0;
+            virtual void makeDirection(const Vector2D& to_entity, const std::vector<Vector2D>& options) = 0;
 
             virtual const Vector2D &getDirection() const;
 
         protected:
-            Vector2D findBest(const Vector2D& to_pacman, const std::vector<Vector2D>& options, const std::function<bool(double, double)>& op) const;
+            Vector2D findBest(const Vector2D& to_entity, const std::vector<Vector2D>& options, const std::function<bool(double, double)>& op) const;
             Vector2D takeRandom(const std::vector<Vector2D>& options) const;
             Vector2D direction;
         private:
