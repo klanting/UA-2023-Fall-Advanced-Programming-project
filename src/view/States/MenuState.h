@@ -7,6 +7,7 @@
 #include "State.h"
 #include "../RenderWindowSingleton.h"
 #include "../UIObjects/StartButton.h"
+#include "../UIObjects/ImageAnimation.h"
 namespace View {
 
     class MenuState: public State{
@@ -17,10 +18,15 @@ namespace View {
         void acceptCharacter(int input, bool pressed, const Logic::Vector2D& v) override;
     private:
         void renderUI() override;
-        int animation_index = 0;
-        double animation_delay = 0.5;
+        //int animation_index = 0;
+        //double animation_delay = 0.5;
         sf::Texture texture;
         StartButton play_button;
+
+        std::vector<std::unique_ptr<UIObject>> render_images;
+
+        void createPacmanTitleAnimation();
+        void createPacmanText();
     };
 
 } // View

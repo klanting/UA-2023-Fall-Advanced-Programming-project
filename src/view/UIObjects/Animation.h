@@ -12,7 +12,7 @@ namespace View {
         Animation(const Logic::Vector2D& position, const Logic::Vector2D& size, double delay);
         virtual void render() const override = 0;
     protected:
-        double animation_delay = 0.5;
+        mutable double animation_delay = 0.5;
 
 
     };

@@ -10,7 +10,7 @@ namespace View {
 
     class Image: public UIObject{
     public:
-        Image(const Logic::Vector2D& position, const Logic::Vector2D& size, const Logic::Vector2D& pixel_size, std::shared_ptr<sf::Sprite> sprite, const sf::Texture& texture);
+        Image(const Logic::Vector2D& position, const Logic::Vector2D& size, const Logic::Vector2D& pixel_size, const std::shared_ptr<sf::Sprite>& sprite, const sf::Texture& texture);
         void render() const override;
     private:
         Logic::Vector2D pixel_size;

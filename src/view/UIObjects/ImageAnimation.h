@@ -10,11 +10,11 @@ namespace View {
 
     class ImageAnimation: public Animation{
     public:
-        ImageAnimation(const Logic::Vector2D& position, const Logic::Vector2D& size, double delay, const std::vector<Image>& images);
+        ImageAnimation(const Logic::Vector2D& position, const Logic::Vector2D& size, double delay, std::vector<std::unique_ptr<Image>> images);
         void render() const override;
     private:
-        int animation_index = 0;
-        std::vector<Image> images;
+        mutable int animation_index = 0;
+        std::vector<std::unique_ptr<Image>> images;
 
     };
 
