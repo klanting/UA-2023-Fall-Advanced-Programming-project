@@ -15,10 +15,11 @@ namespace View {
         void acceptCharacter(int input, bool pressed, const Logic::Vector2D& v) override;
     private:
         void renderUI() override;
-        int animation_index = 0;
-        double animation_delay = 0.25;
         double key_press_delay = 1;
         sf::Texture texture;
+
+        void createGameOverTitle();
+        void createGhostAnimation();
 
     };
 

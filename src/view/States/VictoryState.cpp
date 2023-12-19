@@ -13,7 +13,6 @@ namespace View {
     }
 
     void VictoryState::acceptCharacter(int input, bool pressed, const Logic::Vector2D& v) {
-        std::cout << "back_to_menu" << std::endl;
         if (!pressed){
             return;
         }
@@ -39,7 +38,6 @@ namespace View {
             animation_position += 0.05*animation_direction;
             if (animation_position*animation_direction > 0.7 - 0.2*animation_direction){
                 animation_direction *= -1;
-                //animation_position = -0.8;
             }
         }
 

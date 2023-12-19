@@ -14,7 +14,7 @@ namespace View {
         void render() const override;
     private:
         mutable int animation_index = 0;
-        std::vector<std::unique_ptr<Image>> images;
+
 
     };
 

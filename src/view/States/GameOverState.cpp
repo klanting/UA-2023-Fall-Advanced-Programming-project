@@ -32,27 +32,12 @@ namespace View {
     }
 
     void GameOverState::renderUI() {
-        double d = Logic::Stopwatch::getInstance()->getDeltaTime();
-        animation_delay -= d;
-        while (animation_delay < 0){
-            animation_index = (animation_index + 1) % 2;
-            animation_delay += 0.25;
-        }
 
-        std::vector<int> top_positions = {69+124, 69+160+animation_index*36, 69+70+18};
-        std::vector<Logic::Vector2D> positions = {Logic::Vector2D{-0.9, -0.3}, Logic::Vector2D{0.05, -0.3}, Logic::Vector2D{-0.5, 0}};
-        std::vector<int> heights = {34, 34, 17};
-        for (int i =0; i<top_positions.size(); i++){
-            std::unique_ptr<sf::Sprite> logo = std::make_unique<sf::Sprite>();
-            logo->setTexture(texture);
 
-            logo->setTextureRect(sf::IntRect(1, top_positions[i], 300, heights[i]));
 
-            auto p = Camera::getInstance()->toPixels(positions[i], Logic::Vector2D{0, 0});
-            logo->setPosition(p.first[0], p.first[1]);
-            logo->setScale((heights[i]/34.0)*RenderWindowSingleton::getInstance()->getSize().x/300.0, (heights[i]/34.0)*RenderWindowSingleton::getInstance()->getSize().y/300.0);
 
-            RenderWindowSingleton::getInstance()->draw_bufferless(std::move(logo));
+        for (auto& img: render_images){
+            img->render();
         }
 
 
@@ -60,6 +45,45 @@ namespace View {
 
     GameOverState::GameOverState() {
         texture.loadFromFile("sprites/pacman_menu.png", sf::IntRect(0, 0, 300, 300));
+
+        createGhostAnimation();
+        createGameOverTitle();
+
+    }
+
+    void GameOverState::createGameOverTitle() {
+        std::vector<int> top_positions = {69+124, 69+70+18};
+        std::vector<Logic::Vector2D> positions = {Logic::Vector2D{-0.9, -0.3}, Logic::Vector2D{-0.5, 0}};
+        std::vector<int> heights = {34, 17};
+        std::vector<double> scalar = {1, 0.25};
+        for (int i =0; i<top_positions.size(); i++){
+            std::shared_ptr<sf::Sprite> logo = std::make_shared<sf::Sprite>();
+            logo->setTextureRect(sf::IntRect(1, top_positions[i], 300, heights[i]));
+
+            std::unique_ptr<Image> img = std::make_unique<Image>(positions[i], Logic::Vector2D{0.23*scalar[i], 0.23*scalar[i]}, Logic::Vector2D{(double) heights[i], (double) heights[i]}, logo, texture);
+
+            render_images.push_back(std::move(img));
+        }
+
+    }
+
+    void GameOverState::createGhostAnimation() {
+        std::vector<std::unique_ptr<Image>> images;
+        std::vector<int> top_positions = {(69+160+0*36), (69+160+1*36)};
+
+        Logic::Vector2D size{0.22, 0.22};
+
+        for (int i =0; i<top_positions.size(); i++){
+            std::shared_ptr<sf::Sprite> pacman_anim = std::make_unique<sf::Sprite>();
+            pacman_anim->setTextureRect(sf::IntRect(1, top_positions[i], 300, 34));
+
+            std::unique_ptr<Image> img = std::make_unique<Image>(Logic::Vector2D{0.07, -0.3}, size, Logic::Vector2D{34, 34}, pacman_anim, texture);
+
+            images.push_back(std::move(img));
+        }
+
+        std::unique_ptr<ImageAnimation> img_anim = std::make_unique<ImageAnimation>(Logic::Vector2D{0.07, -0.3}, size, 0.5, std::move(images));
+        render_images.push_back(std::move(img_anim));
 
     }
 } // View

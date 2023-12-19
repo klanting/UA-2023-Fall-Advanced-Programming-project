@@ -6,7 +6,7 @@
 #include <iostream>
 namespace View {
     ImageAnimation::ImageAnimation(const Logic::Vector2D &position, const Logic::Vector2D &size, double delay,
-                                   std::vector<std::unique_ptr<Image>> images): Animation{position, size, delay}{
+                                   std::vector<std::unique_ptr<Image>> images): Animation{position, size, delay, std::move(images)}{
         for (int i=0; i<images.size(); i++){
             ImageAnimation::images.push_back(std::move(images[i]));
         }

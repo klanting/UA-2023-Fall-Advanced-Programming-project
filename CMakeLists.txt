@@ -137,6 +137,8 @@ set(view
         src/view/UIObjects/Animation.h
         src/view/UIObjects/ImageAnimation.cpp
         src/view/UIObjects/ImageAnimation.h
+        src/view/UIObjects/PositionAnimation.cpp
+        src/view/UIObjects/PositionAnimation.h
 )
 
 

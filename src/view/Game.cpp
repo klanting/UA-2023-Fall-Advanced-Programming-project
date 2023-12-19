@@ -5,12 +5,13 @@
 #include "Game.h"
 #include <iostream>
 #include "States/VictoryState.h"
+#include "States/GameOverState.h"
 using namespace std;
 namespace View {
     typedef sf::RenderWindow RW;
     Game::Game() {
         window = RenderWindowSingleton::getInstance();
-        state_manager = make_shared<StateManager>(make_unique<MenuState>());
+        state_manager = make_shared<StateManager>(make_unique<VictoryState>());
         doGameLoop();
     }
 

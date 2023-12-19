@@ -9,6 +9,7 @@
 #include "../RenderWindowSingleton.h"
 #include "../Camera.h"
 #include "../../logic/Stopwatch.h"
+#include "../UIObjects/UIObject.h"
 namespace View {
     class StateManager;
     class State {
@@ -21,6 +22,7 @@ namespace View {
 
     protected:
         virtual void renderUI() = 0;
+        std::vector<std::unique_ptr<UIObject>> render_images;
         std::weak_ptr<StateManager> state_manager;
     };
 
