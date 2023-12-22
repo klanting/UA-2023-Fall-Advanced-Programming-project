@@ -5,7 +5,7 @@
 #ifndef PROJECTPACMAN_LOGICHANDLER_H
 #define PROJECTPACMAN_LOGICHANDLER_H
 #include "AbstractFactory.h"
-#include "World.h"
+#include "World/World.h"
 #include "Controller/MovementController.h"
 #include "Controller/Controller.h"
 #include "Score.h"

@@ -4,11 +4,11 @@
 
 #ifndef PROJECTPACMAN_WORLD_H
 #define PROJECTPACMAN_WORLD_H
-#include "Subjects/Subject.h"
-#include "Subjects/EntityModel.h"
+#include "../Subjects/Subject.h"
+#include "../Subjects/EntityModel.h"
 #include "vector"
-#include "AbstractFactory.h"
-#include "Score.h"
+#include "../AbstractFactory.h"
+#include "../Score.h"
 #include <map>
 
 namespace Logic {
@@ -21,11 +21,11 @@ namespace Logic {
         int getLives() const;
 
     private:
+        std::shared_ptr<EntityModel> pacman;
         std::vector<std::shared_ptr<EntityModel>> entities;
         std::vector<std::shared_ptr<EntityModel>> not_passable;
-        std::shared_ptr<EntityModel> pacman;
-
         std::vector<std::shared_ptr<EntityModel>> intersection;
+
         std::map<std::shared_ptr<EntityModel>, std::shared_ptr<EntityModel>> last_intersection;
 
         std::vector<std::weak_ptr<EntityModel>> checkCollision(std::shared_ptr<EntityModel> s, int type = 0);

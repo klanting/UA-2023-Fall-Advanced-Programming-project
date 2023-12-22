@@ -5,7 +5,7 @@
 #ifndef PROJECTPACMAN_LEVELSTATE_H
 #define PROJECTPACMAN_LEVELSTATE_H
 #include "State.h"
-#include "../../logic/World.h"
+#include "../../logic/World/World.h"
 #include "../../logic/LogicHandler.h"
 namespace View {
 

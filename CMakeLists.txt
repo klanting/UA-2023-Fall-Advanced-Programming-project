@@ -9,6 +9,14 @@ ENDIF()
 FIND_PACKAGE(SFML 2 COMPONENTS system window graphics)
 INCLUDE_DIRECTORIES(${SFML_INCLUDE_DIR})
 
+set(world_loading
+        src/logic/World/WorldLoader.cpp
+        src/logic/World/WorldLoader.h
+        src/logic/World/WorldReader.cpp
+        src/logic/World/WorldReader.h
+
+)
+
 set(controller
         src/logic/Controller/Controller.cpp
         src/logic/Controller/Controller.h
@@ -74,9 +82,10 @@ set(logic
         ${subjects}
         ${controller}
         ${move_strategies}
+        ${world_loading}
 
-        src/logic/World.cpp
-        src/logic/World.h
+        src/logic/World/World.cpp
+        src/logic/World/World.h
         src/logic/Random.cpp
         src/logic/Random.h
         src/logic/Stopwatch.cpp
