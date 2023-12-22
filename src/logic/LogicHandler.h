@@ -20,6 +20,7 @@ namespace Logic {
         const std::shared_ptr<Score> &getScore() const;
         int getLives() const;
         void nextLevel();
+        bool isGameOver();
     private:
         std::shared_ptr<AbstractFactory> factory;
         std::unique_ptr<Logic::World> world;

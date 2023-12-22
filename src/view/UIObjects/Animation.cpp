@@ -10,6 +10,9 @@ namespace View {
             Animation::images.push_back(std::move(images[i]));
         }
 
+        animation_delay = delay;
+        total_delay = delay;
+
     }
 
 } // View

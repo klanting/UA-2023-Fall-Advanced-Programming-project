@@ -40,4 +40,9 @@ namespace Logic {
         world = std::make_unique<World>(factory, score, difficulty_index, remaining_lives);
 
     }
+
+
+    bool LogicHandler::isGameOver() {
+        return getLives() <= 0;
+    }
 } // Logic

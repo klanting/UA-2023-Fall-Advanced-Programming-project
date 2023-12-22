@@ -5,6 +5,7 @@
 #ifndef PROJECTPACMAN_VICTORYSTATE_H
 #define PROJECTPACMAN_VICTORYSTATE_H
 #include "State.h"
+#include "../UIObjects/PositionAnimation.h"
 namespace View {
 
     class VictoryState: public State{
@@ -21,6 +22,8 @@ namespace View {
         double animation_delay = 0.25;
         double animation_position = -0.9;
         int animation_direction = 1;
+
+        void createEatAnimation();
 
     };
 

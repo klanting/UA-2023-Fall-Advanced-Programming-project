@@ -12,6 +12,8 @@ namespace View {
     public:
         Image(const Logic::Vector2D& position, const Logic::Vector2D& size, const Logic::Vector2D& pixel_size, const std::shared_ptr<sf::Sprite>& sprite, const sf::Texture& texture);
         void render() const override;
+        void setPosition(const Logic::Vector2D& position);
+        Logic::Vector2D getPosition();
     private:
         Logic::Vector2D pixel_size;
         std::shared_ptr<sf::Sprite> sprite;

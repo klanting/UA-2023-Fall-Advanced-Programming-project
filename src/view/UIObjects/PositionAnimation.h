@@ -1,23 +1,22 @@
 //
-// Created by tibov on 19/12/23.
+// Created by tibov on 22/12/23.
 //
 
 #ifndef PROJECTPACMAN_POSITIONANIMATION_H
 #define PROJECTPACMAN_POSITIONANIMATION_H
 #include "Animation.h"
+#include "Image.h"
 namespace View {
 
     class PositionAnimation: public Animation{
     public:
-        PositionAnimation(const Logic::Vector2D& position, const Logic::Vector2D& size, double delay, std::vector<std::unique_ptr<Image>> images, double left_bound, double right_bound);
+        PositionAnimation(double delay, std::vector<std::unique_ptr<Image>> images, const Logic::Vector2D& from, const Logic::Vector2D& to);
         void render() const override;
     private:
-        double left_bound = -1;
-        double right_bound = 1;
-
-        mutable double animation_position = -0.9;
+        mutable double animation_position = 0;
         mutable int animation_direction = 1;
-        std::vector<std::unique_ptr<Image>> images;
+        Logic::Vector2D start_position;
+        Logic::Vector2D end_position;
 
     };
 

@@ -1,17 +1,32 @@
 //
-// Created by tibov on 19/12/23.
+// Created by tibov on 22/12/23.
 //
 
 #include "PositionAnimation.h"
 
 namespace View {
-    PositionAnimation::PositionAnimation(const Logic::Vector2D &position, const Logic::Vector2D &size, double delay,
-                                         std::vector<std::unique_ptr<Image>> images, double left_bound,
-                                         double right_bound): Animation{position, size, delay, std::move(images)}, left_bound{left_bound}, right_bound{right_bound} {
+    void PositionAnimation::render() const {
+        double d = Logic::Stopwatch::getInstance()->getDeltaTime();
+        animation_delay -= d;
+        while (animation_delay < 0){
+            animation_delay += total_delay;
+            animation_position += 0.037*animation_direction;
+            if (animation_position >= 1 || animation_position <= 0){
+                animation_direction *= -1;
+            }
+        }
+
+        Logic::Vector2D resulting_position = start_position*(1-animation_position)+end_position*animation_position;
+        for (auto& m: images){
+            m->setPosition(resulting_position);
+            m->render();
+        }
 
     }
 
-    void PositionAnimation::render() const {
+    PositionAnimation::PositionAnimation(double delay, std::vector<std::unique_ptr<Image>> images, const Logic::Vector2D &from,
+                                         const Logic::Vector2D &to): Animation{Logic::Vector2D{0, 0}, Logic::Vector2D{0, 0}, delay, std::move(images)},
+                                                                     start_position{from}, end_position{to} {
 
     }
 } // View

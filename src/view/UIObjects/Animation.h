@@ -14,6 +14,7 @@ namespace View {
         virtual void render() const override = 0;
     protected:
         mutable double animation_delay = 0.5;
+        double total_delay = 0.5;
         std::vector<std::unique_ptr<Image>> images;
 
 

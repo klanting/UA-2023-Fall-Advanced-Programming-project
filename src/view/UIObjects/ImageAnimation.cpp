@@ -18,7 +18,7 @@ namespace View {
         animation_delay -= d;
         while (animation_delay < 0){
             animation_index = (animation_index + 1) % (int) images.size();
-            animation_delay += 0.5;
+            animation_delay += total_delay;
         }
 
         images[animation_index]->render();

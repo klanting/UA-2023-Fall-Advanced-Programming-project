@@ -29,7 +29,7 @@ namespace View {
 
 
 
-        if (handler->getLives() > 0){
+        if (!handler->isGameOver()){
 
             state_manager.lock()->Push(std::make_unique<VictoryState>());
             handler->nextLevel();
