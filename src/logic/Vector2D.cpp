@@ -78,6 +78,8 @@ namespace Logic {
             return y;
         }
 
+        return 0;
+
     }
 
     Vector2D Vector2D::operator+() const {

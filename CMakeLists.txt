@@ -152,17 +152,20 @@ set(view
         src/view/UIObjects/CutOffAnimation.h
 )
 
+ADD_LIBRARY(logic_lib STATIC ${logic})
+ADD_LIBRARY(representation_lib STATIC ${view})
 
 ADD_EXECUTABLE(ProjectPacman
         src/main.cpp
-        ${logic}
-        ${view}
-
 )
 
 set(CMAKE_INSTALL_PREFIX install)
 
-TARGET_LINK_LIBRARIES(ProjectPacman sfml-system sfml-graphics sfml-window)
+TARGET_LINK_LIBRARIES(representation_lib sfml-system sfml-graphics sfml-window)
+TARGET_LINK_LIBRARIES(representation_lib logic_lib)
+TARGET_LINK_LIBRARIES(ProjectPacman representation_lib)
+
+
 
 install(TARGETS ProjectPacman
         DESTINATION ${CMAKE_INSTALL_PREFIX}
