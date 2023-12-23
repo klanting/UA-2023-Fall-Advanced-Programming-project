@@ -35,13 +35,10 @@ namespace View {
     }
 
     void PausedState::renderUI() {
+        State::renderUI();
 
         continue_button.render();
         home_button.render();
-
-        for (auto& img: render_images){
-            img->render();
-        }
 
     }
 
@@ -59,4 +56,5 @@ namespace View {
         render_images.push_back(std::move(img));
 
     }
+
 }

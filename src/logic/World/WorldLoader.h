@@ -14,11 +14,11 @@ namespace Logic::WorldLoading {
 
     class WorldLoader {
     public:
-        WorldLoader(const std::shared_ptr<AbstractFactory>& factory, const std::shared_ptr<Score>& score);
+        WorldLoader(std::unique_ptr<AbstractFactory> factory, const std::shared_ptr<Score>& score);
         virtual std::unique_ptr<World> load(double difficulty, int lives) = 0;
 
     protected:
-        std::shared_ptr<AbstractFactory> factory;
+        std::unique_ptr<AbstractFactory> factory;
         std::shared_ptr<Score> score;
 
 

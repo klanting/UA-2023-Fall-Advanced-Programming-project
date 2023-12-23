@@ -11,7 +11,7 @@
 #include "../Scoreboard.h"
 namespace View {
     LevelState::LevelState() {
-        handler = std::make_unique<Logic::LogicHandler>(std::make_shared<ConcreteFactory>());
+        handler = std::make_unique<Logic::LogicHandler>(std::move(std::make_unique<ConcreteFactory>()));
         controller = Controller::MovementController::getInstance();
 
     }

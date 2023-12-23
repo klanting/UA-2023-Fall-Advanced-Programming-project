@@ -21,7 +21,7 @@ namespace View {
         void setManager(std::weak_ptr<StateManager> state_manager);
 
     protected:
-        virtual void renderUI() = 0;
+        virtual void renderUI();
         std::vector<std::unique_ptr<UIObject>> render_images;
         std::weak_ptr<StateManager> state_manager;
     };

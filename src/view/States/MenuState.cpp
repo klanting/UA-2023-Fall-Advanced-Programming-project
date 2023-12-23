@@ -38,9 +38,7 @@ namespace View {
     void MenuState::renderUI() {
         play_button.render();
 
-        for (auto& img: render_images){
-            img->render();
-        }
+        State::renderUI();
 
         Scoreboard::getInstance()->render();
 

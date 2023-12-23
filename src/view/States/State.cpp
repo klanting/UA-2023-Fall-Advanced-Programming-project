@@ -9,4 +9,11 @@ namespace View {
     void State::setManager(std::weak_ptr<StateManager> state_manager) {
         State::state_manager = state_manager;
     }
+
+    void State::renderUI() {
+        for (auto& img: render_images){
+            img->render();
+        }
+
+    }
 } // View

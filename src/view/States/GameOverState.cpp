@@ -31,13 +31,7 @@ namespace View {
         state_manager.lock()->Pop(2);
     }
 
-    void GameOverState::renderUI() {
-        for (auto& img: render_images){
-            img->render();
-        }
 
-
-    }
 
     GameOverState::GameOverState() {
         texture.loadFromFile("sprites/pacman_menu.png", sf::IntRect(0, 0, 300, 300));

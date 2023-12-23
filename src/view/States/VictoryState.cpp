@@ -31,12 +31,6 @@ namespace View {
 
     }
 
-    void VictoryState::renderUI() {
-        for (auto& img: render_images){
-            img->render();
-        }
-
-    }
 
     VictoryState::VictoryState() {
         texture.loadFromFile("sprites/pacman_menu.png", sf::IntRect(1, 0, 500, 500));

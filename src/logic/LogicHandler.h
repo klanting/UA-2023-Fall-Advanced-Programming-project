@@ -14,7 +14,7 @@ namespace Logic {
 
     class LogicHandler {
     public:
-        LogicHandler(std::shared_ptr<AbstractFactory> factory);
+        LogicHandler(std::unique_ptr<AbstractFactory> factory);
 
         bool doTick();
 

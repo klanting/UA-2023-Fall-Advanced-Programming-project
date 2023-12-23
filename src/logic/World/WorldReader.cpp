@@ -117,7 +117,7 @@ namespace Logic::WorldLoading {
         return world_ptr;
     }
 
-    WorldReader::WorldReader(const std::shared_ptr<AbstractFactory> &factory, const std::shared_ptr<Score>& score) : WorldLoader(factory, score) {
+    WorldReader::WorldReader(std::unique_ptr<AbstractFactory> factory, const std::shared_ptr<Score>& score) : WorldLoader(std::move(factory), score) {
 
     }
 } // Logic::WorldLoading
