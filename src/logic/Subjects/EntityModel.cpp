@@ -85,7 +85,7 @@ namespace Logic {
 
         bool collided = false;
 
-        double best = std::numeric_limits<double>::infinity();
+        double best = -1;
         int best_index = -1;
         for (int i = 0; i < 2; i++){
             bool old_between = (center_other- other_lock->getSize()*0.5)[(i+1)%2] <= (center_this_last+ size*0.5)[(i+1)%2] && (center_other + other_lock->getSize()*0.5)[(i+1)%2] >= (center_this_last- size*0.5)[(i+1)%2];
@@ -106,7 +106,7 @@ namespace Logic {
             Vector2D t2 = (center_other + (other_lock->getSize()*0.5) + change - center_this)/distance;
 
             for (auto t: {t1, t2}){
-                if (t[i] > 0 && t[i] < best){
+                if (t[i] > 0 && t[i] <= 1 && t[i] > best){
                     best = t[i];
                     best_index = i;
                 }
@@ -114,7 +114,7 @@ namespace Logic {
 
         }
 
-        if (best <= 1){
+        if (best > 0 && best <= 1){
             collided = true;
         }
 
@@ -146,11 +146,21 @@ namespace Logic {
 
         position -= (travelled - travelled_before_collision)*1.0001;
 
+
         if (fix){
             Vector2D to_do = mini*(+(travelled-travelled_before_collision));
-            position += to_do;
-        }
+            std::cout << to_do.getLength() << std::endl;
 
+            auto o = other.lock();
+            Vector2D other_end = o->getPosition()+o->getSize()*0.5;
+
+            if (to_do.getLength() > 0.01){
+                //better for low frame rate
+                to_do = to_do.get_normalised()*0.01;
+            }
+            position += to_do;
+
+        }
 
         for (std::shared_ptr<Observer> observer: observers){
             observer->moved();

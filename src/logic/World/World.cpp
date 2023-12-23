@@ -81,27 +81,20 @@ namespace Logic {
 
         bool hit_wall = false;
         bool fix = true;
-        bool collision = true;
-        while (collision){
+        for (int  i=0; i<2; i++){
             std::vector<std::weak_ptr<EntityModel>> np;
-            for (int i = 0; i<2;i++){
-                std::vector<std::weak_ptr<EntityModel>> hits = checkCollision(e, 1);
+            std::vector<std::weak_ptr<EntityModel>> hits = checkCollision(e, 1);
 
-                if (hits.empty()){
-                    collision = false;
-                    break;
-                }
-                //std::cout << "wall collision handling started" << std::endl;
-                std::cout << "wall hits "<< hits.size() << std::endl;
-
-                for (auto hit: hits){
-                    //std::cout << "start handle " << std::endl;
-                    e->handleInpassable(hit, fix);
-                    hit_wall = true;
-                    np.push_back(hit);
-                    //std::cout << "end handle " << std::endl;
-                }
+            if (hits.empty()){
+                break;
             }
+
+            for (auto hit: hits){
+                e->handleInpassable(hit, fix);
+                hit_wall = true;
+                np.push_back(hit);
+            }
+
 
             fix = false;
 

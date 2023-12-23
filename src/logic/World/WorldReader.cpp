@@ -51,6 +51,7 @@ namespace Logic::WorldLoading {
             not_passable.push_back(s);
         }
 
+
         for (auto w: {Vector2D{-0.885, -0.835}, Vector2D{0.815, -0.035}}){
             s = factory->createFruit(w);
             entities.push_back(s);
@@ -78,6 +79,7 @@ namespace Logic::WorldLoading {
             s->getMoveManager()->makeDirection(pacman->getPosition()-s->getPosition(), {Vector2D{0, -1}});
             entities.push_back(s);
         }*/
+
 
         std::vector<std::shared_ptr<EntityModel>> coin_buffer;
         for (int i=-9; i<9; i++){
@@ -108,6 +110,7 @@ namespace Logic::WorldLoading {
         }
 
         entities.insert(entities.begin(), coin_buffer.begin(), coin_buffer.end());
+
 
         std::unique_ptr<World> world_ptr = std::make_unique<World>(pacman, entities, not_passable, intersection, lives, consumable_count);
 
