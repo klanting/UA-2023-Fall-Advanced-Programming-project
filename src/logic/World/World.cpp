@@ -215,7 +215,6 @@ namespace Logic {
 
                 }
             }
-            std::cout << "he2" << std::endl;
             if (it != last_intersection.end()){
                 it->second = hit.lock();
             }else{
