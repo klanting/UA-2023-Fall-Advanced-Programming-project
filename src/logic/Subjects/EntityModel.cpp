@@ -132,7 +132,6 @@ namespace Logic {
 
     void EntityModel::handleInpassable(std::weak_ptr<EntityModel> other, bool fix) {
 
-
         auto p = collide(other);
 
         if (!p.first){
@@ -149,15 +148,6 @@ namespace Logic {
 
         if (fix){
             Vector2D to_do = mini*(+(travelled-travelled_before_collision));
-            std::cout << to_do.getLength() << std::endl;
-
-            auto o = other.lock();
-            Vector2D other_end = o->getPosition()+o->getSize()*0.5;
-
-            if (to_do.getLength() > 0.01){
-                //better for low frame rate
-                to_do = to_do.get_normalised()*0.01;
-            }
             position += to_do;
 
         }
@@ -268,6 +258,9 @@ namespace Logic {
     void EntityModel::setLastPosition(const Vector2D &lastPosition) {
         last_position = lastPosition;
     }
+
+
+
 
 
 } // Logic

@@ -89,6 +89,7 @@ namespace Logic {
                 break;
             }
 
+
             for (auto hit: hits){
                 e->handleInpassable(hit, fix);
                 hit_wall = true;
@@ -198,18 +199,23 @@ namespace Logic {
             auto it = last_intersection.find(e);
             if (it != last_intersection.end()){
                 if (it->second == hit.lock()){
-
+                    //only care if we are inside the intersection
+                    Vector2D center = e->getPosition()+e->getSize()*0.5;
+                    Vector2D inter_cent = hit.lock()->getPosition()+hit.lock()->getSize()*0.5;
+                    if (center.getDistance(inter_cent) > (hit.lock()->getSize()*0.5)[0]){
+                        continue;
+                    }
                     e->handleInpassable(hit, false);
                     Vector2D old_dir = e->getDirection();
-
                     std::vector<Vector2D> option_directions = {old_dir.rotate(M_PI/2.0), old_dir.rotate(-1*M_PI/2.0), old_dir};
                     std::vector<Vector2D> resulting = getFutureDirections(e, option_directions);
                     e->getMoveManager()->makeDirection(pacman->getPosition()-e->getPosition(), resulting);
                     last_intersection.erase(it);
                     continue;
+
                 }
             }
-
+            std::cout << "he2" << std::endl;
             if (it != last_intersection.end()){
                 it->second = hit.lock();
             }else{
