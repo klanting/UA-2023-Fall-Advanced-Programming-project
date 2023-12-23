@@ -6,6 +6,7 @@
 #define PROJECTPACMAN_VICTORYSTATE_H
 #include "State.h"
 #include "../UIObjects/PositionAnimation.h"
+#include "../UIObjects/CutOffAnimation.h"
 namespace View {
 
     class VictoryState: public State{
@@ -18,12 +19,8 @@ namespace View {
         double key_press_delay = 1;
         sf::Texture texture;
 
-        int animation_index = 0;
-        double animation_delay = 0.25;
-        double animation_position = -0.9;
-        int animation_direction = 1;
-
         void createEatAnimation();
+
 
     };
 

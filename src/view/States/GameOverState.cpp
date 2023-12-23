@@ -32,10 +32,6 @@ namespace View {
     }
 
     void GameOverState::renderUI() {
-
-
-
-
         for (auto& img: render_images){
             img->render();
         }

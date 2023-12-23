@@ -80,7 +80,7 @@ namespace View {
             std::shared_ptr<sf::Sprite> logo = std::make_unique<sf::Sprite>();
             logo->setTextureRect(sf::IntRect(1, top_positions[i], 300, heights[i]));
 
-            std::unique_ptr<Image> img = std::make_unique<Image>(positions[i], Logic::Vector2D{0.25, 0.25}, Logic::Vector2D{(double) heights[i], (double) heights[i]}, logo, texture);
+            std::unique_ptr<Image> img = std::make_unique<Image>(positions[i], Logic::Vector2D{0.8, 0.25}, Logic::Vector2D{103, (double) heights[i]}, logo, texture);
 
             render_images.push_back(std::move(img));
         }

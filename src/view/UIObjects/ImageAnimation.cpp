@@ -5,8 +5,7 @@
 #include "ImageAnimation.h"
 #include <iostream>
 namespace View {
-    ImageAnimation::ImageAnimation(double delay,
-                                   std::vector<std::unique_ptr<Image>> images): Animation{Logic::Vector2D{0, 0}, Logic::Vector2D{0, 0}, delay, std::move(images)}{
+    ImageAnimation::ImageAnimation(double delay, std::vector<std::unique_ptr<Image>> images): Animation{delay, std::move(images)}{
 
     }
 

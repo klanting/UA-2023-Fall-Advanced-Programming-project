@@ -36,30 +36,12 @@ namespace View {
 
     void PausedState::renderUI() {
 
-        std::vector<int> top_positions = {404};
-        std::vector<Logic::Vector2D> positions = {Logic::Vector2D{-0.85, -0.8}};
-        std::vector<int> heights = {34};
-        for (int i =0; i<top_positions.size(); i++){
-            std::unique_ptr<sf::Sprite> logo = std::make_unique<sf::Sprite>();
-            logo->setTexture(texture);
-
-            logo->setTextureRect(sf::IntRect(1, top_positions[i], 450, heights[i]));
-
-            auto p = Camera::getInstance()->toPixels(positions[i], Logic::Vector2D{0, 0});
-            logo->setPosition(p.first[0], p.first[1]);
-
-            double multiply = 1;
-            if (i == 0){
-                multiply = 0.8;
-            }
-
-            logo->setScale(multiply*(heights[i]/34.0)*RenderWindowSingleton::getInstance()->getSize().x/300.0, multiply*(heights[i]/34.0)*RenderWindowSingleton::getInstance()->getSize().y/300.0);
-
-            RenderWindowSingleton::getInstance()->draw_bufferless(std::move(logo));
-        }
-
         continue_button.render();
         home_button.render();
+
+        for (auto& img: render_images){
+            img->render();
+        }
 
     }
 
@@ -68,6 +50,13 @@ namespace View {
 
         continue_button = {Logic::Vector2D{-0.175, -0.1}, Logic::Vector2D{0.35, 0.32}};
         home_button = {Logic::Vector2D{0.6, 0.65}, Logic::Vector2D{0.35, 0.32}};
+
+        std::shared_ptr<sf::Sprite> paused_text = std::make_shared<sf::Sprite>();
+        paused_text->setTextureRect(sf::IntRect(1, 404, 500, 34));
+
+        std::unique_ptr<Image> img = std::make_unique<Image>(Logic::Vector2D{-0.85, -0.8}, Logic::Vector2D{1.67, 0.18}, Logic::Vector2D{315, 34}, paused_text, texture);
+
+        render_images.push_back(std::move(img));
 
     }
 }

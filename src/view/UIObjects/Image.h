@@ -14,6 +14,7 @@ namespace View {
         void render() const override;
         void setPosition(const Logic::Vector2D& position);
         Logic::Vector2D getPosition();
+        void cutOff(double pct) const;
     private:
         Logic::Vector2D pixel_size;
         std::shared_ptr<sf::Sprite> sprite;

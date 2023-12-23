@@ -32,51 +32,6 @@ namespace View {
     }
 
     void VictoryState::renderUI() {
-        double d = Logic::Stopwatch::getInstance()->getDeltaTime();
-        animation_delay -= d;
-        while (animation_delay < 0){
-            animation_index = (animation_index + 1) % 2;
-            animation_delay += 0.25;
-            animation_position += 0.05*animation_direction;
-            if (animation_position*animation_direction > 0.7 - 0.2*animation_direction){
-                animation_direction *= -1;
-            }
-        }
-
-        std::vector<int> top_positions = {301, 336+animation_index*34};
-        std::vector<Logic::Vector2D> positions = {Logic::Vector2D{-0.42+std::max((animation_position+0.65), 0.0), -0.4}, Logic::Vector2D{animation_position+0.1, -0.42}};
-
-        std::vector<int> heights = {34, 34};
-
-        for (int i =0; i<top_positions.size(); i++){
-            std::shared_ptr<sf::Sprite> logo = std::make_shared<sf::Sprite>();
-            logo->setTexture(texture);
-
-            if (i == 1){
-                continue;
-            }
-
-            int left = 1;
-            double multiply = 1;
-            if (i == 0){
-                multiply = 0.8;
-
-                left += std::max((int)((animation_position+0.65)*190), 0);
-            }
-
-            logo->setTextureRect(sf::IntRect(left, top_positions[i], 500, heights[i]));
-
-            auto p = Camera::getInstance()->toPixels(positions[i], Logic::Vector2D{0, 0});
-
-            logo->setPosition(p.first[0], p.first[1]);
-
-
-
-            logo->setScale(multiply*(heights[i]/34.0)*RenderWindowSingleton::getInstance()->getSize().x/300.0, multiply*(heights[i]/34.0)*RenderWindowSingleton::getInstance()->getSize().y/300.0);
-
-            RenderWindowSingleton::getInstance()->draw_bufferless(logo);
-        }
-
         for (auto& img: render_images){
             img->render();
         }
@@ -109,6 +64,18 @@ namespace View {
 
 
         std::unique_ptr<PositionAnimation> pos_anim = std::make_unique<PositionAnimation>(0.25, std::move(images), Logic::Vector2D{-0.8, -0.42}, Logic::Vector2D{0.6, -0.42});
+
+
+        std::shared_ptr<sf::Sprite> victory_img = std::make_shared<sf::Sprite>();
+        victory_img->setTextureRect(sf::IntRect(1, 301, 500, 34));
+
+        images.clear();
+        std::unique_ptr<Image> img = std::make_unique<Image>(Logic::Vector2D{-0.42, -0.4}, Logic::Vector2D{0.98, 0.18}, Logic::Vector2D{184, 34}, victory_img, texture);
+        images.push_back(std::move(img));
+
+        std::unique_ptr<CutOffAnimation> vic_anim = std::make_unique<CutOffAnimation>(0.25, std::move(images), 1.05, 2, 0.05);
+
+        render_images.push_back(std::move(vic_anim));
         render_images.push_back(std::move(pos_anim));
 
     }

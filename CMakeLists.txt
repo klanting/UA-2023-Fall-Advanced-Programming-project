@@ -148,6 +148,8 @@ set(view
         src/view/UIObjects/ImageAnimation.h
         src/view/UIObjects/PositionAnimation.cpp
         src/view/UIObjects/PositionAnimation.h
+        src/view/UIObjects/CutOffAnimation.cpp
+        src/view/UIObjects/CutOffAnimation.h
 )
 
 

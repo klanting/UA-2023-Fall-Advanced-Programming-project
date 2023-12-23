@@ -51,4 +51,19 @@ namespace View {
     Logic::Vector2D Image::getPosition() {
         return Logic::Vector2D{sprite->getPosition().x, sprite->getPosition().y};
     }
+
+    void Image::cutOff(double pct) const {
+        sf::IntRect original_rect = sprite->getTextureRect();
+
+        auto data = Camera::getInstance()->toPixels(position, size);
+
+        int pixel_change = (int)(pct*data.second[0]);
+        original_rect.left = 1+(int)(pct*pixel_size[0]);
+
+
+
+        sprite->setPosition(data.first[0]+pixel_change, data.first[1]);
+        sprite->setTextureRect(original_rect);
+
+    }
 } // View

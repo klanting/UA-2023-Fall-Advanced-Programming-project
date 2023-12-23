@@ -10,8 +10,8 @@ namespace View {
         sf::Texture texture;
         texture.loadFromFile("sprites/pacman_menu.png", sf::IntRect(0, 0, 300, 500));
         std::shared_ptr<sf::Sprite> button_print = std::make_shared<sf::Sprite>();
-        button_print->setTextureRect(sf::IntRect(1, 439, 139, 48));
-        image = std::make_shared<Image>(position, size, Logic::Vector2D{139, 48}, button_print, texture);
+        button_print->setTextureRect(sf::IntRect(1, 439, 136, 48));
+        image = std::make_shared<Image>(position, size, Logic::Vector2D{136, 48}, button_print, texture);
 
 
     }

@@ -6,12 +6,13 @@
 #include <iostream>
 #include "States/VictoryState.h"
 #include "States/GameOverState.h"
+#include "States/PausedState.h"
 using namespace std;
 namespace View {
     typedef sf::RenderWindow RW;
     Game::Game() {
         window = RenderWindowSingleton::getInstance();
-        state_manager = make_shared<StateManager>(make_unique<VictoryState>());
+        state_manager = make_shared<StateManager>(make_unique<MenuState>());
         doGameLoop();
     }
 
