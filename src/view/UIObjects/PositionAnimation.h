@@ -4,11 +4,11 @@
 
 #ifndef PROJECTPACMAN_POSITIONANIMATION_H
 #define PROJECTPACMAN_POSITIONANIMATION_H
-#include "Animation.h"
+#include "ImageAnimation.h"
 #include "Image.h"
 namespace View {
 
-    class PositionAnimation: public Animation{
+    class PositionAnimation: public ImageAnimation{
     public:
         PositionAnimation(double delay, std::vector<std::unique_ptr<Image>> images, const Logic::Vector2D& from, const Logic::Vector2D& to);
         void render() const override;

@@ -5,11 +5,8 @@
 #include "ImageAnimation.h"
 #include <iostream>
 namespace View {
-    ImageAnimation::ImageAnimation(const Logic::Vector2D &position, const Logic::Vector2D &size, double delay,
-                                   std::vector<std::unique_ptr<Image>> images): Animation{position, size, delay, std::move(images)}{
-        for (int i=0; i<images.size(); i++){
-            ImageAnimation::images.push_back(std::move(images[i]));
-        }
+    ImageAnimation::ImageAnimation(double delay,
+                                   std::vector<std::unique_ptr<Image>> images): Animation{Logic::Vector2D{0, 0}, Logic::Vector2D{0, 0}, delay, std::move(images)}{
 
     }
 
@@ -23,4 +20,5 @@ namespace View {
 
         images[animation_index]->render();
     }
+
 } // View

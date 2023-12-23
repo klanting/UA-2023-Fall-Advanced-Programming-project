@@ -82,7 +82,7 @@ namespace View {
             images.push_back(std::move(img));
         }
 
-        std::unique_ptr<ImageAnimation> img_anim = std::make_unique<ImageAnimation>(Logic::Vector2D{0.07, -0.3}, size, 0.5, std::move(images));
+        std::unique_ptr<ImageAnimation> img_anim = std::make_unique<ImageAnimation>(0.5, std::move(images));
         render_images.push_back(std::move(img_anim));
 
     }

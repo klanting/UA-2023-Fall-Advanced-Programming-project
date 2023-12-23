@@ -52,6 +52,10 @@ namespace View {
             std::shared_ptr<sf::Sprite> logo = std::make_shared<sf::Sprite>();
             logo->setTexture(texture);
 
+            if (i == 1){
+                continue;
+            }
+
             int left = 1;
             double multiply = 1;
             if (i == 0){
@@ -80,7 +84,7 @@ namespace View {
     }
 
     VictoryState::VictoryState() {
-        texture.loadFromFile("sprites/pacman_menu.png", sf::IntRect(0, 0, 500, 500));
+        texture.loadFromFile("sprites/pacman_menu.png", sf::IntRect(1, 0, 500, 500));
 
         std::shared_ptr<sf::Sprite> any_key_message = std::make_shared<sf::Sprite>();
         any_key_message->setTextureRect(sf::IntRect(1, 69+70+18+18, 500, 17));
@@ -94,15 +98,17 @@ namespace View {
     }
 
     void VictoryState::createEatAnimation() {
-        std::shared_ptr<sf::Sprite> pacman_anim = std::make_shared<sf::Sprite>();
-        pacman_anim->setTextureRect(sf::IntRect(1, 336, 500, 34));
-
         std::vector<std::unique_ptr<Image>> images;
+        for (int  i= 0; i<2; i++){
+            std::shared_ptr<sf::Sprite> pacman_anim = std::make_shared<sf::Sprite>();
+            pacman_anim->setTextureRect(sf::IntRect(1, 336+i*34, 500, 34));
 
-        std::unique_ptr<Image> img = std::make_unique<Image>(Logic::Vector2D{-0.9, -0.42}, Logic::Vector2D{0.25, 0.25}, Logic::Vector2D{34, 34}, pacman_anim, texture);
-        images.push_back(std::move(img));
+            std::unique_ptr<Image> img = std::make_unique<Image>(Logic::Vector2D{-0.9, -0.42}, Logic::Vector2D{0.25, 0.25}, Logic::Vector2D{34, 34}, pacman_anim, texture);
+            images.push_back(std::move(img));
+        }
 
-        std::unique_ptr<PositionAnimation> pos_anim = std::make_unique<PositionAnimation>(0.25, std::move(images), Logic::Vector2D{-0.9, -0.42}, Logic::Vector2D{0.6, -0.42});
+
+        std::unique_ptr<PositionAnimation> pos_anim = std::make_unique<PositionAnimation>(0.25, std::move(images), Logic::Vector2D{-0.8, -0.42}, Logic::Vector2D{0.6, -0.42});
         render_images.push_back(std::move(pos_anim));
 
     }
