@@ -65,6 +65,21 @@ namespace View {
 
         RenderWindowSingleton::getInstance()->draw(entity, sprite);
 
+        //from here temp
+        std::vector<sf::Vertex> vertices;
+        sf::Color color = sf::Color::Red;
+        PixelData data2 = Camera::getInstance()->toPixels(e->getLastPosition(), e->getSize());
+        vertices.push_back(sf::Vertex{sf::Vector2f(data.first[0]+data.second[0]*0.5, data.first[1]+data.second[1]*0.5), color});
+        vertices.push_back(sf::Vertex{sf::Vector2f(data2.first[0]+data2.second[0]*0.5, data2.first[1]+data2.second[1]*0.5), color});
+
+        std::shared_ptr<sf::VertexArray> square = std::make_shared<sf::VertexArray>(sf::LineStrip);
+        for (auto& v: vertices){
+            square->append(v);
+        }
+
+        RenderWindowSingleton::getInstance()->draw_bufferless(square);
+
+
     }
 
     template<typename T>

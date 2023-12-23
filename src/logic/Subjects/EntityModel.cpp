@@ -78,6 +78,7 @@ namespace Logic {
 
         Vector2D center_this_last = last_position + size*0.5;
         Vector2D center_this = position + size*0.5;
+
         Vector2D center_other = other_lock->getPosition() + other_lock->getSize()*0.5;
 
         Vector2D distance = (center_this_last-center_this);
@@ -250,6 +251,13 @@ namespace Logic {
 
     }
 
+    const Vector2D &EntityModel::getLastPosition() const {
+        return last_position;
+    }
+
+    void EntityModel::setLastPosition(const Vector2D &lastPosition) {
+        last_position = lastPosition;
+    }
 
 
 } // Logic

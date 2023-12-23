@@ -78,6 +78,7 @@ namespace Logic {
     }
 
     void World::handleInPassable(std::shared_ptr<EntityModel> e) {
+
         bool hit_wall = false;
         bool fix = true;
         bool collision = true;
@@ -85,15 +86,20 @@ namespace Logic {
             std::vector<std::weak_ptr<EntityModel>> np;
             for (int i = 0; i<2;i++){
                 std::vector<std::weak_ptr<EntityModel>> hits = checkCollision(e, 1);
+
                 if (hits.empty()){
                     collision = false;
                     break;
                 }
+                //std::cout << "wall collision handling started" << std::endl;
+                std::cout << "wall hits "<< hits.size() << std::endl;
 
                 for (auto hit: hits){
+                    //std::cout << "start handle " << std::endl;
                     e->handleInpassable(hit, fix);
                     hit_wall = true;
                     np.push_back(hit);
+                    //std::cout << "end handle " << std::endl;
                 }
             }
 

@@ -62,7 +62,7 @@ namespace Logic::WorldLoading {
             intersection.push_back(s);
         }
 
-        //intersection_handler = std::make_shared<IntersectionHandler>(not_passable, pacman);
+        /*
         Vector2D ghost_spawn = Vector2D{0-0.07, -0.5};
         for (int i=0; i<4; i++){
             double delay = 0;
@@ -77,7 +77,7 @@ namespace Logic::WorldLoading {
             s = factory->createGhost(ghost_spawn, delay, i, difficulty);
             s->getMoveManager()->makeDirection(pacman->getPosition()-s->getPosition(), {Vector2D{0, -1}});
             entities.push_back(s);
-        }
+        }*/
 
         std::vector<std::shared_ptr<EntityModel>> coin_buffer;
         for (int i=-9; i<9; i++){
