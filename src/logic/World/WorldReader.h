@@ -10,8 +10,8 @@ namespace Logic::WorldLoading {
 
     class WorldReader: public WorldLoader{
     public:
-        WorldReader(const std::shared_ptr<AbstractFactory>& factory);
-        WorldData load() override;
+        WorldReader(const std::shared_ptr<AbstractFactory>& factory, const std::shared_ptr<Score>& score);
+        std::unique_ptr<World> load(double difficulty, int lives) override;
     private:
     };
 

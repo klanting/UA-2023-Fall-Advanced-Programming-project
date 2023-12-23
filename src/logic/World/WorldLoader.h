@@ -7,24 +7,20 @@
 #include <memory>
 #include "../Subjects/EntityModel.h"
 #include "../AbstractFactory.h"
+#include "World.h"
 
 namespace Logic::WorldLoading {
 
-    struct WorldData{
-        std::shared_ptr<EntityModel> pacman;
-        std::vector<std::shared_ptr<EntityModel>> entities;
-        std::vector<std::shared_ptr<EntityModel>> not_passable;
-        std::vector<std::shared_ptr<EntityModel>> intersection;
-
-    };
 
     class WorldLoader {
     public:
-        WorldLoader(const std::shared_ptr<AbstractFactory>& factory);
-        virtual WorldData load() = 0;
+        WorldLoader(const std::shared_ptr<AbstractFactory>& factory, const std::shared_ptr<Score>& score);
+        virtual std::unique_ptr<World> load(double difficulty, int lives) = 0;
 
     protected:
         std::shared_ptr<AbstractFactory> factory;
+        std::shared_ptr<Score> score;
+
 
 
     };

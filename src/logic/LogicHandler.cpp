@@ -7,13 +7,14 @@
 #include "Stopwatch.h"
 
 namespace Logic {
-    LogicHandler::LogicHandler(std::shared_ptr<AbstractFactory> factory): factory{factory} {
+    LogicHandler::LogicHandler(std::shared_ptr<AbstractFactory> factory){
         std::cout << "logic handler started" << std::endl;
         //temp concrete factory creating
         Controller::MovementController::getInstance()->clear();
         difficulty_index = 1;
         score = std::make_shared<Score>();
-        world = std::make_unique<World>(factory, score, difficulty_index, 3);
+        world_loader = std::make_unique<WorldLoading::WorldReader>(factory, score);
+        world = world_loader->load(difficulty_index, 3);
 
     }
 
@@ -37,7 +38,7 @@ namespace Logic {
         Controller::MovementController::getInstance()->clear();
         difficulty_index += 0.1;
         int remaining_lives = world->getLives();
-        world = std::make_unique<World>(factory, score, difficulty_index, remaining_lives);
+        world = world_loader->load(difficulty_index, remaining_lives);
 
     }
 

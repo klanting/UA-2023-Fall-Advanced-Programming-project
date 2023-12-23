@@ -15,7 +15,8 @@ namespace Logic {
 
     class World {
     public:
-        World(std::shared_ptr<AbstractFactory> factory, std::shared_ptr<Score> score, double difficulty, int lives);
+        World(const std::shared_ptr<EntityModel>& pacman, const std::vector<std::shared_ptr<EntityModel>>& entities,
+              const std::vector<std::shared_ptr<EntityModel>>& not_passable, const std::vector<std::shared_ptr<EntityModel>>& intersection, int lives, int consumable_count);
         bool doTick();
 
         int getLives() const;

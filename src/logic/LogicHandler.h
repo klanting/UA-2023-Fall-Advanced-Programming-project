@@ -9,6 +9,7 @@
 #include "Controller/MovementController.h"
 #include "Controller/Controller.h"
 #include "Score.h"
+#include "../logic/World/WorldReader.h"
 namespace Logic {
 
     class LogicHandler {
@@ -22,8 +23,8 @@ namespace Logic {
         void nextLevel();
         bool isGameOver();
     private:
-        std::shared_ptr<AbstractFactory> factory;
         std::unique_ptr<Logic::World> world;
+        std::unique_ptr<WorldLoading::WorldLoader> world_loader;
         std::shared_ptr<Score> score;
         std::shared_ptr<Controller::Controller> controller;
         double difficulty_index;
