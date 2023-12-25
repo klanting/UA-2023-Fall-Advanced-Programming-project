@@ -83,6 +83,10 @@ namespace Logic {
             return type_map.at(type).getOptions(direction_index);
         }
 
+        int TypeRuleManager::getCharAmount() {
+            return type_map.size();
+        }
+
 
     } // WFC
 } // Logic

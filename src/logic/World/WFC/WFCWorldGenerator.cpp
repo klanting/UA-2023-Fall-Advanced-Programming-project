@@ -6,8 +6,12 @@
 #include "../../Vector2D.h"
 namespace Logic {
     namespace WFC {
-        WFCWorldGenerator::WFCWorldGenerator(): type_manager{"WFC/sampleData2.WFC", {Logic::Vector2D<int>{1, 0}, Logic::Vector2D<int>{-1, 0}, Logic::Vector2D<int>{0, 1}, Logic::Vector2D<int>{0, -1},
-                                                                                     Logic::Vector2D<int>{1, 1}, Logic::Vector2D<int>{-1, 1}, Logic::Vector2D<int>{1, -1}, Logic::Vector2D<int>{-1, -1}}}, grid{grid_width, grid_height, Cell{17}} {
+        WFCWorldGenerator::WFCWorldGenerator(): directions{Logic::Vector2D<int>{1, 0}, Logic::Vector2D<int>{-1, 0}, Logic::Vector2D<int>{0, 1}, Logic::Vector2D<int>{0, -1},
+                                                           Logic::Vector2D<int>{1, 1}, Logic::Vector2D<int>{-1, 1}, Logic::Vector2D<int>{1, -1}, Logic::Vector2D<int>{-1, -1}},
+                                                           grid{grid_width, grid_height, Cell{17}} {
+
+
+            type_manager = std::make_unique<TypeRuleManager>("WFC/sampleData.WFC", directions);
 
             generateOutsideWall();
             generateGhostSpawn();
@@ -16,8 +20,6 @@ namespace Logic {
         }
 
         void WFCWorldGenerator::generate() {
-            srand(time(NULL));
-
             for (int h = 0; h<500; h++){
                 auto v_options = lowestEntropy();
 
@@ -27,7 +29,8 @@ namespace Logic {
 
                 v_options = largestExpansion(v_options);
 
-                int v_index = rand() % v_options.size();
+
+                int v_index = Random::getInstance()->getRandomIndex(0, v_options.size()-1);
                 auto p = v_options[v_index];
 
                 std::set<int> o = grid.get(p[0], p[1]).getOptions();
@@ -37,7 +40,7 @@ namespace Logic {
                     continue;
                 }
 
-                int rand_index = rand() % o.size();
+                int rand_index = Random::getInstance()->getRandomIndex(0, o.size()-1);
 
                 auto it = o.begin();
                 for (int i = 0; i<rand_index; i++){
@@ -131,7 +134,7 @@ namespace Logic {
                 std::set<int> n_options;
 
                 for (auto o: c.getOptions()){
-                    std::set<int> n_temp = type_manager.getOptions(o, dir);
+                    std::set<int> n_temp = type_manager->getOptions(o, dir);
                     n_options.insert(n_temp.begin(), n_temp.end());
                 }
 
@@ -154,10 +157,21 @@ namespace Logic {
 
         }
 
-        void WFCWorldGenerator::print() const {
+        void WFCWorldGenerator::print(bool simple) const {
             for (int j = 0; j<grid_height; j++){
                 for (int i = 0; i<grid_width; i++){
-                    std::cout << grid.get(i, j).getEntropy() << " ";
+                    if (!simple){
+                        std::cout << grid.get(i, j).getEntropy() << " ";
+                    }else{
+                        if(grid.get(i, j).isDefined()){
+                            std::cout << 2 << " ";
+                        }else if (grid.get(i, j).getEntropy() == 0){
+                            std::cout << 0 << " ";
+                        }else{
+                            std::cout << 1 << " ";
+                        }
+                    }
+
                 }
                 std::cout << std::endl;
             }
@@ -275,20 +289,12 @@ namespace Logic {
         }
 
         void WFCWorldGenerator::generateGhostSpawn() {
-            srand(time(NULL));
-            int rand_i = (rand() % (grid_width-2)/2)*2+1;
-            int rand_j = (rand() % (grid_height-2)/2)*2+1;
+            int rand_i = Random::getInstance()->getRandomIndex(0,  (grid_width-2)/2 -1)*2+1;
+            int rand_j = Random::getInstance()->getRandomIndex(0,  (grid_height-2)/2 -1)*2+1;
 
 
             std::vector<Vector2D<int>> options = {};
 
-            if (rand_i != 1){
-                options.push_back(Vector2D<int>{-1, 0});
-            }
-
-            if (rand_i != grid_width-2){
-                options.push_back(Vector2D<int>{1, 0});
-            }
 
             if (rand_j != 1){
                 options.push_back(Vector2D<int>{0, -1});
@@ -299,11 +305,15 @@ namespace Logic {
             }
 
             Vector2D spawn_pos = Vector2D<int>{rand_i, rand_j};
-            Vector2D exit = options[(rand() % options.size())] + spawn_pos;
+            Vector2D exit = options[Random::getInstance()->getRandomIndex(0,  options.size()-1)] + spawn_pos;
 
             Cell spawn_cell = grid.get(spawn_pos[0], spawn_pos[1]);
             spawn_cell.place(-2);
             grid.set(spawn_pos[0], spawn_pos[1], spawn_cell);
+
+            spawn_cell = grid.get(spawn_pos[0]+1, spawn_pos[1]);
+            spawn_cell.place(-4);
+            grid.set(spawn_pos[0]+1, spawn_pos[1], spawn_cell);
 
             Cell exit_cell = grid.get(exit[0], exit[1]);
             exit_cell.place(-3);
@@ -312,12 +322,14 @@ namespace Logic {
             //make cube around spawn unless it is the exit tile
             for (std::pair<int, Vector2D<int>> p: {std::make_pair(0, Vector2D{0, -1}),
                                                    std::make_pair(0, Vector2D{0, 1}),
-                                                   std::make_pair(1, Vector2D{1, 0}),
+                                                   std::make_pair(1, Vector2D{2, 0}),
                                                    std::make_pair(1, Vector2D{-1, 0}),
-                                                   std::make_pair(5, Vector2D{1, 1}),
-                                                   std::make_pair(3, Vector2D{1, -1}),
+                                                   std::make_pair(5, Vector2D{2, 1}),
+                                                   std::make_pair(3, Vector2D{2, -1}),
                                                    std::make_pair(4, Vector2D{-1, 1}),
-                                                   std::make_pair(2, Vector2D{-1, -1})}){
+                                                   std::make_pair(2, Vector2D{-1, -1}),
+                                                   std::make_pair(0, Vector2D{1, -1}),
+                                                   std::make_pair(0, Vector2D{1, 1})}){
                 Vector2D pos = spawn_pos + p.second;
                 if (pos == exit){
                     continue;
@@ -326,8 +338,8 @@ namespace Logic {
 
                 cl.save(grid);
                 bool suc6 = place(pos[0], pos[1], p.first);
+
                 if (!suc6){
-                    int c = 0;
                     grid = cl.undo();
                 }
             }

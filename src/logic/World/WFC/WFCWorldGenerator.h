@@ -8,13 +8,15 @@
 #include "Cell.h"
 #include "CellChangeLog.h"
 #include "Converter.h"
+#include "../../Random.h"
+#include <memory>
 namespace Logic {
     namespace WFC {
 
         class WFCWorldGenerator {
         public:
             WFCWorldGenerator();
-            void print() const;
+            void print(bool simple=false) const;
             void printKey(bool simple=false) const;
             void exportData() const;
             void load();
@@ -30,7 +32,9 @@ namespace Logic {
             std::vector<Vector2D<int>> lowestEntropy();
             std::vector<Vector2D<int>> largestExpansion(const std::vector<Vector2D<int>>& ex);
 
-            TypeRuleManager type_manager;
+            std::unique_ptr<TypeRuleManager> type_manager;
+
+            std::vector<Vector2D<int>> directions;
 
             const int grid_width = 20;
             const int grid_height = 11;

@@ -14,8 +14,8 @@ int main(){
 
     Logic::WFC::WFCWorldGenerator w{};
 
-    w.print();
-    w.printKey(true);
+    w.print(true);
+    w.printKey(false);
     w.exportData();
     w.load();
 
