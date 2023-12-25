@@ -33,5 +33,15 @@ namespace Logic {
             grid[j][i] = value;
         }
 
+        template<typename T>
+        int Matrix<T>::getWidth() const {
+            return width;
+        }
+
+        template<typename T>
+        int Matrix<T>::getHeight() const {
+            return height;
+        }
+
     } // WFC
 } // Logic

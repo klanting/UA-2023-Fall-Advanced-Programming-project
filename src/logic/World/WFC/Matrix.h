@@ -14,6 +14,11 @@ namespace Logic {
             Matrix(int width, int height, const T& default_value);
             T get(int i, int j) const;
             void set(int i, int j, const T& value);
+
+            int getHeight() const;
+
+            int getWidth() const;
+
         private:
             std::vector<std::vector<T>> grid;
             int height;

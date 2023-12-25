@@ -17,7 +17,9 @@ int main(){
     w.print();
     w.printKey(true);
     w.exportData();
+    w.load();
 
+    View::Game g{};
 
 
     return 0;

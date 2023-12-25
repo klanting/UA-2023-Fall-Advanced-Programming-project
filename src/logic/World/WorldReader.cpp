@@ -19,7 +19,8 @@ namespace Logic::WorldLoading {
 
         std::vector<std::pair<Vector2D<>, Vector2D<>>> wall_positions = {};
         std::vector<std::pair<Vector2D<>, Vector2D<>>> intersection_positions = {};
-        std::fstream f("maps/map_data.txt");
+        Vector2D ghost_spawn = Vector2D{-0.07, -0.5};
+        std::fstream f("maps/mapGen.txt");
 
         std::string buffer;
         std::vector<double> doubles;
@@ -35,6 +36,8 @@ namespace Logic::WorldLoading {
                     wall_positions.push_back({Vector2D{doubles[1], doubles[2]}, Vector2D{doubles[3], doubles[4]}});
                 }else if (doubles[0] == 1){
                     intersection_positions.push_back({Vector2D{doubles[1], doubles[2]}, Vector2D{doubles[3], doubles[4]}});
+                }else if (doubles[0] == 2){
+                    ghost_spawn = Vector2D{doubles[1], doubles[2]};
                 }
 
                 doubles = {};
@@ -64,12 +67,12 @@ namespace Logic::WorldLoading {
         }
 
 
-        Vector2D ghost_spawn = Vector2D{0-0.07, -0.5};
+
         for (int i=0; i<4; i++){
-            double delay = 0;
+            double delay = 1;
 
             if (i == 1){
-                delay = 1;
+                delay = 2;
             }
             if (i>= 2){
                 delay = 5.0 * (i-1);
@@ -97,7 +100,7 @@ namespace Logic::WorldLoading {
                 for (auto np: entities){
                     Vector2D np_pos = np->getPosition();
                     Vector2D np_pos2 = np->getPosition()+np->getSize();
-                    if (s->getPosition()[0] >= np_pos[0] && s->getPosition()[0] < np_pos2[0] && s->getPosition()[1] >= np_pos[1] && s->getPosition()[1] < np_pos2[1]){
+                    if ((s->getPosition()+s->getSize())[0] >= np_pos[0] && (s->getPosition()+s->getSize())[0] <= np_pos2[0] && (s->getPosition()+s->getSize())[1] >= np_pos[1] && (s->getPosition()+s->getSize())[1] <= np_pos2[1]){
                         found = true;
                     }
                 }

@@ -7,8 +7,8 @@
 namespace Logic {
     namespace WFC {
         TypeRuleManager::TypeRuleManager(const std::string &file_path, const std::vector<Vector2D<int>> &directions) {
-            int file_width = 19;
-            int file_height = 9;
+            int file_width = 21;
+            int file_height = 11;
 
             Matrix<int> buffer{file_width, file_height, 0};
 

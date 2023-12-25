@@ -7,6 +7,7 @@
 #include "TypeRuleManager.h"
 #include "Cell.h"
 #include "CellChangeLog.h"
+#include "Converter.h"
 namespace Logic {
     namespace WFC {
 
@@ -16,10 +17,13 @@ namespace Logic {
             void print() const;
             void printKey(bool simple=false) const;
             void exportData() const;
+            void load();
+
         private:
             bool place(int i, int j, int type);
 
             void generate();
+            void generateGhostSpawn();
             void generateOutsideWall();
             bool propagate(int i, int j, const Cell& c);
 
@@ -28,12 +32,15 @@ namespace Logic {
 
             TypeRuleManager type_manager;
 
-            const int grid_width = 19;
-            const int grid_height = 9;
+            const int grid_width = 20;
+            const int grid_height = 11;
 
             Matrix<Cell> grid;
 
             CellChangeLog cl;
+
+            Matrix<int> getGridSimple();
+
 
         };
 

@@ -7,9 +7,11 @@
 namespace Logic {
     namespace WFC {
         WFCWorldGenerator::WFCWorldGenerator(): type_manager{"WFC/sampleData2.WFC", {Logic::Vector2D<int>{1, 0}, Logic::Vector2D<int>{-1, 0}, Logic::Vector2D<int>{0, 1}, Logic::Vector2D<int>{0, -1},
-                                                                                    Logic::Vector2D<int>{1, 1}, Logic::Vector2D<int>{-1, 1}, Logic::Vector2D<int>{1, -1}, Logic::Vector2D<int>{-1, -1}}}, grid{grid_width, grid_height, Cell{13}} {
+                                                                                     Logic::Vector2D<int>{1, 1}, Logic::Vector2D<int>{-1, 1}, Logic::Vector2D<int>{1, -1}, Logic::Vector2D<int>{-1, -1}}}, grid{grid_width, grid_height, Cell{17}} {
 
-            //generateOutsideWall();
+            generateOutsideWall();
+            generateGhostSpawn();
+
             generate();
         }
 
@@ -71,7 +73,32 @@ namespace Logic {
                         continue;
                     }
 
-                    place(i, j, 0);
+                    int val = 0;
+
+                    if (j != 0 && j != grid_height-1){
+                        val = 1;
+                    }
+
+
+                    if (i == 0 && j == 0){
+                        val = 2;
+                    }
+
+                    if (i == grid_width-1 && j == 0){
+                        val = 3;
+                    }
+
+                    if (i == 0 && j == grid_height-1){
+                        val = 4;
+                    }
+
+                    if (i == grid_width-1 && j == grid_height-1){
+                        val = 5;
+                    }
+
+
+
+                    place(i, j, val);
 
                 }
             }
@@ -141,11 +168,14 @@ namespace Logic {
             for (int j = 0; j<grid_height; j++){
                 for (int i = 0; i<grid_width; i++){
                     int val = grid.get(i, j).getKey();
-                    if (simple && val > 5){
-                        val = 1;
-                    }else{
-                        val = 0;
+                    if (simple){
+                        if (val > 5){
+                            val = 1;
+                        }else{
+                            val = 0;
+                        }
                     }
+
                     std::cout <<  val << " ";
                 }
                 std::cout << std::endl;
@@ -202,7 +232,7 @@ namespace Logic {
             std::ofstream file("WFC/output");
             for (int j = 0; j<grid_height; j++){
                 for (int i = 0; i<grid_width; i++){
-                    if(grid.get(i, j).getKey() == 0){
+                    if(grid.get(i, j).getKey() <= 5){
                         file << 'w';
                     }else{
                         file << 'P';
@@ -215,7 +245,94 @@ namespace Logic {
 
         }
 
+        Matrix<int> WFCWorldGenerator::getGridSimple() {
+            Matrix<int> m (grid_width, grid_height, 0);
+            for (int j = 0; j<grid_height; j++){
+                for (int i = 0; i<grid_width; i++){
 
+                    int val = 1;
+                    if(grid.get(i, j).getKey() <= 5 && grid.get(i, j).getKey() >= 0){
+                        val = 0;
+                    }
+
+                    if (grid.get(i, j).getKey() < 0){
+                        val = grid.get(i, j).getKey();
+                    }
+
+                    m.set(i, j, val);
+                }
+            }
+
+
+            return m;
+        }
+
+        void WFCWorldGenerator::load() {
+            auto m = getGridSimple();
+            Converter c(m);
+            c.exportData();
+
+        }
+
+        void WFCWorldGenerator::generateGhostSpawn() {
+            srand(time(NULL));
+            int rand_i = (rand() % (grid_width-2)/2)*2+1;
+            int rand_j = (rand() % (grid_height-2)/2)*2+1;
+
+
+            std::vector<Vector2D<int>> options = {};
+
+            if (rand_i != 1){
+                options.push_back(Vector2D<int>{-1, 0});
+            }
+
+            if (rand_i != grid_width-2){
+                options.push_back(Vector2D<int>{1, 0});
+            }
+
+            if (rand_j != 1){
+                options.push_back(Vector2D<int>{0, -1});
+            }
+
+            if (rand_j != grid_height-2){
+                options.push_back(Vector2D<int>{0, 1});
+            }
+
+            Vector2D spawn_pos = Vector2D<int>{rand_i, rand_j};
+            Vector2D exit = options[(rand() % options.size())] + spawn_pos;
+
+            Cell spawn_cell = grid.get(spawn_pos[0], spawn_pos[1]);
+            spawn_cell.place(-2);
+            grid.set(spawn_pos[0], spawn_pos[1], spawn_cell);
+
+            Cell exit_cell = grid.get(exit[0], exit[1]);
+            exit_cell.place(-3);
+            grid.set(exit[0], exit[1], exit_cell);
+
+            //make cube around spawn unless it is the exit tile
+            for (std::pair<int, Vector2D<int>> p: {std::make_pair(0, Vector2D{0, -1}),
+                                                   std::make_pair(0, Vector2D{0, 1}),
+                                                   std::make_pair(1, Vector2D{1, 0}),
+                                                   std::make_pair(1, Vector2D{-1, 0}),
+                                                   std::make_pair(5, Vector2D{1, 1}),
+                                                   std::make_pair(3, Vector2D{1, -1}),
+                                                   std::make_pair(4, Vector2D{-1, 1}),
+                                                   std::make_pair(2, Vector2D{-1, -1})}){
+                Vector2D pos = spawn_pos + p.second;
+                if (pos == exit){
+                    continue;
+                }
+
+
+                cl.save(grid);
+                bool suc6 = place(pos[0], pos[1], p.first);
+                if (!suc6){
+                    int c = 0;
+                    grid = cl.undo();
+                }
+            }
+
+        }
 
 
     } // WFC
