@@ -5,10 +5,10 @@
 #include "Button.h"
 #include "../Camera.h"
 namespace View {
-    Button::Button(const Logic::Vector2D &position, const Logic::Vector2D &size): UIObject(position, size) {
+    Button::Button(const Logic::Vector2D<> &position, const Logic::Vector2D<> &size): UIObject(position, size) {
     }
 
-    bool Button::isClicked(const Logic::Vector2D &click_position) {
+    bool Button::isClicked(const Logic::Vector2D<> &click_position) {
 
         auto p = Camera::getInstance()->toPixels(position, size);
 
@@ -18,7 +18,7 @@ namespace View {
         return x && y;
     }
 
-    Button::Button(): UIObject(Logic::Vector2D{0,0}, Logic::Vector2D{0,0}) {
+    Button::Button(): UIObject(Logic::Vector2D<>{0,0}, Logic::Vector2D<>{0,0}) {
 
     }
 

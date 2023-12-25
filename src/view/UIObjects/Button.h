@@ -14,8 +14,8 @@ namespace View {
     class Button: public UIObject{
     public:
         Button();
-        Button(const Logic::Vector2D& position, const Logic::Vector2D& size);
-        virtual bool isClicked(const Logic::Vector2D& click_position);
+        Button(const Logic::Vector2D<>& position, const Logic::Vector2D<>& size);
+        virtual bool isClicked(const Logic::Vector2D<>& click_position);
         virtual void render() const = 0;
 
 

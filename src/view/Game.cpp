@@ -48,7 +48,7 @@ namespace View {
 
     }
 
-    void Game::processInput(int input, bool pressed, const Logic::Vector2D& v) {
+    void Game::processInput(int input, bool pressed, const Logic::Vector2D<>& v) {
         state_manager->acceptCharacter(input, pressed, v);
     }
 } // View

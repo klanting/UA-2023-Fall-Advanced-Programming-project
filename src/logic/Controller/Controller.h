@@ -24,10 +24,10 @@ namespace Controller {
         virtual void moveLeft(bool pressed) = 0;
         virtual void moveRight(bool pressed) = 0;
         virtual void clear() = 0;
-        const Vector2D &getDataVector() const;
+        const Vector2D<> &getDataVector() const;
 
     protected:
-        Vector2D data_vector;
+        Vector2D<> data_vector;
 
     };
 

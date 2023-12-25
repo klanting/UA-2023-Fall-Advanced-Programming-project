@@ -14,7 +14,7 @@ namespace View {
         Logic::Stopwatch::getInstance()->doTick();
     }
 
-    void GameOverState::acceptCharacter(int input, bool pressed, const Logic::Vector2D& v) {
+    void GameOverState::acceptCharacter(int input, bool pressed, const Logic::Vector2D<>& v) {
         std::cout << "back_to_menu" << std::endl;
         if (!pressed){
             return;
@@ -43,7 +43,7 @@ namespace View {
 
     void GameOverState::createGameOverTitle() {
         std::vector<int> top_positions = {69+124, 69+70+18};
-        std::vector<Logic::Vector2D> positions = {Logic::Vector2D{-0.9, -0.3}, Logic::Vector2D{-0.5, 0}};
+        std::vector<Logic::Vector2D<>> positions = {Logic::Vector2D{-0.9, -0.3}, Logic::Vector2D<>{-0.5, 0}};
         std::vector<int> heights = {34, 17};
         std::vector<double> scalar = {1, 0.25};
         for (int i =0; i<top_positions.size(); i++){
@@ -67,7 +67,7 @@ namespace View {
             std::shared_ptr<sf::Sprite> pacman_anim = std::make_unique<sf::Sprite>();
             pacman_anim->setTextureRect(sf::IntRect(1, top_positions[i], 300, 34));
 
-            std::unique_ptr<Image> img = std::make_unique<Image>(Logic::Vector2D{0.07, -0.3}, size, Logic::Vector2D{34, 34}, pacman_anim, texture);
+            std::unique_ptr<Image> img = std::make_unique<Image>(Logic::Vector2D<>{0.07, -0.3}, size, Logic::Vector2D<>{34, 34}, pacman_anim, texture);
 
             images.push_back(std::move(img));
         }

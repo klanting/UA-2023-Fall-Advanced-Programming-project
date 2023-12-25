@@ -16,7 +16,7 @@ namespace View {
         Logic::Stopwatch::getInstance()->doTick();
     }
 
-    void MenuState::acceptCharacter(int input, bool pressed, const Logic::Vector2D& v) {
+    void MenuState::acceptCharacter(int input, bool pressed, const Logic::Vector2D<>& v) {
         std::cout << v[0] << " " << v[1] << std::endl;
         if (input != 0){
             return;
@@ -60,7 +60,7 @@ namespace View {
             std::shared_ptr<sf::Sprite> pacman_anim = std::make_shared<sf::Sprite>();
             pacman_anim->setTextureRect(sf::IntRect(1, top_positions[i], 300, 34));
 
-            std::unique_ptr<Image> img = std::make_unique<Image>(Logic::Vector2D{-0.25, -0.8}, Logic::Vector2D{0.25, 0.25}, Logic::Vector2D{34, 34}, pacman_anim, texture);
+            std::unique_ptr<Image> img = std::make_unique<Image>(Logic::Vector2D<>{-0.25, -0.8}, Logic::Vector2D<>{0.25, 0.25}, Logic::Vector2D<>{34, 34}, pacman_anim, texture);
 
             images.push_back(std::move(img));
         }
@@ -72,13 +72,13 @@ namespace View {
 
     void MenuState::createPacmanText() {
         std::vector<int> top_positions = {69, 69+34};
-        std::vector<Logic::Vector2D> positions = {Logic::Vector2D{-0.65, -0.8}, Logic::Vector2D{0.0, -0.8}, };
+        std::vector<Logic::Vector2D<>> positions = {Logic::Vector2D{-0.65, -0.8}, Logic::Vector2D{0.0, -0.8}, };
         std::vector<int> heights = {34, 34};
         for (int i =0; i<top_positions.size(); i++){
             std::shared_ptr<sf::Sprite> logo = std::make_unique<sf::Sprite>();
             logo->setTextureRect(sf::IntRect(1, top_positions[i], 300, heights[i]));
 
-            std::unique_ptr<Image> img = std::make_unique<Image>(positions[i], Logic::Vector2D{0.8, 0.25}, Logic::Vector2D{103, (double) heights[i]}, logo, texture);
+            std::unique_ptr<Image> img = std::make_unique<Image>(positions[i], Logic::Vector2D<>{0.8, 0.25}, Logic::Vector2D<>{103, (double) heights[i]}, logo, texture);
 
             render_images.push_back(std::move(img));
         }

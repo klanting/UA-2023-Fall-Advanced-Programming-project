@@ -38,7 +38,7 @@ namespace Logic {
         void handleActionsPacman(std::shared_ptr<EntityModel> e, std::weak_ptr<EntityModel> hit);
         void handleActions(std::shared_ptr<EntityModel> e, std::weak_ptr<EntityModel> hit);
 
-        std::vector<Vector2D> getFutureDirections(std::shared_ptr<EntityModel> e, const std::vector<Vector2D>& options);
+        std::vector<Vector2D<>> getFutureDirections(std::shared_ptr<EntityModel> e, const std::vector<Vector2D<>>& options);
 
         std::vector<std::weak_ptr<EntityModel>> to_be_removed;
         int lives;

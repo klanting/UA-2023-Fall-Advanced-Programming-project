@@ -9,11 +9,27 @@ ENDIF()
 FIND_PACKAGE(SFML 2 COMPONENTS system window graphics)
 INCLUDE_DIRECTORIES(${SFML_INCLUDE_DIR})
 
+set(wfc
+        src/logic/World/WFC/WFCWorldGenerator.cpp
+        src/logic/World/WFC/WFCWorldGenerator.h
+        src/logic/World/WFC/Memento.cpp
+        src/logic/World/WFC/Memento.h
+        src/logic/World/WFC/Cell.cpp
+        src/logic/World/WFC/Cell.h
+        src/logic/World/WFC/TypeRule.cpp
+        src/logic/World/WFC/TypeRule.h
+        src/logic/World/WFC/TypeRuleManager.cpp
+        src/logic/World/WFC/TypeRuleManager.h
+        src/logic/World/WFC/Matrix.cpp
+        src/logic/World/WFC/Matrix.h
+)
+
 set(world_loading
         src/logic/World/WorldLoader.cpp
         src/logic/World/WorldLoader.h
         src/logic/World/WorldReader.cpp
         src/logic/World/WorldReader.h
+        ${wfc}
 
 )
 

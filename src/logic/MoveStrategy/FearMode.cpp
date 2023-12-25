@@ -6,7 +6,7 @@
 #include <iostream>
 namespace Logic {
     namespace Move {
-        void FearMode::makeDirection(const Vector2D &to_entity, const std::vector<Vector2D> &options){
+        void FearMode::makeDirection(const Vector2D<> &to_entity, const std::vector<Vector2D<>> &options){
 
             //decide between random choice or Manhattan choice
             std::shared_ptr<Random> r = Random::getInstance();

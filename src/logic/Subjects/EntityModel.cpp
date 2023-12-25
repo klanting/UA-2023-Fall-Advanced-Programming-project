@@ -11,7 +11,7 @@
 namespace Logic {
 
 
-    EntityModel::EntityModel(const Vector2D &position, const Vector2D &size, double speed, std::shared_ptr<Move::ModeManager> move_manager): position{position}, speed{speed}, size{size},
+    EntityModel::EntityModel(const Vector2D<> &position, const Vector2D<> &size, double speed, std::shared_ptr<Move::ModeManager> move_manager): position{position}, speed{speed}, size{size},
                                                                                                                                              last_position{position}, start_position{position}{
         EntityModel::move_manager = move_manager;
         wait_delay = 0;
@@ -44,11 +44,11 @@ namespace Logic {
 
 
 
-    const Vector2D &EntityModel::getPosition() const {
+    const Vector2D<> &EntityModel::getPosition() const {
         return position;
     }
 
-    const Vector2D &EntityModel::getSize() const {
+    const Vector2D<> &EntityModel::getSize() const {
         return size;
     }
 
@@ -56,7 +56,7 @@ namespace Logic {
         return move_manager;
     }
 
-    bool EntityModel::collideFuture(std::weak_ptr<EntityModel> other, const Vector2D &new_pos) {
+    bool EntityModel::collideFuture(std::weak_ptr<EntityModel> other, const Vector2D<> &new_pos) {
         Vector2D temp = last_position;
         last_position = position;
         position = new_pos;
@@ -68,7 +68,7 @@ namespace Logic {
         return hit;
     }
 
-    std::pair<bool, std::pair<Vector2D, Vector2D>> EntityModel::collide(std::weak_ptr<EntityModel> other) {
+    std::pair<bool, std::pair<Vector2D<>, Vector2D<>>> EntityModel::collide(std::weak_ptr<EntityModel> other) {
 
         if (other.expired()){
             throw "expired";
@@ -95,7 +95,7 @@ namespace Logic {
                 continue;
             }
 
-            Vector2D change = {0, 0};
+            Vector2D<> change = {0, 0};
             if (distance[i] > 0){
                 change = size*0.5;
             }else{
@@ -118,12 +118,12 @@ namespace Logic {
             collided = true;
         }
 
-        Vector2D to_collision = (center_this_last*best)+center_this*(1-best);
-        Vector2D bounce_direction = Vector2D{0, 0};
+        Vector2D<> to_collision = (center_this_last*best)+center_this*(1-best);
+        Vector2D<> bounce_direction = Vector2D<>{0, 0};
         if (best_index == 0){
-            bounce_direction = Vector2D{1, 0};
+            bounce_direction = Vector2D<>{1, 0};
         }else{
-            bounce_direction = Vector2D{0, 1};
+            bounce_direction = Vector2D<>{0, 1};
         }
 
         return std::make_pair(collided, std::make_pair(to_collision, bounce_direction));
@@ -141,7 +141,7 @@ namespace Logic {
         Vector2D travelled = (position-last_position);
         Vector2D travelled_before_collision = (p.second.first-(last_position + size*0.5));
 
-        Vector2D mini = std::min(move_manager->getDirection() - p.second.second, move_manager->getDirection()+ p.second.second, [](const Vector2D& a, const Vector2D& b) {return a.getLength() < b.getLength();});
+        Vector2D<> mini = std::min(move_manager->getDirection() - p.second.second, move_manager->getDirection()+ p.second.second, [](const Vector2D<>& a, const Vector2D<>& b) {return a.getLength() < b.getLength();});
 
         position -= (travelled - travelled_before_collision)*1.0001;
 
@@ -162,26 +162,26 @@ namespace Logic {
         return consumable;
     }
 
-    Vector2D EntityModel::getDirection() const {
+    Vector2D<> EntityModel::getDirection() const {
         return move_manager->getDirection();
     }
 
     bool EntityModel::isUp() const {
-        return getDirectionIndex() == 0 || getDirection() == Vector2D{0, -1};
+        return getDirectionIndex() == 0 || getDirection() == Vector2D<>{0, -1};
     }
 
     bool EntityModel::isDown() const {
-        return getDirectionIndex() == 1 || getDirection() == Vector2D{0, 1};
+        return getDirectionIndex() == 1 || getDirection() == Vector2D<>{0, 1};
 
     }
 
     bool EntityModel::isLeft() const {
-        return getDirectionIndex() == 2 || getDirection() == Vector2D{-1, 0};
+        return getDirectionIndex() == 2 || getDirection() == Vector2D<>{-1, 0};
 
     }
 
     bool EntityModel::isRight() const {
-        return getDirectionIndex() == 3 || getDirection() == Vector2D{1, 0};
+        return getDirectionIndex() == 3 || getDirection() == Vector2D<>{1, 0};
 
     }
 
@@ -213,7 +213,7 @@ namespace Logic {
         double smallest_angle = std::numeric_limits<double>::max();
         int best_index = -1;
 
-        std::vector<Vector2D> directions = {Vector2D{0, -1}, Vector2D{0, 1}, Vector2D{-1, 0}, Vector2D{1, 0}};
+        std::vector<Vector2D<>> directions = {Vector2D<>{0, -1}, Vector2D<>{0, 1}, Vector2D<>{-1, 0}, Vector2D<>{1, 0}};
 
         for (int i =0; i<directions.size(); i++){
             auto v = directions[i];
@@ -251,11 +251,11 @@ namespace Logic {
 
     }
 
-    const Vector2D &EntityModel::getLastPosition() const {
+    const Vector2D<> &EntityModel::getLastPosition() const {
         return last_position;
     }
 
-    void EntityModel::setLastPosition(const Vector2D &lastPosition) {
+    void EntityModel::setLastPosition(const Vector2D<> &lastPosition) {
         last_position = lastPosition;
     }
 

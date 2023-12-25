@@ -8,7 +8,7 @@ namespace View {
 
 
     void WallView::moved() {
-        typedef std::pair<Logic::Vector2D, Logic::Vector2D> PixelData;
+        typedef std::pair<Logic::Vector2D<>, Logic::Vector2D<>> PixelData;
 
 
         if (entity.expired()){

@@ -7,24 +7,24 @@
 namespace Controller {
 
     void MovementController::moveUp(bool pressed) {
-        check_press(pressed, 0, Vector2D{0, -1});
+        check_press(pressed, 0, Vector2D<>{0, -1});
 
     }
 
     void MovementController::moveDown(bool pressed) {
-        check_press(pressed, 1, Vector2D{0, 1});
+        check_press(pressed, 1, Vector2D<>{0, 1});
     }
 
     void MovementController::moveLeft(bool pressed) {
-        check_press(pressed, 2, Vector2D{-1, 0});
+        check_press(pressed, 2, Vector2D<>{-1, 0});
     }
 
     void MovementController::moveRight(bool pressed) {
-        check_press(pressed, 3, Vector2D{1, 0});
+        check_press(pressed, 3, Vector2D<>{1, 0});
     }
 
 
-    void MovementController::check_press(bool pressed, int index, const Vector2D& change) {
+    void MovementController::check_press(bool pressed, int index, const Vector2D<>& change) {
         //Check if key is already pressed
         bool pressed_key = pressed_table[index];
 
@@ -62,7 +62,7 @@ namespace Controller {
         for (int i=0; i<4; i++){
             pressed_table[i] = false;
         }
-        data_vector = Vector2D{0, 0};
+        data_vector = Vector2D<>{0, 0};
     }
 
     void MovementController::clear() {

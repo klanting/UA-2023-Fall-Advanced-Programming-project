@@ -28,8 +28,8 @@ namespace View {
 
     }
 
-    PositionAnimation::PositionAnimation(double delay, std::vector<std::unique_ptr<Image>> images, const Logic::Vector2D &from,
-                                         const Logic::Vector2D &to): ImageAnimation{delay, std::move(images)},
+    PositionAnimation::PositionAnimation(double delay, std::vector<std::unique_ptr<Image>> images, const Logic::Vector2D<> &from,
+                                         const Logic::Vector2D<> &to): ImageAnimation{delay, std::move(images)},
                                                                      start_position{from}, end_position{to} {
 
     }

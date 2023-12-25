@@ -18,9 +18,9 @@ namespace Logic {
         class ControlMode: public Mode{
         public:
             ControlMode() =default;
-            void makeDirection(const Vector2D& to_pacman, const std::vector<Vector2D>& options) override;
+            void makeDirection(const Vector2D<>& to_pacman, const std::vector<Vector2D<>>& options) override;
 
-            const Vector2D &getDirection() const override;
+            const Vector2D<> &getDirection() const override;
         private:
 
         };

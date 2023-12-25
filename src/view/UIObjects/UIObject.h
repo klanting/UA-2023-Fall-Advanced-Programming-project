@@ -13,12 +13,12 @@ namespace View {
 
     class UIObject {
     public:
-        UIObject(const Logic::Vector2D& position, const Logic::Vector2D& size);
+        UIObject(const Logic::Vector2D<>& position, const Logic::Vector2D<>& size);
         virtual void render() const = 0;
 
     protected:
-        Logic::Vector2D position;
-        Logic::Vector2D size;
+        Logic::Vector2D<> position;
+        Logic::Vector2D<> size;
 
     };
 

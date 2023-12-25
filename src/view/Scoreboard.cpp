@@ -77,7 +77,7 @@ namespace View {
             score->setFont(font);
             score->setCharacterSize(50);
             score->setFillColor(sf::Color{230, 230, 0});
-            auto p = Camera::getInstance()->toPixels(Logic::Vector2D{-0.2, -0.3+0.1*i}, Logic::Vector2D{0, 0});
+            auto p = Camera::getInstance()->toPixels(Logic::Vector2D{-0.2, -0.3+0.1*i}, Logic::Vector2D<>{0, 0});
 
             score->setPosition(p.first[0], p.first[1]);
 

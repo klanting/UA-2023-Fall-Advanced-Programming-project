@@ -41,7 +41,7 @@ namespace View {
 
     }
 
-    void LevelState::acceptCharacter(int input, bool pressed, const Logic::Vector2D& v) {
+    void LevelState::acceptCharacter(int input, bool pressed, const Logic::Vector2D<>& v) {
 
         if (state_manager.expired()){
             return;
@@ -81,7 +81,7 @@ namespace View {
         score->setCharacterSize(50);
         score->setFillColor(sf::Color{255, 255, 0});
 
-        auto p = Camera::getInstance()->toPixels(Vector2D{-0.9, 0.2}, Vector2D{0, 0});
+        auto p = Camera::getInstance()->toPixels(Vector2D<>{-0.9, 0.2}, Vector2D<>{0, 0});
 
         score->setPosition(p.first[0], p.first[1]);
 
@@ -94,7 +94,7 @@ namespace View {
         lives->setCharacterSize(50);
         lives->setFillColor(sf::Color{255, 255, 0});
 
-        p = Camera::getInstance()->toPixels(Vector2D{-0.9, 0.4}, Vector2D{0, 0});
+        p = Camera::getInstance()->toPixels(Vector2D<>{-0.9, 0.4}, Vector2D<>{0, 0});
 
         lives->setPosition(p.first[0], p.first[1]);
 

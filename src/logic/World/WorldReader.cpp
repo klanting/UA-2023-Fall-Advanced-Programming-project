@@ -13,12 +13,12 @@ namespace Logic::WorldLoading {
         std::vector<std::shared_ptr<EntityModel>> intersection;
         int consumable_count = 0;
 
-        std::shared_ptr<EntityModel> s = factory->createPacman(Vector2D{0, -0.0725}, score);
+        std::shared_ptr<EntityModel> s = factory->createPacman(Vector2D<>{0, -0.0725}, score);
         entities.push_back(s);
         pacman = s;
 
-        std::vector<std::pair<Vector2D, Vector2D>> wall_positions = {};
-        std::vector<std::pair<Vector2D, Vector2D>> intersection_positions = {};
+        std::vector<std::pair<Vector2D<>, Vector2D<>>> wall_positions = {};
+        std::vector<std::pair<Vector2D<>, Vector2D<>>> intersection_positions = {};
         std::fstream f("maps/map_data.txt");
 
         std::string buffer;
@@ -76,7 +76,7 @@ namespace Logic::WorldLoading {
             }
 
             s = factory->createGhost(ghost_spawn, delay, i, difficulty);
-            s->getMoveManager()->makeDirection(pacman->getPosition()-s->getPosition(), {Vector2D{0, -1}});
+            s->getMoveManager()->makeDirection(pacman->getPosition()-s->getPosition(), {Vector2D<>{0, -1}});
             entities.push_back(s);
         }
 

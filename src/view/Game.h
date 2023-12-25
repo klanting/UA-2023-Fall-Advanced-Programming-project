@@ -19,7 +19,7 @@ namespace View {
         std::shared_ptr<RenderWindowSingleton> window;
         std::shared_ptr<StateManager> state_manager;
         void doGameLoop();
-        void processInput(int input, bool pressed, const Logic::Vector2D& v);
+        void processInput(int input, bool pressed, const Logic::Vector2D<>& v);
     };
 
 } // View

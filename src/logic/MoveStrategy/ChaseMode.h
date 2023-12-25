@@ -16,7 +16,7 @@ namespace Logic {
         class ChaseMode: public Mode{
         public:
             ChaseMode() = default;
-            void makeDirection(const Vector2D& to_entity, const std::vector<Vector2D>& options) override;
+            void makeDirection(const Vector2D<>& to_entity, const std::vector<Vector2D<>>& options) override;
         private:
 
         };

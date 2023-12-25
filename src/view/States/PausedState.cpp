@@ -11,7 +11,7 @@ namespace View {
 
     }
 
-    void PausedState::acceptCharacter(int input, bool pressed, const Logic::Vector2D& v) {
+    void PausedState::acceptCharacter(int input, bool pressed, const Logic::Vector2D<>& v) {
 
         if (state_manager.expired()){
             return;
@@ -51,7 +51,7 @@ namespace View {
         std::shared_ptr<sf::Sprite> paused_text = std::make_shared<sf::Sprite>();
         paused_text->setTextureRect(sf::IntRect(1, 404, 500, 34));
 
-        std::unique_ptr<Image> img = std::make_unique<Image>(Logic::Vector2D{-0.85, -0.8}, Logic::Vector2D{1.67, 0.18}, Logic::Vector2D{315, 34}, paused_text, texture);
+        std::unique_ptr<Image> img = std::make_unique<Image>(Logic::Vector2D<>{-0.85, -0.8}, Logic::Vector2D<>{1.67, 0.18}, Logic::Vector2D<>{315, 34}, paused_text, texture);
 
         render_images.push_back(std::move(img));
 

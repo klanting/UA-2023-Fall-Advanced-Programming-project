@@ -45,7 +45,7 @@ namespace View {
 
     template<typename T>
     void EntityView<T>::moved() {
-        typedef std::pair<Logic::Vector2D, Logic::Vector2D> PixelData;
+        typedef std::pair<Logic::Vector2D<>, Logic::Vector2D<>> PixelData;
 
         if (entity.expired()){
             throw "entity doesnt exist";

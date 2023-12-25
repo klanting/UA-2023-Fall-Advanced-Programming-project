@@ -5,7 +5,7 @@
 #include "UIObject.h"
 
 namespace View {
-    UIObject::UIObject(const Logic::Vector2D &position, const Logic::Vector2D &size): position{position}, size{size} {
+    UIObject::UIObject(const Logic::Vector2D<> &position, const Logic::Vector2D<> &size): position{position}, size{size} {
 
     }
 } // View

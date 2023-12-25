@@ -25,7 +25,7 @@ namespace Controller {
         inline static std::shared_ptr<MovementController> _instance;
 
 
-        void check_press(bool pressed, int index, const Vector2D& change);
+        void check_press(bool pressed, int index, const Vector2D<>& change);
         bool pressed_table[4];
 
         void reset_all_moves();

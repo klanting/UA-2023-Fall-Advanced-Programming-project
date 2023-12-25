@@ -10,7 +10,7 @@ namespace View {
     class ContinueButton: public Button{
     public:
         ContinueButton();
-        ContinueButton(const Logic::Vector2D& position, const Logic::Vector2D& size);
+        ContinueButton(const Logic::Vector2D<>& position, const Logic::Vector2D<>& size);
         void render() const override;
     private:
         std::shared_ptr<Image> image;

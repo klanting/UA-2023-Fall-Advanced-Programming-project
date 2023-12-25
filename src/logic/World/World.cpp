@@ -103,7 +103,7 @@ namespace Logic {
 
         if (hit_wall){
 
-            std::vector<Vector2D> option_directions = {Vector2D{0,1}, Vector2D{0,-1}, Vector2D{1,0}, Vector2D{-1,0}};
+            std::vector<Vector2D<>> option_directions = {Vector2D<>{0,1}, Vector2D<>{0,-1}, Vector2D<>{1,0}, Vector2D<>{-1,0}};
             auto it = std::find(option_directions.begin(), option_directions.end(), e->getMoveManager()->getDirection());
             if (it != option_directions.end()){
                 option_directions.erase(it);
@@ -113,7 +113,7 @@ namespace Logic {
                 option_directions.erase(it2);
             }
 
-            std::vector<Vector2D> option_resulting = getFutureDirections(e, option_directions);
+            std::vector<Vector2D<>> option_resulting = getFutureDirections(e, option_directions);
             if (option_resulting.empty()){
                 option_resulting.push_back(e->getDirection().getOpposed());
             }
@@ -172,9 +172,9 @@ namespace Logic {
 
     }
 
-    std::vector<Vector2D>
-    World::getFutureDirections(std::shared_ptr<EntityModel> e, const std::vector<Vector2D> &options) {
-        std::vector<Vector2D> option_resulting = {};
+    std::vector<Vector2D<>>
+    World::getFutureDirections(std::shared_ptr<EntityModel> e, const std::vector<Vector2D<>> &options) {
+        std::vector<Vector2D<>> option_resulting = {};
         for (auto o: options){
 
 
@@ -207,8 +207,8 @@ namespace Logic {
                     }
                     e->handleInpassable(hit, false);
                     Vector2D old_dir = e->getDirection();
-                    std::vector<Vector2D> option_directions = {old_dir.rotate(M_PI/2.0), old_dir.rotate(-1*M_PI/2.0), old_dir};
-                    std::vector<Vector2D> resulting = getFutureDirections(e, option_directions);
+                    std::vector<Vector2D<>> option_directions = {old_dir.rotate(M_PI/2.0), old_dir.rotate(-1*M_PI/2.0), old_dir};
+                    std::vector<Vector2D<>> resulting = getFutureDirections(e, option_directions);
                     e->getMoveManager()->makeDirection(pacman->getPosition()-e->getPosition(), resulting);
                     last_intersection.erase(it);
                     continue;

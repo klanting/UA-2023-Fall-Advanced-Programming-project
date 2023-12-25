@@ -7,25 +7,26 @@
 #include <math.h>
 namespace Logic {
 
+    template<typename T = double>
     class Vector2D {
     public:
-        Vector2D(double x, double y);
-        Vector2D operator+(const Vector2D& other) const;
+        Vector2D(T x, T y);
+        Vector2D<T> operator+(const Vector2D<T>& other) const;
         void operator+=(const Vector2D& other);
         Vector2D operator-(const Vector2D& other) const;
         void operator-=(const Vector2D& other);
-        Vector2D operator*(double multiplier) const;
+        Vector2D<T> operator*(T multiplier) const;
         Vector2D operator*(const Vector2D& scalar) const;
         Vector2D operator/(const Vector2D& scalar) const;
         bool operator<(const Vector2D& other) const;
         bool operator<=(const Vector2D& other) const;
         bool operator==(const Vector2D& other) const;
-        double operator[](int index) const;
+        T operator[](int index) const;
 
-        double innerProduct(const Vector2D& other) const;
-        double getLength() const;
-        double getAngle(const Vector2D& other) const;
-        double getDistance(const Vector2D& other) const;
+        T innerProduct(const Vector2D& other) const;
+        T getLength() const;
+        T getAngle(const Vector2D& other) const;
+        T getDistance(const Vector2D& other) const;
         Vector2D projection(const Vector2D& target) const;
         Vector2D operator+() const;
         Vector2D get_normalised() const;
@@ -34,8 +35,8 @@ namespace Logic {
 
 
     private:
-        double x;
-        double y;
+        T x;
+        T y;
     };
 
 

@@ -16,7 +16,7 @@ namespace Logic {
         class PassiveMode: public Mode{
         public:
             PassiveMode() = default;
-            void makeDirection(const Vector2D& to_pacman, const std::vector<Vector2D>& options) override;
+            void makeDirection(const Vector2D<>& to_pacman, const std::vector<Vector2D<>>& options) override;
         private:
         };
 

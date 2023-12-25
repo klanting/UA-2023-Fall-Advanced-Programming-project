@@ -30,7 +30,7 @@ namespace View {
 
     }
 
-    Image::Image(const Logic::Vector2D &position, const Logic::Vector2D &size, const Logic::Vector2D &pixel_size,
+    Image::Image(const Logic::Vector2D<> &position, const Logic::Vector2D<> &size, const Logic::Vector2D<> &pixel_size,
                  const std::shared_ptr<sf::Sprite>& sprite, const sf::Texture& texture): UIObject{position, size}, pixel_size{pixel_size}, sprite{sprite}, texture{texture} {
         auto p = Camera::getInstance()->toPixels(position, size);
         Image::sprite->setPosition(p.first[0], p.first[1]);
@@ -41,15 +41,15 @@ namespace View {
 
     }
 
-    void Image::setPosition(const Logic::Vector2D &position) {
+    void Image::setPosition(const Logic::Vector2D<> &position) {
         Image::position = position;
         auto p = Camera::getInstance()->toPixels(Image::position, size);
         sprite->setPosition(p.first[0], p.first[1]);
 
     }
 
-    Logic::Vector2D Image::getPosition() {
-        return Logic::Vector2D{sprite->getPosition().x, sprite->getPosition().y};
+    Logic::Vector2D<> Image::getPosition() {
+        return Logic::Vector2D<>{sprite->getPosition().x, sprite->getPosition().y};
     }
 
     void Image::cutOff(double pct) const {

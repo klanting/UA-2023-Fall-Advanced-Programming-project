@@ -6,10 +6,16 @@
 #include "logic/Stopwatch.h"
 #include "logic/Subjects/Pacman.h"
 #include "view/Game.h"
+#include "logic/World/WFC/WFCWorldGenerator.h"
 using namespace std;
 
 int main(){
     View::Game g{};
+
+    //Logic::WFC::WFCWorldGenerator w{};
+
+    //w.print();
+    //w.printKey();
 
     return 0;
 }

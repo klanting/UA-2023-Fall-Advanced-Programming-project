@@ -17,7 +17,7 @@ namespace View {
         State() = default;
         virtual ~State() = default;
         virtual void runTick() = 0;
-        virtual void acceptCharacter(int input, bool pressed, const Logic::Vector2D& v) = 0;
+        virtual void acceptCharacter(int input, bool pressed, const Logic::Vector2D<>& v) = 0;
         void setManager(std::weak_ptr<StateManager> state_manager);
 
     protected:
