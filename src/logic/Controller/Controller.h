@@ -4,31 +4,36 @@
 
 #ifndef PROJECTPACMAN_CONTROLLER_H
 #define PROJECTPACMAN_CONTROLLER_H
-#include <memory>
-#include <vector>
 #include "../Vector2D.h"
+#include <memory>
 namespace Controller {
     using namespace Logic;
 
     /**
-     * Here is the controller defined, this allows an easy interface to control
-     * certain entities
-     * This class is an Abstract class so it is possible to add other controllers with other behaviours
+     * Here is a Controller, that decides the direction based on which input keys
+     * This is a singleton to guarantee that everyone will use the same controller
      * */
-    class Controller {
+    class Controller{
     public:
+        static std::shared_ptr<Controller> getInstance();
+
+
+        void moveUp(bool pressed);
+        void moveDown(bool pressed);
+        void moveLeft(bool pressed);
+        void moveRight(bool pressed);
+        void clear();
+        const Vector2D<>& getDataVector() const;
+    private:
         Controller();
+        inline static std::shared_ptr<Controller> _instance;
 
-        virtual void moveUp(bool pressed) = 0;
-        virtual void moveDown(bool pressed) = 0;
-        virtual void moveLeft(bool pressed) = 0;
-        virtual void moveRight(bool pressed) = 0;
-        virtual void clear() = 0;
-        const Vector2D<> &getDataVector() const;
 
-    protected:
+        void check_press(bool pressed, int index, const Vector2D<>& change);
+        bool pressed_table[4];
         Vector2D<> data_vector;
 
+        void reset_all_moves();
     };
 
 } // Controller

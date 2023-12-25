@@ -10,7 +10,7 @@ namespace Logic {
     LogicHandler::LogicHandler(std::unique_ptr<AbstractFactory> factory){
         std::cout << "logic handler started" << std::endl;
         //temp concrete factory creating
-        Controller::MovementController::getInstance()->clear();
+        Controller::Controller::Controller::getInstance()->clear();
         difficulty_index = 1;
         score = std::make_shared<Score>();
         world_loader = std::make_unique<WorldLoading::WorldReader>(std::move(factory), score);
@@ -35,7 +35,7 @@ namespace Logic {
 
     void LogicHandler::nextLevel() {
         std::cout << "next lvl created" << std::endl;
-        Controller::MovementController::getInstance()->clear();
+        Controller::Controller::Controller::getInstance()->clear();
         difficulty_index += 0.1;
         int remaining_lives = world->getLives();
         world = world_loader->load(difficulty_index, remaining_lives);

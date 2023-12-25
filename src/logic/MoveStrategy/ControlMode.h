@@ -8,7 +8,7 @@
 
 #include "../Controller/Controller.h"
 #include <algorithm>
-#include "../Controller/MovementController.h"
+#include "../Controller/Controller.h"
 namespace Logic {
     namespace Move {
 
