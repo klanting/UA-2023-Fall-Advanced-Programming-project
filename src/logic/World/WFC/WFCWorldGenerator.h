@@ -14,11 +14,13 @@ namespace Logic {
             WFCWorldGenerator();
             void print() const;
             void printKey() const;
+            void exportData() const;
         private:
             void place(int i, int j, int type);
 
             void generate();
             void generateOutsideWall();
+            void propagate(int i, int j, const Cell& c);
 
             std::vector<Vector2D<int>> lowestEntropy();
 

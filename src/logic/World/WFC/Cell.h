@@ -20,7 +20,7 @@ namespace Logic {
         public:
             Cell(int size);
             void place(int type);
-            void updateValue(const std::set<int>& acceptable);
+            bool updateValue(const std::set<int>& acceptable);
 
             double getEntropy() const;
 

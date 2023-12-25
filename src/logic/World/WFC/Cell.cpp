@@ -21,20 +21,27 @@ namespace Logic {
             defined = true;
             entropy = 0;
 
+            options = {type};
             key = type;
 
         }
 
-        void Cell::updateValue(const std::set<int> &acceptable) {
+        bool Cell::updateValue(const std::set<int> &acceptable) {
             if (defined){
-                return;
+                return false;
             }
             std::set<int> resulting;
 
             std::set_intersection(acceptable.begin(), acceptable.end(), options.begin(), options.end(), std::inserter(resulting, resulting.begin()));
             options = resulting;
 
+            if (options.size() == entropy){
+                return false;
+            }
+
             entropy = options.size();
+
+            return true;
 
         }
 

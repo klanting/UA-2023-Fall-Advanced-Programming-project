@@ -16,6 +16,7 @@ int main(){
 
     w.print();
     w.printKey();
+    w.exportData();
 
     return 0;
 }

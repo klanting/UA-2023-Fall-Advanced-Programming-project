@@ -22,6 +22,8 @@ set(wfc
         src/logic/World/WFC/TypeRuleManager.h
         src/logic/World/WFC/Matrix.cpp
         src/logic/World/WFC/Matrix.h
+        src/logic/World/WFC/CellChangeLog.cpp
+        src/logic/World/WFC/CellChangeLog.h
 )
 
 set(world_loading

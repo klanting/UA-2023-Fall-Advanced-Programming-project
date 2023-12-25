@@ -65,8 +65,14 @@ namespace Logic {
             c.place(type);
             grid.set(i, j, c);
 
+            propagate(i, j, c);
+
+        }
+
+        void WFCWorldGenerator::propagate(int i, int j, const Cell &c) {
+
             std::vector<Vector2D<int>> directions = {Logic::Vector2D{1, 0}, Logic::Vector2D{-1, 0}, Logic::Vector2D{0, 1}, Logic::Vector2D{0, -1},
-                                                 Logic::Vector2D{1, 1}, Logic::Vector2D{-1, 1}, Logic::Vector2D{1, -1}, Logic::Vector2D{-1, -1}};
+                                                     Logic::Vector2D{1, 1}, Logic::Vector2D{-1, 1}, Logic::Vector2D{1, -1}, Logic::Vector2D{-1, -1}};
 
             for (int dir = 0; dir<directions.size(); dir++){
                 auto p = directions[dir];
@@ -77,13 +83,21 @@ namespace Logic {
                     continue;
                 }
 
-                std::set<int> n_options = type_manager.getOptions(type, dir);
+                std::set<int> n_options;
 
-                c = grid.get(i+p[0], j+p[1]);
-                c.updateValue(n_options);
-                grid.set(i+p[0], j+p[1], c);
+                for (auto o: c.getOptions()){
+                    std::set<int> n_temp = type_manager.getOptions(o, dir);
+                    n_options.insert(n_temp.begin(), n_temp.end());
+                }
 
+                Cell n = grid.get(i+p[0], j+p[1]);
+                bool recur = n.updateValue(n_options);
+                grid.set(i+p[0], j+p[1], n);
+                if (recur){
+                    propagate(i+p[0], j+p[1], n);
+                }
             }
+
 
         }
 
@@ -119,7 +133,7 @@ namespace Logic {
                     }
 
                     double v = grid.get(i, j).getEntropy();
-                    if (v < best_entropy && v > 0){
+                    if (v < best_entropy){
                         best_entropy = v;
                         best_options.clear();
                         best_options.push_back(Vector2D<int>{i, j});
@@ -134,5 +148,24 @@ namespace Logic {
             std::cout << "best entropy " << best_entropy << std::endl;
             return best_options;
         }
+
+        void WFCWorldGenerator::exportData() const {
+            std::ofstream file("WFC/output");
+            for (int j = 0; j<grid_height; j++){
+                for (int i = 0; i<grid_width; i++){
+                    if(grid.get(i, j).getKey() == 0){
+                        file << 'w';
+                    }else{
+                        file << 'P';
+                    }
+                }
+                file << '\n';
+            }
+
+            file.close();
+
+        }
+
+
     } // WFC
 } // Logic
