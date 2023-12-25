@@ -5,8 +5,8 @@
 #ifndef PROJECTPACMAN_PASSIVEMODE_H
 #define PROJECTPACMAN_PASSIVEMODE_H
 #include "Mode.h"
-namespace Logic {
-    namespace Move {
+
+    namespace Logic::Move {
 
         /**
          * This Mode will make sure the direction will always be {0, 0}
@@ -16,11 +16,13 @@ namespace Logic {
         class PassiveMode: public Mode{
         public:
             PassiveMode() = default;
+            ~PassiveMode() override = default;
+
             void makeDirection(const Vector2D<>& to_pacman, const std::vector<Vector2D<>>& options) override;
         private:
         };
 
     } // Logic
-} // Move
+// Move
 
 #endif //PROJECTPACMAN_PASSIVEMODE_H

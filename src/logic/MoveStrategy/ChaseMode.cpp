@@ -17,6 +17,7 @@ namespace Logic {
                 direction = takeRandom(options);
             }else{
                 //this choice is will choose the Direction that brings the Entity closest to Entity
+                //take use of the protected function of SuperClass Mode, giving it the operator less means we want to minimize the distance
                 direction = findBest(to_entity, options, std::less());
             }
 

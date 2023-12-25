@@ -32,8 +32,6 @@ namespace Controller {
         if (pressed && !pressed_key){
             pressed_table[index] = true;
             data_vector += change;
-            std::cout << "P" << index << std::endl;
-
 
         }
 
@@ -41,7 +39,6 @@ namespace Controller {
         if (!pressed && pressed_key){
             pressed_table[index] = false;
             data_vector -= change;
-            std::cout << "R" << index << std::endl;
         }
 
     }
@@ -57,17 +54,13 @@ namespace Controller {
         return _instance;
     }
 
-    void Controller::reset_all_moves() {
+
+    void Controller::clear() {
         //Reset all keys that are pressed
         for (int i=0; i<4; i++){
             pressed_table[i] = false;
         }
         data_vector = Vector2D<>{0, 0};
-    }
-
-    void Controller::clear() {
-        //Interface from the outside to clear all moves
-        reset_all_moves();
 
     }
 
