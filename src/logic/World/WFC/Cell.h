@@ -30,6 +30,8 @@ namespace Logic {
 
             const std::set<int> &getOptions() const;
 
+            void remove(int i);
+
         private:
 
             bool defined = false;

@@ -60,5 +60,10 @@ namespace Logic {
         const std::set<int> &Cell::getOptions() const {
             return options;
         }
+
+        void Cell::remove(int i) {
+            options.erase(i);
+
+        }
     } // WFC
 } // Logic

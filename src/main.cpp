@@ -15,8 +15,10 @@ int main(){
     Logic::WFC::WFCWorldGenerator w{};
 
     w.print();
-    w.printKey();
+    w.printKey(true);
     w.exportData();
+
+
 
     return 0;
 }

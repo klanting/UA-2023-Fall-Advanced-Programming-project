@@ -7,15 +7,18 @@
 #include "Memento.h"
 #include <stack>
 #include "Cell.h"
+#include "Matrix.h"
 namespace Logic {
     namespace WFC {
 
         class CellChangeLog {
         public:
             CellChangeLog() = default;
+            void save(const Matrix<Cell>& m);
+            Matrix<Cell> undo();
 
         private:
-            std::stack<Memento<Cell>> history;
+            std::stack<Memento<Matrix<Cell>>> history;
 
         };
 

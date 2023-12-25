@@ -3,9 +3,12 @@
 //
 
 #include "Memento.h"
-
+#include "Matrix.h"
+#include "Cell.h"
 namespace Logic {
     namespace WFC {
+
+        template class Memento<Matrix<Cell>>;
 
         template<typename T>
         Memento<T>::Memento(T data): data{data} {

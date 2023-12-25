@@ -6,6 +6,7 @@
 #define PROJECTPACMAN_WFCWORLDGENERATOR_H
 #include "TypeRuleManager.h"
 #include "Cell.h"
+#include "CellChangeLog.h"
 namespace Logic {
     namespace WFC {
 
@@ -13,23 +14,26 @@ namespace Logic {
         public:
             WFCWorldGenerator();
             void print() const;
-            void printKey() const;
+            void printKey(bool simple=false) const;
             void exportData() const;
         private:
-            void place(int i, int j, int type);
+            bool place(int i, int j, int type);
 
             void generate();
             void generateOutsideWall();
-            void propagate(int i, int j, const Cell& c);
+            bool propagate(int i, int j, const Cell& c);
 
             std::vector<Vector2D<int>> lowestEntropy();
+            std::vector<Vector2D<int>> largestExpansion(const std::vector<Vector2D<int>>& ex);
 
             TypeRuleManager type_manager;
 
-            const int grid_width = 11;
-            const int grid_height = 11;
+            const int grid_width = 19;
+            const int grid_height = 9;
 
             Matrix<Cell> grid;
+
+            CellChangeLog cl;
 
         };
 
