@@ -26,7 +26,7 @@ namespace Logic {
                 int v_index = rand() % v_options.size();
                 auto p = v_options[v_index];
 
-                std::set<int> o = grid.get(round(p[0]), round(p[1])).getOptions();
+                std::set<int> o = grid.get(p[0], p[1]).getOptions();
                 if (o.empty()){
                     std::cout << "broke" << std::endl;
                     auto t_options = lowestEntropy();
@@ -39,7 +39,7 @@ namespace Logic {
                 for (int i = 0; i<rand_index; i++){
                     it++;
                 }
-                place(round(p[0]), round(p[1]), *it);
+                place(p[0], p[1], *it);
             }
 
 
@@ -70,18 +70,18 @@ namespace Logic {
 
             for (int dir = 0; dir<directions.size(); dir++){
                 auto p = directions[dir];
-                if (round(j+p[1]) < 0 || round(j+p[1]) >= grid_height){
+                if (j+p[1] < 0 || j+p[1] >= grid_height){
                     continue;
                 }
-                if (round(i+p[0]) < 0 || round(i+p[0]) >= grid_width){
+                if (i+p[0] < 0 || i+p[0] >= grid_width){
                     continue;
                 }
 
                 std::set<int> n_options = type_manager.getOptions(type, dir);
 
-                c = grid.get(round(i+p[0]), round(j+p[1]));
+                c = grid.get(i+p[0], j+p[1]);
                 c.updateValue(n_options);
-                grid.set(round(i+p[0]), round(j+p[1]), c);
+                grid.set(i+p[0], j+p[1], c);
 
             }
 
