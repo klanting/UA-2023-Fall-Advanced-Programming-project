@@ -24,10 +24,8 @@ namespace View {
         }
 
         if (state_manager.expired()){
-            return;
+            throw std::bad_weak_ptr();
         }
-
-
 
         if (!handler->isGameOver()){
 

@@ -49,6 +49,10 @@ namespace Logic {
 
         //remove all the entities that do not have to exist anymore
         for (const auto& e: to_be_removed){
+            if (e.expired()){
+                continue;
+            }
+
             auto it = std::find(entities.begin(), entities.end(), e.lock());
             entities.erase(it);
             consumable_count -=1;
@@ -69,6 +73,9 @@ namespace Logic {
     }
 
     void World::handleActionsPacman(const std::shared_ptr<EntityModel>& e, const std::weak_ptr<EntityModel>& hit) {
+        if (hit.expired()){
+            throw std::bad_weak_ptr();
+        }
 
         if (hit.lock()->isConsumable()){
             e->consume(hit);
@@ -84,10 +91,13 @@ namespace Logic {
     }
 
     void World::handleActions(const std::shared_ptr<EntityModel>& e, const std::weak_ptr<EntityModel>& hit) {
+        if (hit.expired()){
+            throw std::bad_weak_ptr();
+        }
+
         //make sure only ghosts do this
         if (hit.lock() == pacman){
             handleActionsPacman(hit.lock(), e);
-
         }
 
     }
@@ -133,6 +143,9 @@ namespace Logic {
     }
 
     void World::dealIntersection(const std::shared_ptr<EntityModel> &e, const std::weak_ptr<EntityModel> &hit) {
+        if (hit.expired()){
+            throw std::bad_weak_ptr();
+        }
         auto it = last_intersection.find(e);
         if (it != last_intersection.end()){
             if (it->second == hit.lock()){
