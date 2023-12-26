@@ -3,9 +3,9 @@
 //
 
 #include "World.h"
-#include "fstream"
-#include "iostream"
-#include "functional"
+#include <fstream>
+#include <iostream>
+
 
 
 namespace Logic {
@@ -53,11 +53,24 @@ namespace Logic {
 
         for (auto& e: entities){
             e->move();
-            handleInPassable(e);
+
+            std::function<void(std::shared_ptr<EntityModel>, std::weak_ptr<EntityModel>)> col_fix = std::bind(&World::dealCollision, this, std::placeholders::_1, std::placeholders::_2, true);
+            bool hit = checkCollision(e, not_passable, col_fix);
+
+            std::function<void(std::shared_ptr<EntityModel>, std::weak_ptr<EntityModel>)> col_no_fix = std::bind(&World::dealCollision, this, std::placeholders::_1, std::placeholders::_2, false);
+            bool hit2 = checkCollision(e, not_passable, col_no_fix);
+
+            if (hit || hit2){
+                reCalculateDirection(e);
+            }
+
+            //handleInPassable(e);
 
             handleHit(e);
 
-            handleIntersection(e);
+            //handleIntersection(e);
+
+
 
 
         }
@@ -84,7 +97,6 @@ namespace Logic {
         bool hit_wall = false;
         bool fix = true;
         for (int  i=0; i<2; i++){
-            std::vector<std::weak_ptr<EntityModel>> np;
             std::vector<std::weak_ptr<EntityModel>> hits = checkCollision(e, 1);
 
             if (hits.empty()){
@@ -95,7 +107,7 @@ namespace Logic {
             for (auto hit: hits){
                 e->handleInpassable(hit, fix);
                 hit_wall = true;
-                np.push_back(hit);
+
             }
 
 
@@ -105,22 +117,7 @@ namespace Logic {
 
         if (hit_wall){
 
-            std::vector<Vector2D<>> option_directions = {Vector2D<>{0,1}, Vector2D<>{0,-1}, Vector2D<>{1,0}, Vector2D<>{-1,0}};
-            auto it = std::find(option_directions.begin(), option_directions.end(), e->getMoveManager()->getDirection());
-            if (it != option_directions.end()){
-                option_directions.erase(it);
-            }
-            auto it2 = std::find(option_directions.begin(), option_directions.end(), e->getMoveManager()->getDirection()*-1);
-            if (it2 != option_directions.end()){
-                option_directions.erase(it2);
-            }
-
-            std::vector<Vector2D<>> option_resulting = getFutureDirections(e, option_directions);
-            if (option_resulting.empty()){
-                option_resulting.push_back(e->getDirection().getOpposed());
-            }
-
-            e->getMoveManager()->makeDirection(pacman->getPosition()-e->getPosition(), option_resulting);
+            reCalculateDirection(e);
 
         }
 
@@ -159,18 +156,16 @@ namespace Logic {
     }
 
     void World::handleHit(std::shared_ptr<EntityModel> e) {
-        using ColHandle = void (World::*)(std::shared_ptr<EntityModel>, std::weak_ptr<EntityModel>);
-        ColHandle func;
+
+        std::function<void(std::shared_ptr<EntityModel>, std::weak_ptr<EntityModel>)> func;
+
         if (e == pacman){
-            func = &World::handleActionsPacman;
+            func = std::bind(&World::handleActionsPacman, this, std::placeholders::_1, std::placeholders::_2);
         }else{
-            func = &World::handleActions;
+            func = std::bind(&World::handleActions, this, std::placeholders::_1, std::placeholders::_2);
         }
 
-        std::vector<std::weak_ptr<EntityModel>> hits = checkCollision(e);
-        for (auto hit: hits){
-            (this->*func)(e, hit);
-        }
+        checkCollision(e, entities, func);
 
     }
 
@@ -223,6 +218,58 @@ namespace Logic {
                 last_intersection.insert({e, hit.lock()});
             }
         }
+
+    }
+
+    void World::dealCollision(const std::shared_ptr<EntityModel> &e, const std::weak_ptr<EntityModel> &hit, bool fix) {
+        e->handleInpassable(hit, fix);
+    }
+
+
+
+    void World::dealIntersection(const std::shared_ptr<EntityModel> &e, const std::weak_ptr<EntityModel> &hit) {
+
+    }
+
+    bool World::checkCollision(const std::shared_ptr<EntityModel> &s,
+                               const std::vector<std::shared_ptr<EntityModel>> &others,
+                               const std::function<void(std::shared_ptr<EntityModel>,
+                                                        std::weak_ptr<EntityModel>)> &op) {
+        bool hit_something = false;
+
+        for (const std::shared_ptr<EntityModel>& other: others){
+            if (s == other){
+                continue;
+            }
+
+            auto p = s->collide(other);
+            if (p.first){
+                op(s, other);
+                hit_something = true;
+            }
+
+        }
+
+        return hit_something;
+    }
+
+    void World::reCalculateDirection(const std::shared_ptr<EntityModel> &e) {
+        std::vector<Vector2D<>> option_directions = {Vector2D<>{0,1}, Vector2D<>{0,-1}, Vector2D<>{1,0}, Vector2D<>{-1,0}};
+        auto it = std::find(option_directions.begin(), option_directions.end(), e->getMoveManager()->getDirection());
+        if (it != option_directions.end()){
+            option_directions.erase(it);
+        }
+        auto it2 = std::find(option_directions.begin(), option_directions.end(), e->getMoveManager()->getDirection()*-1);
+        if (it2 != option_directions.end()){
+            option_directions.erase(it2);
+        }
+
+        std::vector<Vector2D<>> option_resulting = getFutureDirections(e, option_directions);
+        if (option_resulting.empty()){
+            option_resulting.push_back(e->getDirection().getOpposed());
+        }
+
+        e->getMoveManager()->makeDirection(pacman->getPosition()-e->getPosition(), option_resulting);
 
     }
 

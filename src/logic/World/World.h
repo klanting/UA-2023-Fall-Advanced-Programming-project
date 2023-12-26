@@ -10,6 +10,7 @@
 #include "../AbstractFactory.h"
 #include "../Score.h"
 #include <map>
+#include <functional>
 
 namespace Logic {
 
@@ -39,6 +40,14 @@ namespace Logic {
         void handleActions(std::shared_ptr<EntityModel> e, std::weak_ptr<EntityModel> hit);
 
         std::vector<Vector2D<>> getFutureDirections(std::shared_ptr<EntityModel> e, const std::vector<Vector2D<>>& options);
+
+
+        void dealCollision(const std::shared_ptr<EntityModel>& e, const std::weak_ptr<EntityModel>& hit, bool fix);
+        void dealIntersection(const std::shared_ptr<EntityModel>& e, const std::weak_ptr<EntityModel>& hit);
+
+        bool checkCollision(const std::shared_ptr<EntityModel>& s, const std::vector<std::shared_ptr<EntityModel>>& others, const std::function<void(std::shared_ptr<EntityModel>, std::weak_ptr<EntityModel>)>& op);
+        void reCalculateDirection(const std::shared_ptr<EntityModel>& e);
+
 
         std::vector<std::weak_ptr<EntityModel>> to_be_removed;
         int lives;
