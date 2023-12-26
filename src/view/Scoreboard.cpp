@@ -43,11 +43,13 @@ namespace View {
 
     void Scoreboard::add(unsigned int score) {
         scores.push_back(score);
+        //sort from high to low
         std::sort(scores.begin(), scores.end(), std::greater<>());
 
     }
 
     Scoreboard::~Scoreboard() {
+        //save socores in file
         std::fstream score_file{"scoreboard"};
         for (int i=0; i<5; i++){
             if (scores.size() <= i){
