@@ -44,7 +44,7 @@ namespace View {
         /**
          * add weakptr to State manager
          * */
-        void setManager(std::weak_ptr<StateManager> state_manager);
+        void setManager(const std::weak_ptr<StateManager>& state_manager_ptr);
 
     protected:
         /**
@@ -55,7 +55,7 @@ namespace View {
         /**
          * List of UI objects
          * */
-        std::vector<std::unique_ptr<UIObject>> render_images;
+        std::vector<std::shared_ptr<UIObject>> render_images;
         std::weak_ptr<StateManager> state_manager;
     };
 

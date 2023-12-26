@@ -21,13 +21,10 @@ namespace View {
         void runTick() override;
         void acceptCharacter(int input, bool pressed, const Logic::Vector2D<>& v) override;
     private:
-        /**
-         * show the home and continue button
-         * */
-        void renderUI() const override;
+
         sf::Texture texture;
-        ContinueButton continue_button;
-        MenuButton home_button;
+        std::shared_ptr<ContinueButton> continue_button;
+        std::shared_ptr<MenuButton> home_button;
 
     };
 

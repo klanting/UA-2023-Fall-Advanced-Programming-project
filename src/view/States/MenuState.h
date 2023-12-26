@@ -24,7 +24,7 @@ namespace View {
     private:
         void renderUI() const override;
         sf::Texture texture;
-        StartButton play_button;
+        std::shared_ptr<StartButton> play_button;
 
         /**
          * creates the animated C of pacman

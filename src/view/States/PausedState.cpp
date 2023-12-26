@@ -19,37 +19,36 @@ namespace View {
 
         if (input == 0){
             //go back to LevelState
-            if (continue_button.isClicked(v)){
+            if (continue_button->isClicked(v)){
                 state_manager.lock()->Pop(1);
+                return;
             }
 
             //go back to menuState
-            if (home_button.isClicked(v)){
+            if (home_button->isClicked(v)){
                 state_manager.lock()->Pop(2);
             }
+            return;
         }
 
         if (!pressed){
             return;
         }
 
-        state_manager.lock()->Pop(2);
+        state_manager.lock()->Pop(1);
     }
 
-    void PausedState::renderUI() const{
-        State::renderUI();
 
-        continue_button.render();
-        home_button.render();
-
-    }
 
     PausedState::PausedState() {
         texture.loadFromFile("sprites/pacman_menu.png", sf::IntRect(0, 0, 450, 500));
 
         //create the buttons
-        continue_button = {Logic::Vector2D{-0.175, -0.1}, Logic::Vector2D{0.35, 0.32}};
-        home_button = {Logic::Vector2D{0.6, 0.65}, Logic::Vector2D{0.35, 0.32}};
+        continue_button = std::make_shared<ContinueButton>(Logic::Vector2D{-0.175, -0.1}, Logic::Vector2D{0.35, 0.32});
+        home_button = std::make_shared<MenuButton>(Logic::Vector2D{0.6, 0.65}, Logic::Vector2D{0.35, 0.32});
+
+        render_images.push_back(continue_button);
+        render_images.push_back(home_button);
 
         //create the Paused text
         std::shared_ptr<sf::Sprite> paused_text = std::make_shared<sf::Sprite>();
