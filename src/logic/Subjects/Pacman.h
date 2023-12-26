@@ -9,9 +9,21 @@ namespace Logic {
 
     class Pacman: public EntityModel{
     public:
+        /**
+         * Constructor for pacman
+         * */
         Pacman(const Vector2D<>& position, const std::shared_ptr<Move::ModeManager>& move_manager);
-        bool handleDead(const std::vector<std::shared_ptr<EntityModel>>& others) override;
+
+        /**
+         * Destructor for pacman
+         * */
         ~Pacman() override = default;
+
+        /**
+         * On Dead of Pacman bring all the Entities back to their start positions
+         * */
+        bool handleDead(const std::vector<std::shared_ptr<EntityModel>>& others) override;
+
     private:
 
     };

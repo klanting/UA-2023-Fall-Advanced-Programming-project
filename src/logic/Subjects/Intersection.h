@@ -9,9 +9,16 @@ namespace Logic {
 
     class Intersection: public EntityModel{
     public:
+        /**
+         * Constructor for Intersection
+         * */
         Intersection(const Vector2D<>& position, const Vector2D<> &size, const std::shared_ptr<Move::ModeManager>& move_manager);
-        void handleInpassable(const std::weak_ptr<EntityModel>& other, bool fix) override;
+
+        /**
+         * Destructor for Intersection
+         * */
         ~Intersection() override = default;
+
     private:
 
     };

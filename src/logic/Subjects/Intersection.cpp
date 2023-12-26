@@ -10,7 +10,5 @@ namespace Logic {
 
     }
 
-    void Intersection::handleInpassable(const std::weak_ptr<EntityModel>& other, bool fix) {
 
-    }
 } // Logic

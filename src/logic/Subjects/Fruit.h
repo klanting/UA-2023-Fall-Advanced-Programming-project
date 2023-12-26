@@ -9,10 +9,24 @@ namespace Logic {
 
     class Fruit: public Collectable{
     public:
+        /**
+         * Constructor for Fruit
+         * */
         Fruit(const Vector2D<>& position, std::shared_ptr<Move::ModeManager> move_manager);
-        bool handleDead(const std::vector<std::shared_ptr<EntityModel>>& others) override;
-        int bonus() const override;
+
+        /**
+         * Destructor for Fruit
+         * */
         ~Fruit() override = default;
+
+        /**
+         * Overrides handleDead from superclass Collectable
+         * This will make sure if a Fruit Entity dies all other entities will change mode with fear mode bool true
+         * */
+        bool handleDead(const std::vector<std::shared_ptr<EntityModel>>& others) override;
+        [[nodiscard]] int bonus() const override;
+
+
     private:
     };
 
