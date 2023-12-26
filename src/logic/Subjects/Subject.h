@@ -18,8 +18,8 @@ namespace Logic {
     public:
         Subject() = default;
 
-        void addObserver(std::shared_ptr<Observer> observer);
-        virtual ~Subject();
+        void addObserver(const std::shared_ptr<Observer>& observer);
+        virtual ~Subject() = default;
     protected:
         std::vector<std::shared_ptr<Observer>> observers;
 

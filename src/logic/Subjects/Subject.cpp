@@ -6,11 +6,7 @@
 #include "../Observer.h"
 namespace Logic {
 
-    Subject::~Subject() {
-
-    }
-
-    void Subject::addObserver(std::shared_ptr<Observer> observer) {
+    void Subject::addObserver(const std::shared_ptr<Observer>& observer) {
         observers.push_back(observer);
 
     }

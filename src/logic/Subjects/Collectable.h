@@ -9,9 +9,9 @@ namespace Logic {
 
     class Collectable: public EntityModel{
     public:
-        Collectable(const Vector2D<>& position, const Vector2D<>& size, std::shared_ptr<Move::ModeManager> move_manager);
-        virtual ~Collectable() override;
-        virtual bool handleDead(std::vector<std::shared_ptr<EntityModel>> others) override;
+        Collectable(const Vector2D<>& position, const Vector2D<>& size, const std::shared_ptr<Move::ModeManager>& move_manager);
+        virtual ~Collectable() override = default;
+        virtual bool handleDead(const std::vector<std::shared_ptr<EntityModel>>& others) override;
     private:
 
     };

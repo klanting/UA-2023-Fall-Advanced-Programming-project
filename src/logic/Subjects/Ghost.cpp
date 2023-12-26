@@ -7,9 +7,10 @@
 #include "../MoveStrategy/FearMode.h"
 #include <iostream>
 namespace Logic {
-    Ghost::Ghost(const Vector2D<> &position, double wait_delay, std::shared_ptr<Move::ModeManager> move_manager, double difficulty) : EntityModel(position, Vector2D{0.12,0.12}, 0.4*difficulty, move_manager) {
+    Ghost::Ghost(const Vector2D<> &position, double wait_delay, const std::shared_ptr<Move::ModeManager>& move_manager, double difficulty) : EntityModel(position, Vector2D{0.12,0.12}, 0.4*difficulty, move_manager) {
         Ghost::wait_delay = wait_delay;
         total_fear_time = 8.0/difficulty;
+        fear_time = 0;
     }
 
     bool Ghost::isConsumable() {
@@ -50,7 +51,7 @@ namespace Logic {
 
     }
 
-    bool Ghost::handleDead(std::vector<std::shared_ptr<EntityModel>> others) {
+    bool Ghost::handleDead(const std::vector<std::shared_ptr<EntityModel>>& others) {
         EntityModel::handleDead(others);
 
         EntityModel::goStartPosition();

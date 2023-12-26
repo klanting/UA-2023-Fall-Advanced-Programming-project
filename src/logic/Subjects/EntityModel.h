@@ -13,34 +13,33 @@ namespace Logic {
 
         virtual void move();
 
-        std::pair<bool, std::pair<Vector2D<>, Vector2D<>>> collide(std::weak_ptr<EntityModel> other);
-        bool collideFuture(std::weak_ptr<EntityModel> other, const Vector2D<> &new_pos);
+        std::pair<bool, std::pair<Vector2D<>, Vector2D<>>> collide(const std::weak_ptr<EntityModel>& other);
+        bool collideFuture(const std::weak_ptr<EntityModel>& other, const Vector2D<> &new_pos);
 
-        virtual void handleInpassable(std::weak_ptr<EntityModel> other, bool fix = false);
-        virtual bool handleDead(std::vector<std::shared_ptr<EntityModel>> others);
+        virtual void handleInpassable(const std::weak_ptr<EntityModel>& other, bool fix);
+        virtual bool handleDead(const std::vector<std::shared_ptr<EntityModel>>& others);
 
         std::shared_ptr<Move::ModeManager> getMoveManager();
 
         virtual bool isConsumable();
         virtual void changeMode(bool fear);
 
-        const Vector2D<> &getPosition() const;
-        const Vector2D<> &getSize() const;
-        Vector2D<> getDirection() const;
-        void persistMovement();
+        [[nodiscard]] const Vector2D<> &getPosition() const;
+        [[nodiscard]] const Vector2D<> &getSize() const;
+        [[nodiscard]] Vector2D<> getDirection() const;
 
-        void consume(std::weak_ptr<EntityModel> other);
+        void consume(const std::weak_ptr<EntityModel>& other);
 
-        bool isUp() const;
-        bool isDown() const;
-        bool isLeft() const;
-        bool isRight() const;
-        virtual ~EntityModel() override;
+        [[nodiscard]] bool isUp() const;
+        [[nodiscard]] bool isDown() const;
+        [[nodiscard]] bool isLeft() const;
+        [[nodiscard]] bool isRight() const;
+        virtual ~EntityModel() override = default;
         virtual void goStartPosition();
 
 
         bool debug_green = false;
-        virtual int bonus() const;
+        [[nodiscard]] virtual int bonus() const;
 
 
     protected:
@@ -59,7 +58,7 @@ namespace Logic {
         double wait_delay;
 
     private:
-        int getDirectionIndex() const;
+        [[nodiscard]] int getDirectionIndex() const;
 
     };
 

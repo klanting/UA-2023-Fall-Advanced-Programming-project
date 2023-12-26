@@ -9,7 +9,7 @@ namespace Logic {
 
     }
 
-    bool Fruit::handleDead(std::vector<std::shared_ptr<EntityModel>> others) {
+    bool Fruit::handleDead(const std::vector<std::shared_ptr<EntityModel>>& others) {
         for (auto o: others){
             o->changeMode(true);
         }

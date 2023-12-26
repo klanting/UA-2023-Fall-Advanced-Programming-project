@@ -8,14 +8,15 @@
 namespace Logic {
     class Ghost: public EntityModel{
     public:
-        Ghost(const Vector2D<>& position, double wait_delay, std::shared_ptr<Move::ModeManager> move_manager, double difficulty);
+        Ghost(const Vector2D<>& position, double wait_delay, const std::shared_ptr<Move::ModeManager>& move_manager, double difficulty);
         bool isConsumable() override;
         void changeMode(bool fear) override;
-        bool handleDead(std::vector<std::shared_ptr<EntityModel>> others) override;
+        bool handleDead(const std::vector<std::shared_ptr<EntityModel>>& others) override;
         void goStartPosition() override;
         void move() override;
-        bool AlmostChase() const;
-        int bonus() const override;
+        [[nodiscard]] bool AlmostChase() const;
+        [[nodiscard]] int bonus() const override;
+        ~Ghost() override = default;
     private:
         double fear_time;
         double total_fear_time;
@@ -23,4 +24,4 @@ namespace Logic {
 
 } // Logic
 
-#endif //PROJECTPACMAN_GHOSTVIEW_H
+#endif //PROJECTPACMAN_GHOST_H
