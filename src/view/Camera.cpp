@@ -21,6 +21,10 @@ namespace View {
     std::pair<Logic::Vector2D<>, Logic::Vector2D<>>
     Camera::toPixels(const Logic::Vector2D<> &position, const Logic::Vector2D<> &size) const{
         //positions are between (-1, -1) and (1,1)
+
+        //scale_vector shows how big the window is
+        //first we convert the relative position and size to something within range of 0-1
+        //than we multiply it by scale vector
         Logic::Vector2D scale_vector = Logic::Vector2D<>{(double) width, (double)  height};
         Logic::Vector2D pixelPosition = (position+Logic::Vector2D<>{1,1})*0.5*scale_vector;
         Logic::Vector2D pixelSize = size*0.5*scale_vector;

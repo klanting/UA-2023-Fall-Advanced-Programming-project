@@ -8,13 +8,22 @@
 #include <vector>
 #include <SFML/Graphics.hpp>
 namespace View {
-
+    /**
+     * Design Pattern: Singleton
+     * This class maintains a scoreboard of the top 5 Scores
+     * */
     class Scoreboard {
     public:
         static std::shared_ptr<Scoreboard> getInstance();
+        /**
+         * add a score, if in top 5, it will be stored
+         * */
         void add(unsigned int score);
         ~Scoreboard();
-        void render();
+        /**
+         * renders the scores of the scoreboard
+         * */
+        void render() const;
     private:
         Scoreboard();
 

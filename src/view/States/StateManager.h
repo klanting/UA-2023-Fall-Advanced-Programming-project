@@ -13,10 +13,27 @@ namespace View {
  * */
 class StateManager: public std::enable_shared_from_this<StateManager>{
     public:
+        /**
+         * Constructor for StateManager
+         * */
         explicit StateManager(std::unique_ptr<State> state);
+        /**
+         * add new state to state stack
+         * */
         void Push(std::unique_ptr<State> state);
+        /**
+        * remove top amount from stack
+        * */
         void Pop(int amount);
+
+        /**
+         * pass the acceptCharacter event to the State
+         * */
         void acceptCharacter(int input, bool pressed, const Logic::Vector2D<> & v);
+
+        /**
+        * pass the runTick to the State
+        * */
         void runTick();
 
 

@@ -9,7 +9,11 @@
 #include "../logic/Score.h"
 using namespace Logic;
 namespace View {
-
+    /**
+     * ConcreteFactory is a Derived class of the AbstractFactory
+     * This will be used to create the entities
+     * This will also connect the right EntityView to the Entity
+     * */
     class ConcreteFactory: public Logic::AbstractFactory{
     public:
         ~ConcreteFactory() override = default;

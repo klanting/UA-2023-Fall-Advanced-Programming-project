@@ -6,7 +6,7 @@
 #include <iostream>
 namespace View {
     void Image::render() const {
-        RenderWindowSingleton::getInstance()->draw_bufferless(sprite);
+        RenderWindowSingleton::getInstance()->drawBufferless(sprite);
 
         /*
         auto data = Camera::getInstance()->toPixels(position, size);
@@ -48,7 +48,7 @@ namespace View {
 
     }
 
-    Logic::Vector2D<> Image::getPosition() {
+    Logic::Vector2D<> Image::getPosition() const{
         return Logic::Vector2D<>{sprite->getPosition().x, sprite->getPosition().y};
     }
 

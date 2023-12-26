@@ -4,6 +4,8 @@
 
 #include "RenderWindowSingleton.h"
 
+#include <utility>
+
 namespace View {
     std::shared_ptr<RenderWindowSingleton > RenderWindowSingleton::getInstance() {
         if (!_instance){
@@ -19,8 +21,11 @@ namespace View {
 
 
 
-    void RenderWindowSingleton::draw(std::weak_ptr<Logic::EntityModel> e, std::shared_ptr<sf::Drawable>  s) {
-        draw_buffer[e.lock()] = s;
+    void RenderWindowSingleton::draw(const std::weak_ptr<Logic::EntityModel>& e, std::shared_ptr<sf::Drawable> s) {
+        if (e.expired()){
+            throw std::bad_weak_ptr();
+        }
+        draw_buffer[e.lock()] = std::move(s);
     }
 
     void RenderWindowSingleton::display() {
@@ -32,11 +37,11 @@ namespace View {
 
     }
 
-    sf::Vector2<unsigned int> RenderWindowSingleton::getSize() {
+    sf::Vector2<unsigned int> RenderWindowSingleton::getSize() const{
         return window->getSize();
     }
 
-    void RenderWindowSingleton::draw_bufferless(std::shared_ptr<sf::Drawable> s) {
+    void RenderWindowSingleton::drawBufferless(const std::shared_ptr<sf::Drawable>& s) {
         window->draw(*s);
     }
 

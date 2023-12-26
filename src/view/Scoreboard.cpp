@@ -1,12 +1,9 @@
-//
-// Created by tibov on 12/12/23.
-//
+
 
 #include "Scoreboard.h"
 #include <fstream>
 #include <algorithm>
 #include "Camera.h"
-#include "../logic/Vector2D.h"
 #include "RenderWindowSingleton.h"
 
 namespace View {
@@ -22,7 +19,7 @@ namespace View {
 
         std::string buffer;
         while (!score_file.eof()){
-            char c = score_file.get();
+            char c = (char) score_file.get();
 
             if (c == '\n'){
                 if (!buffer.empty()){
@@ -63,7 +60,7 @@ namespace View {
 
     }
 
-    void Scoreboard::render() {
+    void Scoreboard::render() const{
 
         sf::Font font;
         font.loadFromFile("arial.ttf");
@@ -79,9 +76,9 @@ namespace View {
             score->setFillColor(sf::Color{230, 230, 0});
             auto p = Camera::getInstance()->toPixels(Logic::Vector2D{-0.2, -0.3+0.1*i}, Logic::Vector2D<>{0, 0});
 
-            score->setPosition(p.first[0], p.first[1]);
+            score->setPosition((float) p.first[0], (float) p.first[1]);
 
-            RenderWindowSingleton::getInstance()->draw_bufferless(std::move(score));
+            RenderWindowSingleton::getInstance()->drawBufferless(std::move(score));
         }
     }
 } // View

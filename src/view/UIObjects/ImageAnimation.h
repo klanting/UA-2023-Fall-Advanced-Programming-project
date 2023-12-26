@@ -7,7 +7,10 @@
 #include "Animation.h"
 #include "Image.h"
 namespace View {
-
+    /**
+     * Image Animation is a derived class from Animation
+     * This will as animation switch between the given images
+     * */
     class ImageAnimation: public Animation{
     public:
         ImageAnimation(double delay, std::vector<std::unique_ptr<Image>> images);

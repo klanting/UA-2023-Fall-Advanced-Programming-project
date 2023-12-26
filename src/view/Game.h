@@ -9,9 +9,11 @@
 #include "States/StateManager.h"
 #include "States/MenuState.h"
 #include "RenderWindowSingleton.h"
-#include <time.h>
+#include <ctime>
 namespace View {
-
+    /**
+     * This Class will setup the SFMl LOOP
+     * */
     class Game {
     public:
         Game();
@@ -19,6 +21,10 @@ namespace View {
         std::shared_ptr<RenderWindowSingleton> window;
         std::shared_ptr<StateManager> state_manager;
         void doGameLoop();
+
+        /**
+         * on input key this function will be called, and this will call a function of the state manager
+         * */
         void processInput(int input, bool pressed, const Logic::Vector2D<>& v);
     };
 

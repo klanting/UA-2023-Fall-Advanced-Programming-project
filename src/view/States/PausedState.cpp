@@ -14,14 +14,16 @@ namespace View {
     void PausedState::acceptCharacter(int input, bool pressed, const Logic::Vector2D<>& v) {
 
         if (state_manager.expired()){
-            return;
+            throw std::bad_weak_ptr();
         }
 
         if (input == 0){
+            //go back to LevelState
             if (continue_button.isClicked(v)){
                 state_manager.lock()->Pop(1);
             }
 
+            //go back to menuState
             if (home_button.isClicked(v)){
                 state_manager.lock()->Pop(2);
             }
@@ -45,9 +47,11 @@ namespace View {
     PausedState::PausedState() {
         texture.loadFromFile("sprites/pacman_menu.png", sf::IntRect(0, 0, 450, 500));
 
+        //create the buttons
         continue_button = {Logic::Vector2D{-0.175, -0.1}, Logic::Vector2D{0.35, 0.32}};
         home_button = {Logic::Vector2D{0.6, 0.65}, Logic::Vector2D{0.35, 0.32}};
 
+        //create the Paused text
         std::shared_ptr<sf::Sprite> paused_text = std::make_shared<sf::Sprite>();
         paused_text->setTextureRect(sf::IntRect(1, 404, 500, 34));
 

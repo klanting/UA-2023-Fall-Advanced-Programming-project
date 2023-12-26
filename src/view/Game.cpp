@@ -3,10 +3,7 @@
 //
 
 #include "Game.h"
-#include <iostream>
-#include "States/VictoryState.h"
 #include "States/GameOverState.h"
-#include "States/PausedState.h"
 using namespace std;
 namespace View {
     typedef sf::RenderWindow RW;
@@ -21,7 +18,7 @@ namespace View {
         while (window->isOpen())
         {
 
-            sf::Event event;
+            sf::Event event{};
             while (window->pollEvent(event))
             {
                 if (event.type == sf::Event::KeyPressed || event.type == sf::Event::KeyReleased || event.type == sf::Event::MouseButtonPressed){
@@ -42,7 +39,7 @@ namespace View {
 
             window->display();
 
-            //sf::sleep(sf::milliseconds(33));
+            //sf::sleep(sf::milliseconds(15));
 
         }
 

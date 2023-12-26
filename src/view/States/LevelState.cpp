@@ -87,7 +87,7 @@ namespace View {
 
         score->setPosition((float) p.first[0], (float) p.first[1]);
 
-        RenderWindowSingleton::getInstance()->draw_bufferless(std::move(score));
+        RenderWindowSingleton::getInstance()->drawBufferless(std::move(score));
 
         std::unique_ptr<sf::Text> lives = std::make_unique<sf::Text>();
 
@@ -100,7 +100,7 @@ namespace View {
 
         lives->setPosition((float) p.first[0], (float) p.first[1]);
 
-        RenderWindowSingleton::getInstance()->draw_bufferless(std::move(lives));
+        RenderWindowSingleton::getInstance()->drawBufferless(std::move(lives));
     }
 
 

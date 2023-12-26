@@ -10,10 +10,16 @@
 #include "../RenderWindowSingleton.h"
 #include "../Camera.h"
 namespace View {
-
+    /**
+     *This class is an abstract class
+     *This makes it easy to render all the UI components
+     * */
     class UIObject {
     public:
         UIObject(const Logic::Vector2D<>& position, const Logic::Vector2D<>& size);
+        /**
+         * this will render the UI component
+         * */
         virtual void render() const = 0;
         virtual ~UIObject() = default;
 
