@@ -1,14 +1,10 @@
-//
-// Created by tibov on 25/11/23.
-//
 
 #include "World.h"
-#include <fstream>
 #include <iostream>
 
-
-
 namespace Logic {
+    //Alias so we do not need to rewrite this long Alias
+    using OnColFunc = std::function<void(std::shared_ptr<EntityModel>, std::weak_ptr<EntityModel>)>;
 
     World::World(const std::shared_ptr<EntityModel>& pacman, const std::vector<std::shared_ptr<EntityModel>>& entities,
     const std::vector<std::shared_ptr<EntityModel>>& not_passable, const std::vector<std::shared_ptr<EntityModel>>& intersection,
@@ -24,102 +20,51 @@ namespace Logic {
 
     }
 
-    std::vector<std::weak_ptr<EntityModel>> World::checkCollision(std::shared_ptr<EntityModel> s, int type) {
-        std::vector<std::weak_ptr<EntityModel>> hits;
-
-        auto to_check = entities;
-        if (type == 1){
-            to_check = not_passable;
-        }else if (type == 2){
-            to_check = intersection;
-        }
-
-        for (std::shared_ptr<EntityModel> other: to_check){
-            if (s == other){
-                continue;
-            }
-
-            auto p = s->collide(other);
-            if (p.first){
-                hits.push_back(other);
-            }
-
-        }
-        return hits;
-    }
 
     bool World::doTick() {
         to_be_removed.clear();
 
         for (auto& e: entities){
+            //move the entity
             e->move();
 
-            std::function<void(std::shared_ptr<EntityModel>, std::weak_ptr<EntityModel>)> col_fix = std::bind(&World::dealCollision, this, std::placeholders::_1, std::placeholders::_2, true);
+            //check for collision if we go into 2 directions at the same time, we will still go to the direction not obstructed
+            OnColFunc col_fix = [](const std::shared_ptr<EntityModel>& e, const std::weak_ptr<EntityModel>& other){e->handleInpassable(other,true);};
             bool hit = checkCollision(e, not_passable, col_fix);
 
-            std::function<void(std::shared_ptr<EntityModel>, std::weak_ptr<EntityModel>)> col_no_fix = std::bind(&World::dealCollision, this, std::placeholders::_1, std::placeholders::_2, false);
+            //check for collision if we collide something we will go back to the last position before the collision
+            OnColFunc col_no_fix = [](const std::shared_ptr<EntityModel>& e, const std::weak_ptr<EntityModel>& other){e->handleInpassable(other,false);};
             bool hit2 = checkCollision(e, not_passable, col_no_fix);
 
+            //on collision, we might want to change the direction we want to go to
             if (hit || hit2){
                 reCalculateDirection(e);
             }
 
-            //handleInPassable(e);
-
             handleHit(e);
-
-            //handleIntersection(e);
-
-
-
+            OnColFunc deal_intersect = [this](const std::shared_ptr<EntityModel>& e, const std::weak_ptr<EntityModel>& other){dealIntersection(e, other);};
+            checkCollision(e, intersection, deal_intersect);
 
         }
 
-        for (auto e: to_be_removed){
+        //remove all the entities that do not have to exist anymore
+        for (const auto& e: to_be_removed){
             auto it = std::find(entities.begin(), entities.end(), e.lock());
             entities.erase(it);
             consumable_count -=1;
         }
 
-        for (auto i: intersection){
+        //move the intersection if it would ever be able to move
+        for (const auto& i: intersection){
             i->move();
         }
 
+
+        //check conditions for GameOver or Next Level
         bool alive = lives > 0;
         bool still_food = consumable_count > 0;
 
         return alive && still_food;
-
-    }
-
-    void World::handleInPassable(std::shared_ptr<EntityModel> e) {
-
-        bool hit_wall = false;
-        bool fix = true;
-        for (int  i=0; i<2; i++){
-            std::vector<std::weak_ptr<EntityModel>> hits = checkCollision(e, 1);
-
-            if (hits.empty()){
-                break;
-            }
-
-
-            for (auto hit: hits){
-                e->handleInpassable(hit, fix);
-                hit_wall = true;
-
-            }
-
-
-            fix = false;
-
-        }
-
-        if (hit_wall){
-
-            reCalculateDirection(e);
-
-        }
 
     }
 
@@ -190,44 +135,31 @@ namespace Logic {
         return option_resulting;
     }
 
-    void World::handleIntersection(std::shared_ptr<EntityModel> e) {
-        std::vector<std::weak_ptr<EntityModel>> hits_intersection = checkCollision(e, 2);
-        for (auto hit: hits_intersection){
-            auto it = last_intersection.find(e);
-            if (it != last_intersection.end()){
-                if (it->second == hit.lock()){
-                    //only care if we are inside the intersection
-                    Vector2D center = e->getPosition()+e->getSize()*0.5;
-                    Vector2D inter_cent = hit.lock()->getPosition()+hit.lock()->getSize()*0.5;
-                    if (center.getDistance(inter_cent) > (hit.lock()->getSize()*0.5)[0]){
-                        continue;
-                    }
-                    e->handleInpassable(hit, false);
-                    Vector2D old_dir = e->getDirection();
-                    std::vector<Vector2D<>> option_directions = {old_dir.rotate(M_PI/2.0), old_dir.rotate(-1*M_PI/2.0), old_dir};
-                    std::vector<Vector2D<>> resulting = getFutureDirections(e, option_directions);
-                    e->getMoveManager()->makeDirection(pacman->getPosition()-e->getPosition(), resulting);
-                    last_intersection.erase(it);
-                    continue;
-
+    void World::dealIntersection(const std::shared_ptr<EntityModel> &e, const std::weak_ptr<EntityModel> &hit) {
+        auto it = last_intersection.find(e);
+        if (it != last_intersection.end()){
+            if (it->second == hit.lock()){
+                //only care if we are inside the intersection
+                Vector2D center = e->getPosition()+e->getSize()*0.5;
+                Vector2D inter_cent = hit.lock()->getPosition()+hit.lock()->getSize()*0.5;
+                if (center.getDistance(inter_cent) > (hit.lock()->getSize()*0.5)[0]){
+                    return;
                 }
-            }
-            if (it != last_intersection.end()){
-                it->second = hit.lock();
-            }else{
-                last_intersection.insert({e, hit.lock()});
+                e->handleInpassable(hit, false);
+                Vector2D old_dir = e->getDirection();
+                std::vector<Vector2D<>> option_directions = {old_dir.rotate(M_PI/2.0), old_dir.rotate(-1*M_PI/2.0), old_dir};
+                std::vector<Vector2D<>> resulting = getFutureDirections(e, option_directions);
+                e->getMoveManager()->makeDirection(pacman->getPosition()-e->getPosition(), resulting);
+                last_intersection.erase(it);
+                return;
+
             }
         }
-
-    }
-
-    void World::dealCollision(const std::shared_ptr<EntityModel> &e, const std::weak_ptr<EntityModel> &hit, bool fix) {
-        e->handleInpassable(hit, fix);
-    }
-
-
-
-    void World::dealIntersection(const std::shared_ptr<EntityModel> &e, const std::weak_ptr<EntityModel> &hit) {
+        if (it != last_intersection.end()){
+            it->second = hit.lock();
+        }else{
+            last_intersection.insert({e, hit.lock()});
+        }
 
     }
 
@@ -272,6 +204,5 @@ namespace Logic {
         e->getMoveManager()->makeDirection(pacman->getPosition()-e->getPosition(), option_resulting);
 
     }
-
 
 } // Logic

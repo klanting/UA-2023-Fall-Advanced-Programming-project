@@ -30,19 +30,13 @@ namespace Logic {
 
         std::map<std::shared_ptr<EntityModel>, std::shared_ptr<EntityModel>> last_intersection;
 
-        std::vector<std::weak_ptr<EntityModel>> checkCollision(std::shared_ptr<EntityModel> s, int type = 0);
-
-        void handleInPassable(std::shared_ptr<EntityModel> e);
         void handleHit(std::shared_ptr<EntityModel> e);
-        void handleIntersection(std::shared_ptr<EntityModel> e);
 
         void handleActionsPacman(std::shared_ptr<EntityModel> e, std::weak_ptr<EntityModel> hit);
         void handleActions(std::shared_ptr<EntityModel> e, std::weak_ptr<EntityModel> hit);
 
         std::vector<Vector2D<>> getFutureDirections(std::shared_ptr<EntityModel> e, const std::vector<Vector2D<>>& options);
 
-
-        void dealCollision(const std::shared_ptr<EntityModel>& e, const std::weak_ptr<EntityModel>& hit, bool fix);
         void dealIntersection(const std::shared_ptr<EntityModel>& e, const std::weak_ptr<EntityModel>& hit);
 
         bool checkCollision(const std::shared_ptr<EntityModel>& s, const std::vector<std::shared_ptr<EntityModel>>& others, const std::function<void(std::shared_ptr<EntityModel>, std::weak_ptr<EntityModel>)>& op);
