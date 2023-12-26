@@ -28,7 +28,6 @@ namespace View {
         Logic::Vector2D scale_vector = Logic::Vector2D<>{(double) width, (double)  height};
         Logic::Vector2D pixelPosition = (position+Logic::Vector2D<>{1,1})*0.5*scale_vector;
         Logic::Vector2D pixelSize = size*0.5*scale_vector;
-
         return std::make_pair(pixelPosition, pixelSize);
     }
 

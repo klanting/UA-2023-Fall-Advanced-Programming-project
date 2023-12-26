@@ -122,7 +122,6 @@ namespace Logic {
 
 
 
-
 } // Logic
 
 #endif //PROJECTPACMAN_VECTOR2D_H
