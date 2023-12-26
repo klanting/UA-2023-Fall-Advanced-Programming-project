@@ -42,9 +42,6 @@ namespace Logic {
         bool debug_green = false;
         virtual int bonus() const;
 
-        const Vector2D<> &getLastPosition() const;
-
-        void setLastPosition(const Vector2D<> &lastPosition);
 
     protected:
         Vector2D<> start_position;

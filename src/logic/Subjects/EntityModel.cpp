@@ -238,10 +238,6 @@ namespace Logic {
 
     }
 
-
-
-
-
     int EntityModel::bonus() const{
         return 0;
     }
@@ -250,17 +246,5 @@ namespace Logic {
         last_position = position;
 
     }
-
-    const Vector2D<> &EntityModel::getLastPosition() const {
-        return last_position;
-    }
-
-    void EntityModel::setLastPosition(const Vector2D<> &lastPosition) {
-        last_position = lastPosition;
-    }
-
-
-
-
 
 } // Logic

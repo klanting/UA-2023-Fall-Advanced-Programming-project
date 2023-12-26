@@ -4,8 +4,8 @@
 
 #include "ModeManager.h"
 
-namespace Logic {
-    namespace Move {
+
+    namespace Logic::Move {
         ModeManager::ModeManager(std::unique_ptr<Mode> mode){
             strategy = std::unique_ptr<Mode>(std::move(mode));
         }
@@ -22,4 +22,4 @@ namespace Logic {
             return strategy->getDirection();
         }
     } // Logic
-} // Move
+// Move

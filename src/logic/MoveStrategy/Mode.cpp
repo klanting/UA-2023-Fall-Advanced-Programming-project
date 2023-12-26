@@ -4,11 +4,11 @@
 
 #include "Mode.h"
 
-namespace Logic {
-    namespace Move {
+
+    namespace Logic::Move {
 
         //find best direction based on a given operator
-        Vector2D<> Mode::findBest(const Vector2D<> &to_entity, const std::vector<Vector2D<>> &options, const std::function<bool(double, double)>& op) const{
+        Vector2D<> Mode::findBest(const Vector2D<> &to_entity, const std::vector<Vector2D<>> &options, const std::function<bool(double, double)>& op) {
             //initialize the best-direction parameters
             Vector2D<> best_direction(0, 0);
             double best_angle = 0;
@@ -29,9 +29,9 @@ namespace Logic {
         }
 
         //here we will just take a random direction among the possible directions
-        Vector2D<> Mode::takeRandom(const std::vector<Vector2D<>> &options) const{
+        Vector2D<> Mode::takeRandom(const std::vector<Vector2D<>> &options) {
             std::shared_ptr<Random> r = Random::getInstance();
-            return options[r->getRandomIndex(0, options.size()-1)];
+            return options[r->getRandomIndex(0, (int) options.size()-1)];
         }
 
         const Vector2D<> &Mode::getDirection() const {
@@ -43,4 +43,4 @@ namespace Logic {
         }
 
     } // Logic
-} // Move
+// Move

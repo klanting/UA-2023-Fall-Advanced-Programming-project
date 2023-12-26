@@ -57,7 +57,7 @@ namespace Controller {
         /**
          * Getter for the resulting datavector determing the direction based on key presses
          * */
-        const Vector2D<>& getDataVector() const;
+        [[nodiscard]] const Vector2D<>& getDataVector() const;
     private:
 
         /**

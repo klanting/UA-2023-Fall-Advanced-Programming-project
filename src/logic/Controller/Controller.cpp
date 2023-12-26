@@ -1,9 +1,5 @@
-//
-// Created by tibov on 25/11/23.
-//
-
 #include "Controller.h"
-#include <iostream>
+
 namespace Controller {
 
     void Controller::moveUp(bool pressed) {
@@ -43,7 +39,7 @@ namespace Controller {
 
     }
 
-    Controller::Controller(): data_vector{0, 0} {
+    Controller::Controller(): data_vector{0, 0}, pressed_table{false, false, false, false} {
 
     }
 
@@ -57,8 +53,8 @@ namespace Controller {
 
     void Controller::clear() {
         //Reset all keys that are pressed
-        for (int i=0; i<4; i++){
-            pressed_table[i] = false;
+        for (bool &i : pressed_table){
+            i = false;
         }
         data_vector = Vector2D<>{0, 0};
 

@@ -1,11 +1,7 @@
-//
-// Created by tibov on 25/11/23.
-//
 
 #include "ControlMode.h"
-#include <iostream>
-namespace Logic {
-    namespace Move {
+
+    namespace Logic::Move {
         void ControlMode::makeDirection(const Vector2D<> &to_pacman, const std::vector<Vector2D<>> &options){
         }
 
@@ -15,4 +11,4 @@ namespace Logic {
         }
 
     } // Logic
-} // Move
+// Move

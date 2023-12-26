@@ -61,12 +61,12 @@
              * In our case we will use '<=' and '>' operators for Fear and Chase mode, but this can also be changed into
              * more complex functions
              */
-            Vector2D<> findBest(const Vector2D<>& to_entity, const std::vector<Vector2D<>>& options, const std::function<bool(double, double)>& op) const;
+            static Vector2D<> findBest(const Vector2D<>& to_entity, const std::vector<Vector2D<>>& options, const std::function<bool(double, double)>& op) ;
 
             /**
              * Take a random direction among the directions that are possible
              */
-            [[nodiscard]] Vector2D<> takeRandom(const std::vector<Vector2D<>>& options) const;
+            [[nodiscard]] static Vector2D<> takeRandom(const std::vector<Vector2D<>>& options) ;
 
             /**
              * Stores current direction this Mode will go to till changed

@@ -4,8 +4,8 @@
 
 #include "FearMode.h"
 #include <iostream>
-namespace Logic {
-    namespace Move {
+
+    namespace Logic::Move {
         void FearMode::makeDirection(const Vector2D<> &to_entity, const std::vector<Vector2D<>> &options){
 
             //decide between random choice or Manhattan choice
@@ -22,4 +22,4 @@ namespace Logic {
             }
         }
     } // Logic
-} // Move
+// Move

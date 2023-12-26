@@ -1,13 +1,10 @@
-//
-// Created by tibov on 25/11/23.
-//
 
 #ifndef PROJECTPACMAN_MODEMANAGER_H
 #define PROJECTPACMAN_MODEMANAGER_H
 #include "Mode.h"
 #include "memory"
-namespace Logic {
-    namespace Move {
+
+    namespace Logic::Move {
 
         /**
          * This class can be seen as a Strategy Manager
@@ -15,7 +12,7 @@ namespace Logic {
          * */
         class ModeManager {
         public:
-            ModeManager(std::unique_ptr<Mode> mode);
+            explicit ModeManager(std::unique_ptr<Mode> mode);
 
             void makeDirection(const Vector2D<>& to_pacman, const std::vector<Vector2D<>>& options) const;
             Vector2D<> getDirection();
@@ -27,6 +24,6 @@ namespace Logic {
         };
 
     } // Move
-} //Logic
+//Logic
 
 #endif //PROJECTPACMAN_MODEMANAGER_H
