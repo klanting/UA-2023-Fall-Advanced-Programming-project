@@ -13,6 +13,8 @@ namespace Logic {
     World::World(const std::shared_ptr<EntityModel>& pacman, const std::vector<std::shared_ptr<EntityModel>>& entities,
     const std::vector<std::shared_ptr<EntityModel>>& not_passable, const std::vector<std::shared_ptr<EntityModel>>& intersection,
     int lives, int consumable_count) {
+        //constructor initializes all the variables
+        //this parameters will be crated in a WorldLoader
         World::lives = lives;
         World::pacman = pacman;
         World::entities = entities;
