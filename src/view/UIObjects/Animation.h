@@ -11,7 +11,9 @@ namespace View {
     class Animation: public UIObject{
     public:
         Animation(double delay, std::vector<std::unique_ptr<Image>> images);
-        virtual void render() const override = 0;
+        void render() const override = 0;
+        ~Animation() override = default;
+
     protected:
         mutable double animation_delay = 0.5;
         double total_delay = 0.5;

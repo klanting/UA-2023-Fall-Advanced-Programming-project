@@ -10,13 +10,21 @@
 #include "../UIObjects/MenuButton.h"
 namespace View {
 
+    /**
+     * Part of Design pattern: State
+     * Derived class of State
+     * Representing the state when we pause the game
+     * */
     class PausedState: public State {
     public:
         PausedState();
         void runTick() override;
         void acceptCharacter(int input, bool pressed, const Logic::Vector2D<>& v) override;
     private:
-        void renderUI();
+        /**
+         * show the home and continue button
+         * */
+        void renderUI() const override;
         sf::Texture texture;
         ContinueButton continue_button;
         MenuButton home_button;

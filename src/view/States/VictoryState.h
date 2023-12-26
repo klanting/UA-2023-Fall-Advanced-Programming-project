@@ -9,6 +9,11 @@
 #include "../UIObjects/CutOffAnimation.h"
 namespace View {
 
+    /**
+     * Part of Design pattern: State
+     * Derived class of State
+     * Representing the state when the level is finished
+     * */
     class VictoryState: public State{
     public:
         VictoryState();
@@ -18,6 +23,9 @@ namespace View {
         double key_press_delay = 1;
         sf::Texture texture;
 
+        /**
+         * creates animation where pacman eats the word 'Victory'
+         * */
         void createEatAnimation();
 
 

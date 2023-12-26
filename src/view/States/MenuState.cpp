@@ -6,9 +6,7 @@
 #include "StateManager.h"
 #include "LevelState.h"
 
-#include "../../logic/Stopwatch.h"
 
-#include "../../logic/Vector2D.h"
 #include "../Scoreboard.h"
 namespace View {
     void MenuState::runTick() {
@@ -35,7 +33,7 @@ namespace View {
 
     }
 
-    void MenuState::renderUI() {
+    void MenuState::renderUI() const{
         play_button.render();
 
         State::renderUI();
@@ -56,9 +54,9 @@ namespace View {
     void MenuState::createPacmanTitleAnimation() {
         std::vector<std::unique_ptr<Image>> images;
         std::vector<int> top_positions = {(1+0*34), (1+1*34)};
-        for (int i =0; i<top_positions.size(); i++){
+        for (int top_position : top_positions){
             std::shared_ptr<sf::Sprite> pacman_anim = std::make_shared<sf::Sprite>();
-            pacman_anim->setTextureRect(sf::IntRect(1, top_positions[i], 300, 34));
+            pacman_anim->setTextureRect(sf::IntRect(1, top_position, 300, 34));
 
             std::unique_ptr<Image> img = std::make_unique<Image>(Logic::Vector2D<>{-0.25, -0.8}, Logic::Vector2D<>{0.25, 0.25}, Logic::Vector2D<>{34, 34}, pacman_anim, texture);
 

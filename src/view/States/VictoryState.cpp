@@ -4,7 +4,6 @@
 
 #include "VictoryState.h"
 #include "StateManager.h"
-#include "../UIObjects/Image.h"
 
 namespace View {
     void VictoryState::runTick() {

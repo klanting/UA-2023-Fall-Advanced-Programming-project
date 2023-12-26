@@ -10,6 +10,11 @@
 #include "../UIObjects/ImageAnimation.h"
 namespace View {
 
+    /**
+     * Part of Design pattern: State
+     * Derived class of State
+     * Representing the state when the game is not yet started
+     * */
     class MenuState: public State{
     public:
 
@@ -17,11 +22,17 @@ namespace View {
         void runTick() override;
         void acceptCharacter(int input, bool pressed, const Logic::Vector2D<>& v) override;
     private:
-        void renderUI() override;
+        void renderUI() const override;
         sf::Texture texture;
         StartButton play_button;
 
+        /**
+         * creates the animated C of pacman
+         * */
         void createPacmanTitleAnimation();
+        /**
+         * creates the text PA MAN
+         * */
         void createPacmanText();
     };
 

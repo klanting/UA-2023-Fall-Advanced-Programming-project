@@ -34,7 +34,7 @@ namespace View {
         state_manager.lock()->Pop(2);
     }
 
-    void PausedState::renderUI() {
+    void PausedState::renderUI() const{
         State::renderUI();
 
         continue_button.render();

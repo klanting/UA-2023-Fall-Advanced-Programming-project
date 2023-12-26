@@ -10,7 +10,7 @@ namespace View {
         State::state_manager = state_manager;
     }
 
-    void State::renderUI() {
+    void State::renderUI() const{
         for (auto& img: render_images){
             img->render();
         }

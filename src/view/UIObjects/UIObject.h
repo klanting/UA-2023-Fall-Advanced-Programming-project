@@ -15,6 +15,7 @@ namespace View {
     public:
         UIObject(const Logic::Vector2D<>& position, const Logic::Vector2D<>& size);
         virtual void render() const = 0;
+        virtual ~UIObject() = default;
 
     protected:
         Logic::Vector2D<> position;

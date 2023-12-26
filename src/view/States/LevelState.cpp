@@ -68,11 +68,13 @@ namespace View {
                 std::cout << "Paused" << std::endl;
                 state_manager.lock()->Push(std::make_unique<PausedState>());
                 break;
+            default:
+                break;
         }
 
     }
 
-    void LevelState::renderUI() {
+    void LevelState::renderUI() const{
         std::unique_ptr<sf::Text> score = std::make_unique<sf::Text>();
         sf::Font font;
         font.loadFromFile("arial.ttf");
@@ -83,7 +85,7 @@ namespace View {
 
         auto p = Camera::getInstance()->toPixels(Vector2D<>{-0.9, 0.2}, Vector2D<>{0, 0});
 
-        score->setPosition(p.first[0], p.first[1]);
+        score->setPosition((float) p.first[0], (float) p.first[1]);
 
         RenderWindowSingleton::getInstance()->draw_bufferless(std::move(score));
 
@@ -96,7 +98,7 @@ namespace View {
 
         p = Camera::getInstance()->toPixels(Vector2D<>{-0.9, 0.4}, Vector2D<>{0, 0});
 
-        lives->setPosition(p.first[0], p.first[1]);
+        lives->setPosition((float) p.first[0], (float) p.first[1]);
 
         RenderWindowSingleton::getInstance()->draw_bufferless(std::move(lives));
     }

@@ -16,7 +16,8 @@ namespace View {
         Button();
         Button(const Logic::Vector2D<>& position, const Logic::Vector2D<>& size);
         virtual bool isClicked(const Logic::Vector2D<>& click_position);
-        virtual void render() const = 0;
+        void render() const override = 0;
+        ~Button() override = default;
 
 
 
