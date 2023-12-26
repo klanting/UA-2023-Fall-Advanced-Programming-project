@@ -3,7 +3,6 @@
 //
 
 #include "EntityView.h"
-#include "../../logic/Stopwatch.h"
 #include "../../logic/Subjects/Ghost.h"
 #include "../../logic/Subjects/Coin.h"
 #include "../../logic/Subjects/Fruit.h"
@@ -28,6 +27,7 @@ namespace View {
 
     template<typename T>
     void EntityView<T>::checkAnimation() {
+        //run the animation delay and determine the animation index
         int last_tick = Logic::Stopwatch::getInstance()->getTickIteration();
         if (last_tick_iteration == last_tick){
             return;
@@ -48,14 +48,15 @@ namespace View {
         typedef std::pair<Logic::Vector2D<>, Logic::Vector2D<>> PixelData;
 
         if (entity.expired()){
-            throw "entity doesnt exist";
+            throw std::bad_weak_ptr();
         }
 
         auto e = entity.lock();
 
+        //determine the pixel based position and draw the sprite
         PixelData data = Camera::getInstance()->toPixels(e->getPosition(), e->getSize());
 
-        sprite->setPosition(data.first[0], data.first[1]);
+        sprite->setPosition((float) data.first[0], (float) data.first[1]);
         sprite->setScale(data.second[0]/(pixel_width-2), data.second[1]/(pixel_height-2));
 
 

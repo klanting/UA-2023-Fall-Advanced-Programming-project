@@ -10,7 +10,15 @@ namespace View {
 
     class FruitView: public EntityView<Logic::Fruit>{
     public:
-        FruitView(std::weak_ptr<Logic::Fruit> entity);
+        /**
+         * Constructor for FruitView
+         * */
+        explicit FruitView(const std::weak_ptr<Logic::Fruit>& entity);
+
+        /**
+         * Destructor for CoinView
+         * */
+        ~FruitView() override = default;
 
     private:
         int getTop() override;

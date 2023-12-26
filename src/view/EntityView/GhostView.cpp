@@ -3,18 +3,17 @@
 //
 
 #include "GhostView.h"
-#include <iostream>
 namespace View {
 
 
-    GhostView::GhostView(std::weak_ptr<Logic::Ghost> entity, int color_index) : EntityView(entity), color_index{color_index} {
+    GhostView::GhostView(const std::weak_ptr<Logic::Ghost>& entity, int color_index) : EntityView(entity), color_index{color_index} {
         texture.loadFromFile("sprites/Sprites.png", sf::IntRect(0, 2, 40+50*6, 1000));
 
     }
 
     int GhostView::getTop() {
         if (entity.expired()){
-            throw "entity doesnt exist";
+            throw std::bad_weak_ptr();
         }
 
         auto e = entity.lock();

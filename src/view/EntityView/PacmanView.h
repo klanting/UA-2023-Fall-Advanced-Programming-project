@@ -10,10 +10,17 @@ namespace View {
 
     class PacmanView: public EntityView<Logic::Pacman>{
     public:
-        PacmanView(std::weak_ptr<Logic::Pacman> entity);
+        /**
+        * Constructor for PacmanView
+        * */
+        explicit PacmanView(const std::weak_ptr<Logic::Pacman>& entity);
+
+        /**
+        * Destructor for PacmanView
+        * */
+        ~PacmanView() override = default;
     private:
         int getTop() override;
-        int pacman_row;
 
     };
 

@@ -12,9 +12,19 @@ namespace View {
 
     class GhostView: public EntityView<Logic::Ghost>{
     public:
-        GhostView(std::weak_ptr<Logic::Ghost> entity, int color_index);
+        /**
+        * Constructor for GhostView
+        * */
+        GhostView(const std::weak_ptr<Logic::Ghost>& entity, int color_index);
+        /**
+        * Destructor for GhostView
+        * */
+        ~GhostView() override = default;
     private:
         int getTop() override;
+        /**
+         * getLeft will change to show a blue/grey animation when Fear Mode is almost over
+         * */
         int getLeft() override;
         int color_index;
     };

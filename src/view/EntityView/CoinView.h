@@ -10,7 +10,15 @@ namespace View {
 
     class CoinView: public EntityView<Logic::Coin>{
     public:
-        CoinView(std::weak_ptr<Logic::Coin> entity);
+        /**
+         * Constructor for CoinView
+         * */
+        explicit CoinView(const std::weak_ptr<Logic::Coin>& entity);
+
+        /**
+         * Destructor for CoinView
+         * */
+        ~CoinView() override = default;
     private:
         int getTop() override;
     };

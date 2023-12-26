@@ -9,7 +9,15 @@
 namespace View {
     class IntersectionView: public EntityView<Logic::Intersection>{
     public:
-        IntersectionView(std::weak_ptr<Logic::Intersection> entity);
+        /**
+        * Constructor for IntersectionView
+        * */
+        explicit IntersectionView(const std::weak_ptr<Logic::Intersection>& entity);
+
+        /**
+        * Destructor for IntersectionView
+        * */
+        ~IntersectionView() override = default;
         void moved() override;
     private:
         int getTop() override;

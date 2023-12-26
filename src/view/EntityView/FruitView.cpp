@@ -8,7 +8,7 @@ namespace View {
 
 
 
-    FruitView::FruitView(std::weak_ptr<Logic::Fruit> entity) : EntityView(entity) {
+    FruitView::FruitView(const std::weak_ptr<Logic::Fruit>& entity) : EntityView(entity) {
         texture.loadFromFile("sprites/Sprites.png", sf::IntRect(400+10, 452+10, 40, 600));
         //sprite.setTexture(texture);
 

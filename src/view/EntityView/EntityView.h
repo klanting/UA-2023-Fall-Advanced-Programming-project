@@ -12,23 +12,55 @@
 #include "../RenderWindowSingleton.h"
 namespace View {
 
+    /**
+     * Design pattern: Observer
+     * This class is an Abstract Class
+     * Responsible for visualizing Entities
+     * */
     template<typename T>
     class EntityView: public Logic::Observer{
     public:
-        EntityView(std::weak_ptr<T> entity);
+        /**
+         * Constructor for EntityView
+         * */
+        explicit EntityView(std::weak_ptr<T> entity);
+
+        /**
+         * Destructor for EntityView
+         * */
         ~EntityView() override = default;
-        virtual void moved();
+
+        /**
+         * when the entity moves, we will draw the entity
+         * */
+        void moved() override;
         void consume(std::weak_ptr<Logic::EntityModel> other) override;
         void died() override;
         void finishedLvl() override;
 
     protected:
+        /**
+         * check the animation index
+         * */
         void checkAnimation();
+        /**
+         * get the pixel value of the top position where we start loading the image we want to render
+         * */
         virtual int getTop() = 0;
+
+        /**
+         * get the pixel value of the left position where we start loading the image we want to render
+         * */
         virtual int getLeft();
 
+        /**
+         * entity we want to draw
+         * */
         std::weak_ptr<T> entity;
 
+        /**
+         * texture that we want to draw
+         * */
         sf::Texture texture;
         int animation_index;
         double animation_delay;

@@ -4,7 +4,7 @@
 
 #ifndef PROJECTPACMAN_VECTOR2D_H
 #define PROJECTPACMAN_VECTOR2D_H
-#include <cmath>
+#include <math.h>
 namespace Logic {
     /**
      * This Object will give an easy interface to do computation with an x and y value
@@ -37,7 +37,7 @@ namespace Logic {
         /**
          * Subtraction between 2 Vector2D
          */
-        Vector2D operator-(const Vector2D& other) const;
+        Vector2D operator-(const Vector2D<T>& other) const;
 
         /**
          * Subtract a Vector2D to this Vector2D

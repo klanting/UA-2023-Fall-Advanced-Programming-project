@@ -20,7 +20,7 @@ namespace Logic {
     }
 
     template<typename T>
-    Vector2D<T> Vector2D<T>::operator-(const Vector2D&other) const {
+    Vector2D<T> Vector2D<T>::operator-(const Vector2D<T> &other) const {
         return Vector2D{this->x-other.x, this->y-other.y};
     }
 

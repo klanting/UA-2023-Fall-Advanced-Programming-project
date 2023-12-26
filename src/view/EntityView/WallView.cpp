@@ -12,21 +12,21 @@ namespace View {
 
 
         if (entity.expired()){
-            throw "entity doesnt exist";
+            throw std::bad_weak_ptr();
         }
 
         auto e = entity.lock();
         PixelData data = Camera::getInstance()->toPixels(e->getPosition(), e->getSize());
 
-
+        //draws rectangle representing a wall
         std::vector<sf::Vertex> vertices;
         sf::Color color = sf::Color::Blue;
 
-        vertices.push_back(sf::Vertex{sf::Vector2f(data.first[0], data.first[1]), color});
-        vertices.push_back(sf::Vertex{sf::Vector2f((data.first)[0], (data.first+data.second)[1]), color});
-        vertices.push_back(sf::Vertex{sf::Vector2f((data.first+data.second)[0], (data.first+data.second)[1]), color});
-        vertices.push_back(sf::Vertex{sf::Vector2f((data.first+data.second)[0], (data.first)[1]), color});
-        vertices.push_back(sf::Vertex{sf::Vector2f(data.first[0], data.first[1]), color});
+        vertices.emplace_back(sf::Vector2f((float) data.first[0], (float) data.first[1]), color);
+        vertices.emplace_back(sf::Vector2f((float) (data.first)[0], (float) (data.first+data.second)[1]), color);
+        vertices.emplace_back(sf::Vector2f((float) (data.first+data.second)[0], (float) (data.first+data.second)[1]), color);
+        vertices.emplace_back(sf::Vector2f((float) (data.first+data.second)[0], (float) (data.first)[1]), color);
+        vertices.emplace_back(sf::Vector2f((float) data.first[0], (float) data.first[1]), color);
 
         std::shared_ptr<sf::VertexArray> square = std::make_shared<sf::VertexArray>(sf::LineStrip);
         for (auto& v: vertices){
@@ -36,7 +36,7 @@ namespace View {
         RenderWindowSingleton::getInstance()->draw(entity, square);
     }
 
-    WallView::WallView(std::weak_ptr<Logic::Wall> entity) : EntityView(entity) {
+    WallView::WallView(const std::weak_ptr<Logic::Wall>& entity) : EntityView(entity) {
 
     }
 

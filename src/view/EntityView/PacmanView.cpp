@@ -1,14 +1,11 @@
-//
-// Created by tibov on 30/11/23.
-//
+
 
 #include "PacmanView.h"
-#include <iostream>
 
 namespace View {
 
 
-    PacmanView::PacmanView(std::weak_ptr<Logic::Pacman> entity) : EntityView(entity) {
+    PacmanView::PacmanView(const std::weak_ptr<Logic::Pacman>& entity) : EntityView(entity) {
         texture.loadFromFile("sprites/Sprites.png", sf::IntRect(850, 2, 40, 600));
         //sprite.setTexture(texture);
 
@@ -16,7 +13,7 @@ namespace View {
 
     int PacmanView::getTop() {
         if (entity.expired()){
-            throw "entity doesnt exist";
+            throw std::bad_weak_ptr();
         }
 
         auto e = entity.lock();

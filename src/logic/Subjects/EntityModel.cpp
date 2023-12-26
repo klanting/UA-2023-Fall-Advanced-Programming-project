@@ -161,8 +161,8 @@ namespace Logic {
         }
 
         //calculate how far we travelled before the collision happened
-        Vector2D travelled = (position-last_position);
-        Vector2D travelled_before_collision = (p.second.first-(last_position + size*0.5));
+        Vector2D<> travelled = (position-last_position);
+        Vector2D<> travelled_before_collision = (p.second.first-(last_position + size*0.5));
 
         //set the position back to just before the collision
         position -= (travelled - travelled_before_collision)*1.0001;
@@ -173,8 +173,7 @@ namespace Logic {
             //mini is just the direction we go to if we won't go into the direction we just collided
             Vector2D<> mini = std::min(move_manager->getDirection() - p.second.second, move_manager->getDirection()+ p.second.second,
                                        [](const Vector2D<>& a, const Vector2D<>& b) {return a.getLength() < b.getLength();});
-            Vector2D to_do = mini*(+(travelled-travelled_before_collision));
-
+            Vector2D<> to_do = mini*(+(travelled-travelled_before_collision));
             //add the compensating distance
             position += to_do;
 

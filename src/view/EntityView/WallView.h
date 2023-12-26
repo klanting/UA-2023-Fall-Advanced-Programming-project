@@ -9,7 +9,15 @@
 namespace View {
     class WallView: public EntityView<Logic::Wall>{
     public:
-        WallView(std::weak_ptr<Logic::Wall> entity);
+        /**
+        * Constructor for WallView
+        * */
+        explicit WallView(const std::weak_ptr<Logic::Wall>& entity);
+
+        /**
+        * Destructor for PacmanView
+        * */
+        ~WallView() override = default;
         void moved() override;
     private:
         int getTop() override;
