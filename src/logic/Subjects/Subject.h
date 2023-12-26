@@ -13,14 +13,29 @@ namespace Logic {
 
     /**
      * Abstract class to be able to add observers to entities
-     * */
+     * This class will be te base class for EntityModel
+     */
     class Subject {
     public:
+        /**
+         * Constructor for Subject is a default constructor
+         */
         Subject() = default;
 
-        void addObserver(const std::shared_ptr<Observer>& observer);
+        /**
+         * Destructor for Subject is a default destructor
+         */
         virtual ~Subject() = default;
+
+        /**
+         * function to add observers to a subject
+         */
+        void addObserver(const std::shared_ptr<Observer>& observer);
+
     protected:
+        /**
+         * vector of all the observers that we will pass an event to
+         **/
         std::vector<std::shared_ptr<Observer>> observers;
 
 

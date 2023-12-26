@@ -13,7 +13,7 @@ namespace Logic {
         fear_time = 0;
     }
 
-    bool Ghost::isConsumable() {
+    bool Ghost::isConsumable() const{
         return EntityModel::isConsumable();
     }
 

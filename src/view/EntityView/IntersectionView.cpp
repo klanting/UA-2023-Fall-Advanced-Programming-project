@@ -23,9 +23,6 @@ namespace View {
 
         std::vector<sf::Vertex> vertices;
         sf::Color color = sf::Color::Red;
-        if (e->debug_green){
-            color = sf::Color::Green;
-        }
 
         vertices.push_back(sf::Vertex{sf::Vector2f(data.first[0], data.first[1]), color});
         vertices.push_back(sf::Vertex{sf::Vector2f((data.first)[0], (data.first+data.second)[1]), color});

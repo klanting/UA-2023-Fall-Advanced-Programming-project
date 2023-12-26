@@ -11,6 +11,7 @@ namespace Logic {
     class Vector2D {
     public:
         Vector2D(T x, T y);
+        Vector2D();
         Vector2D<T> operator+(const Vector2D<T>& other) const;
         void operator+=(const Vector2D& other);
         Vector2D operator-(const Vector2D& other) const;
@@ -38,6 +39,13 @@ namespace Logic {
         T x;
         T y;
     };
+
+    template<typename T>
+    Vector2D<T>::Vector2D() {
+        x = 0;
+        y = 0;
+
+    }
 
 
 } // Logic

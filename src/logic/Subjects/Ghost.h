@@ -9,7 +9,7 @@ namespace Logic {
     class Ghost: public EntityModel{
     public:
         Ghost(const Vector2D<>& position, double wait_delay, const std::shared_ptr<Move::ModeManager>& move_manager, double difficulty);
-        bool isConsumable() override;
+        bool isConsumable() const override;
         void changeMode(bool fear) override;
         bool handleDead(const std::vector<std::shared_ptr<EntityModel>>& others) override;
         void goStartPosition() override;
