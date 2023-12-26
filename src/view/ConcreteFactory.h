@@ -12,6 +12,7 @@ namespace View {
 
     class ConcreteFactory: public Logic::AbstractFactory{
     public:
+        ~ConcreteFactory() override = default;
         std::shared_ptr<EntityModel> createCoin(const Vector2D<>& position) override;
         std::shared_ptr<EntityModel> createFruit(const Vector2D<>& position) override;
         std::shared_ptr<EntityModel> createGhost(const Vector2D<>& position, double wait_delay, int color_index, double difficulty) override;

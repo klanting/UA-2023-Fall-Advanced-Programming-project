@@ -16,6 +16,7 @@ namespace View {
     class EntityView: public Logic::Observer{
     public:
         EntityView(std::weak_ptr<T> entity);
+        ~EntityView() override = default;
         virtual void moved();
         void consume(std::weak_ptr<Logic::EntityModel> other) override;
         void died() override;

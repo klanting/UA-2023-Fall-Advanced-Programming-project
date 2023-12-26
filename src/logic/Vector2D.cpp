@@ -66,10 +66,7 @@ namespace Logic {
         return (*this-other).getLength();
     }
 
-    template<typename T>
-    bool Vector2D<T>::operator<(const Vector2D &other) const {
-        return this->x+ this->y < other.x+ other.y;
-    }
+
 
     template<typename T>
     Vector2D<T> Vector2D<T>::projection(const Vector2D &target) const{
@@ -77,10 +74,7 @@ namespace Logic {
         return target*scalar;
     }
 
-    template<typename T>
-    bool Vector2D<T>::operator<=(const Vector2D &other) const {
-        return this->x+ this->y <= other.x+ other.y;
-    }
+
 
     template<typename T>
     Vector2D<T> Vector2D<T>::operator*(const Vector2D &scalar) const {
@@ -131,6 +125,12 @@ namespace Logic {
         return Vector2D(this->x* cos(angle)+this->y*sin(angle), -1*this->x* sin(angle)+this->y*cos(angle));
     }
 
+    template<typename T>
+    Vector2D<T>::Vector2D() {
+        x = 0;
+        y = 0;
+
+    }
 
 
 } // Logic

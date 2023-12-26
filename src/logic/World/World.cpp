@@ -79,10 +79,6 @@ namespace Logic {
         } else{
             e->handleDead(entities);
             lives -= 1;
-
-            if (lives == 0){
-                std::cout << "game over" << std::endl;
-            }
         }
 
     }

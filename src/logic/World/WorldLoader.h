@@ -15,6 +15,7 @@ namespace Logic::WorldLoading {
     class WorldLoader {
     public:
         WorldLoader(std::unique_ptr<AbstractFactory> factory, const std::shared_ptr<Score>& score);
+        virtual ~WorldLoader() = default;
         virtual std::unique_ptr<World> load(double difficulty, int lives) = 0;
 
     protected:

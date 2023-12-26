@@ -13,11 +13,10 @@ namespace Logic {
     }
 
     Stopwatch::Stopwatch() {
+        //init stopwatch
         tick_iteration = 0;
         start_time = steady_clock::now();
         end_time = start_time;
-
-
 
     }
 
@@ -26,6 +25,7 @@ namespace Logic {
     }
 
     void Stopwatch::doTick() {
+        //set new end time, and set old end time as new start time
         start_time = end_time;
         end_time = steady_clock::now();
         tick_iteration += 1;

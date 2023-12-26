@@ -4,7 +4,7 @@
 
 #include "Score.h"
 #include <iostream>
-#include "math.h"
+#include <cmath>
 namespace Logic {
     Score::Score(): score{0}, time_till_last{0} {
 
@@ -31,8 +31,8 @@ namespace Logic {
         return std::floor(score);
     }
 
-    void Score::addObserved(std::weak_ptr<EntityModel> pacman) {
-        Score::pacman = pacman;
+    void Score::addObserved(const std::weak_ptr<EntityModel>& pacman_ptr) {
+        Score::pacman = pacman_ptr;
 
     }
 

@@ -10,6 +10,10 @@
 #include "Score.h"
 namespace Logic {
 
+    /**
+     * Design pattern: Abstract Factory
+     * This class is an Interface class
+     * */
     class AbstractFactory {
     public:
         virtual std::shared_ptr<EntityModel> createCoin(const Vector2D<>& position) = 0;
@@ -18,6 +22,7 @@ namespace Logic {
         virtual std::shared_ptr<EntityModel> createPacman(const Vector2D<>& position, std::shared_ptr<Score> score) = 0;
         virtual std::shared_ptr<EntityModel> createWall(const Vector2D<>& position, const Vector2D<> &size) = 0;
         virtual std::shared_ptr<EntityModel> createIntersection(const Vector2D<>& position, const Vector2D<> &size) = 0;
+        virtual ~AbstractFactory() = default;
     private:
     };
 
