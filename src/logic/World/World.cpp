@@ -68,7 +68,7 @@ namespace Logic {
 
     }
 
-    void World::handleActionsPacman(std::shared_ptr<EntityModel> e, std::weak_ptr<EntityModel> hit) {
+    void World::handleActionsPacman(const std::shared_ptr<EntityModel>& e, const std::weak_ptr<EntityModel>& hit) {
 
         if (hit.lock()->isConsumable()){
             e->consume(hit);
@@ -87,7 +87,7 @@ namespace Logic {
 
     }
 
-    void World::handleActions(std::shared_ptr<EntityModel> e, std::weak_ptr<EntityModel> hit) {
+    void World::handleActions(const std::shared_ptr<EntityModel>& e, const std::weak_ptr<EntityModel>& hit) {
         //make sure only ghosts do this
         if (hit.lock() == pacman){
             handleActionsPacman(hit.lock(), e);
@@ -100,14 +100,15 @@ namespace Logic {
         return lives;
     }
 
-    void World::handleHit(std::shared_ptr<EntityModel> e) {
+    void World::handleHit(const std::shared_ptr<EntityModel>& e) {
 
-        std::function<void(std::shared_ptr<EntityModel>, std::weak_ptr<EntityModel>)> func;
+        OnColFunc func;
 
         if (e == pacman){
-            func = std::bind(&World::handleActionsPacman, this, std::placeholders::_1, std::placeholders::_2);
+
+            func = [this](const std::shared_ptr<EntityModel>& e, const std::weak_ptr<EntityModel>& other){handleActionsPacman(e, other);};
         }else{
-            func = std::bind(&World::handleActions, this, std::placeholders::_1, std::placeholders::_2);
+            func = [this](const std::shared_ptr<EntityModel>& e, const std::weak_ptr<EntityModel>& other){handleActions(e, other);};
         }
 
         checkCollision(e, entities, func);
@@ -115,14 +116,14 @@ namespace Logic {
     }
 
     std::vector<Vector2D<>>
-    World::getFutureDirections(std::shared_ptr<EntityModel> e, const std::vector<Vector2D<>> &options) {
+    World::getFutureDirections(const std::shared_ptr<EntityModel>& e, const std::vector<Vector2D<>> &options) const{
         std::vector<Vector2D<>> option_resulting = {};
         for (auto o: options){
 
 
             Vector2D resultPos = e->getPosition()+o*0.05;
             bool walkable = true;
-            for (auto np: not_passable){
+            for (const auto& np: not_passable){
                 if (e->collideFuture(np, resultPos)){
                     walkable = false;
                 }
