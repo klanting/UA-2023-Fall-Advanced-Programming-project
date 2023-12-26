@@ -31,6 +31,7 @@ namespace Logic {
     }
 
     void LogicHandler::nextLevel() {
+        score->finishedLvl();
         //increases difficulty_index by 0.1 and making a new lvl
         Controller::Controller::Controller::getInstance()->clear();
         difficulty_index += 0.1;

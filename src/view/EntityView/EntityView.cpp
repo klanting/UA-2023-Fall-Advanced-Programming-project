@@ -84,9 +84,5 @@ namespace View {
 
     }
 
-    template<typename T>
-    void EntityView<T>::finishedLvl() {
-
-    }
 
 } // View

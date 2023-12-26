@@ -30,8 +30,6 @@ namespace Logic {
          * */
         virtual void died() = 0;
 
-        virtual void finishedLvl() = 0;
-
         virtual ~Observer() = default;
     private:
 

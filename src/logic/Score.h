@@ -23,7 +23,7 @@ namespace Logic {
         void moved() override;
         void died() override;
         [[nodiscard]] int getScore() const;
-        void finishedLvl() override;
+        void finishedLvl();
         ~Score() override = default;
     private:
         double score;

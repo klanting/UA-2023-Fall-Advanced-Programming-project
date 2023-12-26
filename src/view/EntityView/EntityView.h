@@ -36,7 +36,6 @@ namespace View {
         void moved() override;
         void consume(std::weak_ptr<Logic::EntityModel> other) override;
         void died() override;
-        void finishedLvl() override;
 
     protected:
         /**

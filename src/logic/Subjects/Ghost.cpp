@@ -53,7 +53,7 @@ namespace Logic {
         //on dead go back in Chase mode
         EntityModel::handleDead(others);
 
-        EntityModel::goStartPosition();
+        Ghost::goStartPosition();
         consumable = false;
 
         move_manager->setStrategy(std::make_unique<Move::ChaseMode>());
