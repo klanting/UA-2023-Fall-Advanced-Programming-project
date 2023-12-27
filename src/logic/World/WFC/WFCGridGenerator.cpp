@@ -21,26 +21,27 @@ namespace Logic {
         }
 
         void WFCGridGenerator::generate() {
-            for (int h = 0; h<500; h++){
+            while (true){
+                //get the grid positions of the Cells with the lowest Entropy
                 auto v_options = lowestEntropy();
 
                 if (v_options.empty()){
                     break;
                 }
 
-                v_options = largestExpansion(v_options);
-
-
-                int v_index = Random::getInstance()->getRandomIndex(0, v_options.size()-1);
+                //take a random Cell of these cells to continue with
+                int v_index = Random::getInstance()->getRandomIndex(0, (int) v_options.size()-1);
                 auto p = v_options[v_index];
 
+                //Get alle possible type Id's this Cell can have
                 std::set<int> o = grid.get(p[0], p[1]).getOptions();
-                if (o.empty()){
 
-                    std::cout << "broke2" << std::endl;
-                    continue;
+                //In case we have a never resolvable conflict
+                if (o.empty()){
+                    break;
                 }
 
+                //take a random cell type
                 int rand_index = Random::getInstance()->getRandomIndex(0, o.size()-1);
 
                 auto it = o.begin();
@@ -48,6 +49,10 @@ namespace Logic {
                     it++;
                 }
 
+                //apply the changes
+                //if the changes cause a contradiction
+                //rollback till before the changes
+                //remove the possibility that we just tried and go back to the start
                 cl.save(grid);
                 bool suc6 = place(p[0], p[1], *it);
                 if (!suc6){
@@ -56,12 +61,7 @@ namespace Logic {
                     Cell to_change = grid.get(p[0], p[1]);
                     to_change.remove(*it);
                     grid.set(p[0], p[1], to_change);
-                    bool s2 = propagate(p[0], p[1], to_change);
-                    if (!s2){
-                        throw "oei";
-                    }
-
-                    std::cout << "broke" << std::endl;
+                    propagate(p[0], p[1], to_change);
                     continue;
                 }
             }
@@ -70,6 +70,8 @@ namespace Logic {
         }
 
         void WFCGridGenerator::generateOutsideWall() {
+            //function for setting the outside walls
+            //this ensures that the map will be closed
             for (int j = 0; j<grid_height; j++){
 
                 for (int i = 0; i<grid_width; i++){
@@ -223,22 +225,6 @@ namespace Logic {
             return best_options;
         }
 
-        std::vector<Vector2D<int>> WFCGridGenerator::largestExpansion(const std::vector<Vector2D<int>> &ex) {
-            std::vector<Vector2D<int>> options;
-            for (auto p: ex){
-                std::set<int> o = grid.get(p[0], p[1]).getOptions();
-                if (o.size() > 1 || *(o.begin()) > 5){
-                    options.push_back(p);
-                }
-
-            }
-
-            if (options.empty()){
-                options = ex;
-            }
-
-            return ex;
-        }
 
 
 

@@ -30,7 +30,6 @@ namespace Logic {
             void fixLongWalls();
 
             std::vector<Vector2D<int>> lowestEntropy();
-            std::vector<Vector2D<int>> largestExpansion(const std::vector<Vector2D<int>>& ex);
 
             bool isMultiCornerWall(Matrix<int> &m, int i, int j);
 
