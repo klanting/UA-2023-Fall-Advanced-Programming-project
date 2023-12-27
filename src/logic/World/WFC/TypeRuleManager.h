@@ -10,8 +10,9 @@
 #include "../../Vector2D.h"
 #include "Matrix.h"
 #include <fstream>
-namespace Logic {
-    namespace WFC {
+#include "WFCReader.h"
+
+    namespace Logic::WFC {
 
         class TypeRuleManager {
         public:
@@ -19,12 +20,16 @@ namespace Logic {
             std::set<int> getOptions(int type, int direction_index);
 
             int getCharAmount();
+
+            [[nodiscard]] int getWallCount() const;
+
         private:
             std::map<int, TypeRule> type_map;
+            int wall_count;
 
         };
 
     } // WFC
-} // Logic
+// Logic
 
 #endif //PROJECTPACMAN_TYPERULEMANAGER_H

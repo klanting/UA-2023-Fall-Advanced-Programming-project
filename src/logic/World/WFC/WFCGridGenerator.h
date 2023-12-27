@@ -9,14 +9,12 @@
 #include "CellChangeLog.h"
 #include "../../Random.h"
 #include <memory>
-namespace Logic {
-    namespace WFC {
+
+    namespace Logic::WFC {
 
         class WFCGridGenerator {
         public:
             WFCGridGenerator();
-            void print(bool simple=false) const;
-            void printKey(bool simple=false) const;
             Matrix<int> generateGridMap();
 
         private:
@@ -31,7 +29,7 @@ namespace Logic {
 
             std::vector<Vector2D<int>> lowestEntropy();
 
-            bool isMultiCornerWall(Matrix<int> &m, int i, int j);
+            static bool isMultiCornerWall(Matrix<int> &m, int i, int j);
 
             std::unique_ptr<TypeRuleManager> type_manager;
 
@@ -59,6 +57,6 @@ namespace Logic {
         };
 
     } // WFC
-} // Logic
+// Logic
 
 #endif //PROJECTPACMAN_WFCGRIDGENERATOR_H

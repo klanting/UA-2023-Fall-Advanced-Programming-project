@@ -3,9 +3,8 @@
 //
 
 #include "WFCGridGenerator.h"
-#include "../../Vector2D.h"
-namespace Logic {
-    namespace WFC {
+
+    namespace Logic::WFC {
         WFCGridGenerator::WFCGridGenerator(): directions{Logic::Vector2D<int>{1, 0}, Logic::Vector2D<int>{0, 1}, Logic::Vector2D<int>{-1, 0}, Logic::Vector2D<int>{0, -1},
                                                          Logic::Vector2D<int>{1, 1}, Logic::Vector2D<int>{-1, 1}, Logic::Vector2D<int>{-1, -1}, Logic::Vector2D<int>{1, -1}},
                                               grid{grid_width, grid_height, Cell{0}}, simplified_grid(grid_width, grid_height, 0) {
@@ -42,7 +41,7 @@ namespace Logic {
                 }
 
                 //take a random cell type
-                int rand_index = Random::getInstance()->getRandomIndex(0, o.size()-1);
+                int rand_index = Random::getInstance()->getRandomIndex(0, (int) o.size()-1);
 
                 auto it = o.begin();
                 for (int i = 0; i<rand_index; i++){
@@ -138,50 +137,11 @@ namespace Logic {
 
         }
 
-        void WFCGridGenerator::print(bool simple) const {
-            for (int j = 0; j<grid_height; j++){
-                for (int i = 0; i<grid_width; i++){
-                    if (!simple){
-                        std::cout << grid.get(i, j).getEntropy() << " ";
-                    }else{
-                        if(grid.get(i, j).isDefined()){
-                            std::cout << 2 << " ";
-                        }else if (grid.get(i, j).getEntropy() == 0){
-                            std::cout << 0 << " ";
-                        }else{
-                            std::cout << 1 << " ";
-                        }
-                    }
 
-                }
-                std::cout << std::endl;
-            }
-            std::cout << std::endl;
-        }
-
-        void WFCGridGenerator::printKey(bool simple) const {
-            for (int j = 0; j<grid_height; j++){
-                for (int i = 0; i<grid_width; i++){
-                    int val = grid.get(i, j).getKey();
-                    if (simple){
-                        if (val > 5){
-                            val = 1;
-                        }else{
-                            val = 0;
-                        }
-                    }
-
-                    std::cout <<  val << " ";
-                }
-                std::cout << std::endl;
-            }
-            std::cout << std::endl;
-
-        }
 
         std::vector<Vector2D<int>> WFCGridGenerator::lowestEntropy() {
             std::vector<Vector2D<int>> best_options;
-            double best_entropy = 30;
+            double best_entropy = std::numeric_limits<double>::infinity();
 
             for (int j = 0; j<grid_height; j++){
                 for (int i = 0; i<grid_width; i++){
@@ -193,16 +153,15 @@ namespace Logic {
                     if (v < best_entropy){
                         best_entropy = v;
                         best_options.clear();
-                        best_options.push_back(Vector2D<int>{i, j});
+                        best_options.emplace_back(i, j);
                     }
 
                     if (v == best_entropy){
-                        best_options.push_back(Vector2D<int>{i, j});
+                        best_options.emplace_back(i, j);
                     }
 
                 }
             }
-            std::cout << "best entropy " << best_entropy << std::endl;
             return best_options;
         }
 
@@ -214,7 +173,7 @@ namespace Logic {
                 for (int i = 0; i<grid_width; i++){
 
                     int val = 1;
-                    if(grid.get(i, j).getKey() <= 5 && grid.get(i, j).getKey() >= 0){
+                    if(grid.get(i, j).getKey() < type_manager->getWallCount() && grid.get(i, j).getKey() >= 0){
                         val = 0;
                     }
 
@@ -234,11 +193,11 @@ namespace Logic {
 
 
             std::vector<Vector2D<int>> options = {};
-            options.push_back(Vector2D<int>{0, -1});
+            options.emplace_back(0, -1);
 
 
             Vector2D spawn_pos = Vector2D<int>{rand_i, rand_j};
-            Vector2D exit = options[Random::getInstance()->getRandomIndex(0,  options.size()-1)] + spawn_pos;
+            Vector2D exit = options[Random::getInstance()->getRandomIndex(0,  (int) options.size()-1)] + spawn_pos;
 
             Cell spawn_cell = grid.get(spawn_pos[0], spawn_pos[1]);
             spawn_cell.place(-2);
@@ -285,8 +244,7 @@ namespace Logic {
             for (int j = 1; j<grid_height-1; j++){
                 for (int i = 1; i<grid_width-1; i++){
                     if (simplified_grid.get(i, j) == 0 && isSingleWall(simplified_grid, i, j)){
-                        std::cout << "hep" << std::endl;
-                        singles.push_back(Vector2D<int>{i, j});
+                        singles.emplace_back(i, j);
 
                     }
 
@@ -332,8 +290,7 @@ namespace Logic {
             for (int j = 1; j<grid_height-1; j++){
                 for (int i = 1; i<grid_width-1; i++){
                     if (simplified_grid.get(i, j) == 0 && isMultiCornerWall(simplified_grid, i, j)){
-                        std::cout << "hep" << std::endl;
-                        corners.push_back(Vector2D<int>{i, j});
+                        corners.emplace_back(i, j);
 
                     }
 
@@ -359,14 +316,12 @@ namespace Logic {
 
                     }while(simplified_grid.get(loop_pos[0], loop_pos[1]) == 0);
 
-                    std::cout << distance << std::endl;
 
                     if (distance > best_distance){
                         best_distance = distance;
                         best_dir = dir;
                     }
                 }
-                std::cout << "best" << best_distance << std::endl;
                 Vector2D<int> remove_wall = c+best_dir;
                 simplified_grid.set(remove_wall[0], remove_wall[1], 1);
             }
@@ -391,9 +346,6 @@ namespace Logic {
         bool WFCGridGenerator::regenerate() {
             grid.clear(Cell{type_manager->getCharAmount()});
             generateOutsideWall();
-
-            print(false);
-
             generateGhostSpawn();
 
 
@@ -486,4 +438,4 @@ namespace Logic {
 
 
     } // WFC
-} // Logic
+// Logic

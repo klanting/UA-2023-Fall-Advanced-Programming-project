@@ -27,6 +27,8 @@ set(wfc
         src/logic/World/WFC/CellChangeLog.h
         src/logic/World/WFC/WFCGenerator.cpp
         src/logic/World/WFC/WFCGenerator.h
+        src/logic/World/WFC/WFCReader.cpp
+        src/logic/World/WFC/WFCReader.h
 )
 
 set(world_loading
