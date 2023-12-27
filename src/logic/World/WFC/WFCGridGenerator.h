@@ -2,24 +2,22 @@
 // Created by tibov on 25/12/23.
 //
 
-#ifndef PROJECTPACMAN_WFCWORLDGENERATOR_H
-#define PROJECTPACMAN_WFCWORLDGENERATOR_H
+#ifndef PROJECTPACMAN_WFCGRIDGENERATOR_H
+#define PROJECTPACMAN_WFCGRIDGENERATOR_H
 #include "TypeRuleManager.h"
 #include "Cell.h"
 #include "CellChangeLog.h"
-#include "Converter.h"
 #include "../../Random.h"
 #include <memory>
 namespace Logic {
     namespace WFC {
 
-        class WFCWorldGenerator {
+        class WFCGridGenerator {
         public:
-            WFCWorldGenerator();
+            WFCGridGenerator();
             void print(bool simple=false) const;
             void printKey(bool simple=false) const;
-            void exportData() const;
-            void load();
+            Matrix<int> generateGridMap();
 
         private:
             bool place(int i, int j, int type);
@@ -64,4 +62,4 @@ namespace Logic {
     } // WFC
 } // Logic
 
-#endif //PROJECTPACMAN_WFCWORLDGENERATOR_H
+#endif //PROJECTPACMAN_WFCGRIDGENERATOR_H

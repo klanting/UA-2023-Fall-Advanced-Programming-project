@@ -2,13 +2,13 @@
 // Created by tibov on 25/12/23.
 //
 
-#include "WFCWorldGenerator.h"
+#include "WFCGridGenerator.h"
 #include "../../Vector2D.h"
 namespace Logic {
     namespace WFC {
-        WFCWorldGenerator::WFCWorldGenerator(): directions{Logic::Vector2D<int>{1, 0}, Logic::Vector2D<int>{0, 1}, Logic::Vector2D<int>{-1, 0}, Logic::Vector2D<int>{0, -1},
-                                                           Logic::Vector2D<int>{1, 1}, Logic::Vector2D<int>{-1, 1}, Logic::Vector2D<int>{1, -1}, Logic::Vector2D<int>{-1, -1}},
-                                                           grid{grid_width, grid_height, Cell{0}}, simplified_grid(grid_width, grid_height, 0) {
+        WFCGridGenerator::WFCGridGenerator(): directions{Logic::Vector2D<int>{1, 0}, Logic::Vector2D<int>{0, 1}, Logic::Vector2D<int>{-1, 0}, Logic::Vector2D<int>{0, -1},
+                                                         Logic::Vector2D<int>{1, 1}, Logic::Vector2D<int>{-1, 1}, Logic::Vector2D<int>{1, -1}, Logic::Vector2D<int>{-1, -1}},
+                                              grid{grid_width, grid_height, Cell{0}}, simplified_grid(grid_width, grid_height, 0) {
 
 
             type_manager = std::make_unique<TypeRuleManager>("WFC/sampleData.WFC", directions);
@@ -20,7 +20,7 @@ namespace Logic {
 
         }
 
-        void WFCWorldGenerator::generate() {
+        void WFCGridGenerator::generate() {
             for (int h = 0; h<500; h++){
                 auto v_options = lowestEntropy();
 
@@ -69,7 +69,7 @@ namespace Logic {
 
         }
 
-        void WFCWorldGenerator::generateOutsideWall() {
+        void WFCGridGenerator::generateOutsideWall() {
             for (int j = 0; j<grid_height; j++){
 
                 for (int i = 0; i<grid_width; i++){
@@ -109,7 +109,7 @@ namespace Logic {
 
         }
 
-        bool WFCWorldGenerator::place(int i, int j, int type) {
+        bool WFCGridGenerator::place(int i, int j, int type) {
             Cell c = grid.get(i, j);
             c.place(type);
             grid.set(i, j, c);
@@ -118,7 +118,7 @@ namespace Logic {
 
         }
 
-        bool WFCWorldGenerator::propagate(int i, int j, const Cell &c) {
+        bool WFCGridGenerator::propagate(int i, int j, const Cell &c) {
 
             for (int dir = 0; dir<directions.size(); dir++){
                 auto p = directions[dir];
@@ -155,7 +155,7 @@ namespace Logic {
 
         }
 
-        void WFCWorldGenerator::print(bool simple) const {
+        void WFCGridGenerator::print(bool simple) const {
             for (int j = 0; j<grid_height; j++){
                 for (int i = 0; i<grid_width; i++){
                     if (!simple){
@@ -176,7 +176,7 @@ namespace Logic {
             std::cout << std::endl;
         }
 
-        void WFCWorldGenerator::printKey(bool simple) const {
+        void WFCGridGenerator::printKey(bool simple) const {
             for (int j = 0; j<grid_height; j++){
                 for (int i = 0; i<grid_width; i++){
                     int val = grid.get(i, j).getKey();
@@ -196,7 +196,7 @@ namespace Logic {
 
         }
 
-        std::vector<Vector2D<int>> WFCWorldGenerator::lowestEntropy() {
+        std::vector<Vector2D<int>> WFCGridGenerator::lowestEntropy() {
             std::vector<Vector2D<int>> best_options;
             double best_entropy = 30;
 
@@ -223,7 +223,7 @@ namespace Logic {
             return best_options;
         }
 
-        std::vector<Vector2D<int>> WFCWorldGenerator::largestExpansion(const std::vector<Vector2D<int>> &ex) {
+        std::vector<Vector2D<int>> WFCGridGenerator::largestExpansion(const std::vector<Vector2D<int>> &ex) {
             std::vector<Vector2D<int>> options;
             for (auto p: ex){
                 std::set<int> o = grid.get(p[0], p[1]).getOptions();
@@ -240,24 +240,9 @@ namespace Logic {
             return ex;
         }
 
-        void WFCWorldGenerator::exportData() const {
-            std::ofstream file("WFC/output");
-            for (int j = 0; j<grid_height; j++){
-                for (int i = 0; i<grid_width; i++){
-                    if(grid.get(i, j).getKey() <= 5){
-                        file << 'w';
-                    }else{
-                        file << 'P';
-                    }
-                }
-                file << '\n';
-            }
 
-            file.close();
 
-        }
-
-        void WFCWorldGenerator::getGridSimple() {
+        void WFCGridGenerator::getGridSimple() {
             for (int j = 0; j<grid_height; j++){
                 for (int i = 0; i<grid_width; i++){
 
@@ -275,14 +260,8 @@ namespace Logic {
             }
         }
 
-        void WFCWorldGenerator::load() {
 
-            Converter c(simplified_grid);
-            c.exportData();
-
-        }
-
-        void WFCWorldGenerator::generateGhostSpawn() {
+        void WFCGridGenerator::generateGhostSpawn() {
             int rand_i = 9;
             int rand_j = 5;
 
@@ -333,7 +312,7 @@ namespace Logic {
 
         }
 
-        void WFCWorldGenerator::fixSingleWall() {
+        void WFCGridGenerator::fixSingleWall() {
             std::vector<Vector2D<int>> singles;
             std::vector<Vector2D<int>> blocked;
             for (int j = 1; j<grid_height-1; j++){
@@ -369,7 +348,7 @@ namespace Logic {
 
         }
 
-        bool WFCWorldGenerator::isSingleWall(Matrix<int> &m, int i, int j) {
+        bool WFCGridGenerator::isSingleWall(Matrix<int> &m, int i, int j) {
 
             for (int d = 0; d<4; d++){
                 Vector2D<int> dir = directions[d];
@@ -381,7 +360,7 @@ namespace Logic {
             return true;
         }
 
-        void WFCWorldGenerator::fixLongWalls() {
+        void WFCGridGenerator::fixLongWalls() {
             std::vector<Vector2D<int>> corners;
             for (int j = 1; j<grid_height-1; j++){
                 for (int i = 1; i<grid_width-1; i++){
@@ -427,7 +406,7 @@ namespace Logic {
 
         }
 
-        bool WFCWorldGenerator::isMultiCornerWall(Matrix<int> &m, int i, int j) {
+        bool WFCGridGenerator::isMultiCornerWall(Matrix<int> &m, int i, int j) {
             std::vector<bool> suc6;
 
             if (m.get(i, j) != 0){
@@ -442,7 +421,7 @@ namespace Logic {
 
         }
 
-        bool WFCWorldGenerator::regenerate() {
+        bool WFCGridGenerator::regenerate() {
             grid.clear(Cell{type_manager->getCharAmount()});
             generateOutsideWall();
             generateGhostSpawn();
@@ -462,7 +441,7 @@ namespace Logic {
 
         }
 
-        bool WFCWorldGenerator::allReachable() {
+        bool WFCGridGenerator::allReachable() {
             std::set<std::pair<int, int>> to_check = {std::make_pair(1, 1)};
             std::set<std::pair<int, int>> closed;
 
@@ -484,7 +463,7 @@ namespace Logic {
             return closed.size() == simplified_grid.count(1);
         }
 
-        bool WFCWorldGenerator::isIntersection(int i, int j) {
+        bool WFCGridGenerator::isIntersection(int i, int j) {
 
             std::vector<bool> suc6;
 
@@ -499,7 +478,7 @@ namespace Logic {
             return std::count(suc6.begin(), suc6.end(), true) > 2;
         }
 
-        void WFCWorldGenerator::applyIntersections() {
+        void WFCGridGenerator::applyIntersections() {
             for (int j = 1; j<grid_height-1; j++){
                 for (int i = 1; i<grid_width-1; i++){
                     if (isIntersection(i, j)){
@@ -511,7 +490,7 @@ namespace Logic {
 
         }
 
-        bool WFCWorldGenerator::IntersectionConflicts() {
+        bool WFCGridGenerator::IntersectionConflicts() {
             for (int j = 1; j<grid_height-1; j++){
                 for (int i = 1; i<grid_width-1; i++){
                     if (isIntersection(i, j)){
@@ -526,6 +505,10 @@ namespace Logic {
                 }
             }
             return false;
+        }
+
+        Matrix<int> WFCGridGenerator::generateGridMap() {
+            return simplified_grid;
         }
 
 

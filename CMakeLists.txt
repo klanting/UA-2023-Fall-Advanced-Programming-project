@@ -11,8 +11,8 @@ INCLUDE_DIRECTORIES(${SFML_INCLUDE_DIR})
 
 
 set(wfc
-        src/logic/World/WFC/WFCWorldGenerator.cpp
-        src/logic/World/WFC/WFCWorldGenerator.h
+        src/logic/World/WFC/WFCGridGenerator.cpp
+        src/logic/World/WFC/WFCGridGenerator.h
         src/logic/World/WFC/Memento.cpp
         src/logic/World/WFC/Memento.h
         src/logic/World/WFC/Cell.cpp
@@ -25,8 +25,8 @@ set(wfc
         src/logic/World/WFC/Matrix.h
         src/logic/World/WFC/CellChangeLog.cpp
         src/logic/World/WFC/CellChangeLog.h
-        src/logic/World/WFC/Converter.cpp
-        src/logic/World/WFC/Converter.h
+        src/logic/World/WFC/WFCGenerator.cpp
+        src/logic/World/WFC/WFCGenerator.h
 )
 
 set(world_loading
