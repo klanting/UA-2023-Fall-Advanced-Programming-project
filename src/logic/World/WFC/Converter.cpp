@@ -30,7 +30,7 @@ namespace Logic {
 
                     }else if (Converter::m.get(i, j) == -2){
                         ghost_spawn = std::make_unique<Vector2D<>>(Vector2D<>{i/10.0-1.0, j/10.0-1.0});
-                    }else if (isIntersection(i, j)){
+                    }else if (Converter::m.get(i, j) == 2){
                         addIntersection(Vector2D<int>{i, j});
                     }
                 }
@@ -110,21 +110,6 @@ namespace Logic {
             new_size += extra_size;
             wall_positions.push_back(std::make_pair(new_start, new_size));
 
-        }
-
-        bool Converter::isIntersection(int i, int j) {
-
-            std::vector<bool> suc6;
-
-            if (m.get(i, j) != 1){
-                return false;
-            }
-            suc6.push_back(m.get(i, j+1) == 1);
-            suc6.push_back(m.get(i, j-1) == 1);
-            suc6.push_back(m.get(i+1, j) == 1);
-            suc6.push_back(m.get(i-1, j) == 1);
-
-            return std::count(suc6.begin(), suc6.end(), true) > 2;
         }
 
         void Converter::addIntersection(const Vector2D<int> &start_pos) {

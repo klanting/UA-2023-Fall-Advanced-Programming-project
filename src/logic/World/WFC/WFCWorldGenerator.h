@@ -55,6 +55,10 @@ namespace Logic {
             bool regenerate();
 
             bool allReachable();
+            bool isIntersection(int i, int j);
+            void applyIntersections();
+
+            bool IntersectionConflicts();
         };
 
     } // WFC

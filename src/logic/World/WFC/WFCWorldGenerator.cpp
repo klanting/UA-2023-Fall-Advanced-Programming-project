@@ -13,7 +13,11 @@ namespace Logic {
 
             type_manager = std::make_unique<TypeRuleManager>("WFC/sampleData.WFC", directions);
 
-            regenerate();
+            bool suc6 = false;
+            while (!suc6){
+                suc6 = regenerate();
+            }
+
         }
 
         void WFCWorldGenerator::generate() {
@@ -439,7 +443,7 @@ namespace Logic {
         }
 
         bool WFCWorldGenerator::regenerate() {
-            grid.clear(Cell{17});
+            grid.clear(Cell{type_manager->getCharAmount()});
             generateOutsideWall();
             generateGhostSpawn();
             generate();
@@ -450,7 +454,11 @@ namespace Logic {
 
             bool all_reachable = allReachable();
 
-            return all_reachable;
+            applyIntersections();
+
+            bool intersect_conflict = IntersectionConflicts();
+
+            return all_reachable && !intersect_conflict;
 
         }
 
@@ -475,7 +483,50 @@ namespace Logic {
 
             return closed.size() == simplified_grid.count(1);
         }
-        
+
+        bool WFCWorldGenerator::isIntersection(int i, int j) {
+
+            std::vector<bool> suc6;
+
+            if (simplified_grid.get(i, j) != 1 && simplified_grid.get(i, j) != 2){
+                return false;
+            }
+            suc6.push_back(simplified_grid.get(i, j+1) == 1 || simplified_grid.get(i, j+1) == 2);
+            suc6.push_back(simplified_grid.get(i, j-1) == 1 || simplified_grid.get(i, j-1) == 2);
+            suc6.push_back(simplified_grid.get(i+1, j) == 1 || simplified_grid.get(i+1, j) == 2);
+            suc6.push_back(simplified_grid.get(i-1, j) == 1 || simplified_grid.get(i-1, j) == 2);
+
+            return std::count(suc6.begin(), suc6.end(), true) > 2;
+        }
+
+        void WFCWorldGenerator::applyIntersections() {
+            for (int j = 1; j<grid_height-1; j++){
+                for (int i = 1; i<grid_width-1; i++){
+                    if (isIntersection(i, j)){
+                        simplified_grid.set(i, j, 2);
+                    }
+                }
+            }
+
+
+        }
+
+        bool WFCWorldGenerator::IntersectionConflicts() {
+            for (int j = 1; j<grid_height-1; j++){
+                for (int i = 1; i<grid_width-1; i++){
+                    if (isIntersection(i, j)){
+                        for (std::pair<int, int> n: std::vector<std::pair<int, int>>{{1, 0}, {-1, 0}, {0, 1}, {0, -1}}){
+                            std::pair<int, int> new_pos = std::make_pair(n.first+i, n.second+j);
+                            if (isIntersection(new_pos.first, new_pos.second)){
+                                return true;
+                            }
+
+                        }
+                    }
+                }
+            }
+            return false;
+        }
 
 
     } // WFC

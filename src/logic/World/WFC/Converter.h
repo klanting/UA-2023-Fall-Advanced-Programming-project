@@ -19,7 +19,6 @@ namespace Logic {
             bool check(const Vector2D<int>& start_pos, const Vector2D<int>& direction);
             void addWall(const Vector2D<int>& start_pos, const Vector2D<int>& size);
             void addIntersection(const Vector2D<int>& start_pos);
-            bool isIntersection(int i, int j);
             Matrix<int> m;
             std::vector<std::pair<Vector2D<>, Vector2D<>>> wall_positions;
             std::vector<std::pair<Vector2D<>, Vector2D<>>> intersection_positions;
