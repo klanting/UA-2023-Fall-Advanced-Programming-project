@@ -17,6 +17,7 @@ namespace Logic {
         public:
             TypeRuleManager(const std::string& file_path, const std::vector<Vector2D<int>>& directions);
             std::set<int> getOptions(int type, int direction_index);
+
             int getCharAmount();
         private:
             std::map<int, TypeRule> type_map;

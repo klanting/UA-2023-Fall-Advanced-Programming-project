@@ -7,7 +7,7 @@
 namespace Logic {
     namespace WFC {
         WFCGridGenerator::WFCGridGenerator(): directions{Logic::Vector2D<int>{1, 0}, Logic::Vector2D<int>{0, 1}, Logic::Vector2D<int>{-1, 0}, Logic::Vector2D<int>{0, -1},
-                                                         Logic::Vector2D<int>{1, 1}, Logic::Vector2D<int>{-1, 1}, Logic::Vector2D<int>{1, -1}, Logic::Vector2D<int>{-1, -1}},
+                                                         Logic::Vector2D<int>{1, 1}, Logic::Vector2D<int>{-1, 1}, Logic::Vector2D<int>{-1, -1}, Logic::Vector2D<int>{1, -1}},
                                               grid{grid_width, grid_height, Cell{0}}, simplified_grid(grid_width, grid_height, 0) {
 
 
@@ -72,42 +72,23 @@ namespace Logic {
         void WFCGridGenerator::generateOutsideWall() {
             //function for setting the outside walls
             //this ensures that the map will be closed
-            for (int j = 0; j<grid_height; j++){
 
-                for (int i = 0; i<grid_width; i++){
-                    if (i > 0 && i < grid_width-1 && j > 0 && j < grid_height-1){
+            Cell cell{type_manager->getCharAmount()};
+            cell.place(type_manager->getCharAmount()-1);
+
+            for (int j = -1; j<=grid_height; j++){
+
+                for (int i = -1; i<=grid_width; i++){
+                    if (i >= 0 && i < grid_width && j >= 0 && j < grid_height){
                         continue;
                     }
 
-                    int val = 0;
-
-                    if (j != 0 && j != grid_height-1){
-                        val = 1;
-                    }
-
-
-                    if (i == 0 && j == 0){
-                        val = 2;
-                    }
-
-                    if (i == grid_width-1 && j == 0){
-                        val = 3;
-                    }
-
-                    if (i == 0 && j == grid_height-1){
-                        val = 4;
-                    }
-
-                    if (i == grid_width-1 && j == grid_height-1){
-                        val = 5;
-                    }
-
-
-
-                    place(i, j, val);
+                    propagate(i, j, cell);
 
                 }
             }
+
+
 
         }
 
@@ -410,7 +391,13 @@ namespace Logic {
         bool WFCGridGenerator::regenerate() {
             grid.clear(Cell{type_manager->getCharAmount()});
             generateOutsideWall();
+
+            print(false);
+
             generateGhostSpawn();
+
+
+
             generate();
 
             getGridSimple();
