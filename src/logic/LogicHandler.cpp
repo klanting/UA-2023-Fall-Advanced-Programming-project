@@ -10,7 +10,7 @@ namespace Logic {
         score = std::make_shared<Score>();
 
         //makes a world and world loader
-        world_loader = std::make_unique<WorldLoading::WorldReader>(std::move(factory), score);
+        world_loader = std::make_unique<WorldLoading::WorldReaderWRD>(std::move(factory), score);
         world = world_loader->load(difficulty_index, 3);
 
     }

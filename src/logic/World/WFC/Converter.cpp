@@ -69,7 +69,7 @@ namespace Logic {
         }
 
         void Converter::exportData() const {
-            std::ofstream file("maps/mapGen.txt");
+            std::ofstream file("maps/mapGen.wrd");
             for (auto w: wall_positions){
                 file << 0 << " " << w.first[0] << " " << w.first[1] << " " << w.second[0] << " " << w.second[1] << std::endl;
             }

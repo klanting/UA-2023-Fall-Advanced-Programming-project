@@ -9,7 +9,7 @@
 #include "Controller/Controller.h"
 #include "Controller/Controller.h"
 #include "Score.h"
-#include "../logic/World/WorldReader.h"
+#include "../logic/World/WorldReaderWRD.h"
 namespace Logic {
 
     /**

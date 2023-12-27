@@ -35,6 +35,8 @@ set(world_loading
         src/logic/World/WorldReader.cpp
         src/logic/World/WorldReader.h
         ${wfc}
+        src/logic/World/WorldReaderWRD.cpp
+        src/logic/World/WorldReaderWRD.h
 
 )
 
