@@ -14,7 +14,7 @@ namespace Logic {
             type_manager = std::make_unique<TypeRuleManager>("WFC/sampleData.WFC", directions);
 
             generateOutsideWall();
-            generateGhostSpawn();
+            //generateGhostSpawn();
 
             generate();
         }
@@ -344,6 +344,22 @@ namespace Logic {
                 }
             }
 
+        }
+
+        std::vector<Vector2D<int>> WFCWorldGenerator::getCorners(const Matrix<int> &m) {
+
+            std::vector<Vector2D<int>> corners;
+
+            for (int j = 0; j<m.getHeight(); j++){
+                for (int i = 0; i<m.getWidth(); i++){
+
+
+
+
+                }
+            }
+
+            return corners;
         }
 
 

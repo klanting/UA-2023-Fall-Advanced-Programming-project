@@ -74,7 +74,7 @@ namespace Logic {
                 file << 0 << " " << w.first[0] << " " << w.first[1] << " " << w.second[0] << " " << w.second[1] << std::endl;
             }
 
-            file << 2 << " " << (*ghost_spawn)[0] << " " << (*ghost_spawn)[1]+0.05 << std::endl;
+            //file << 2 << " " << (*ghost_spawn)[0] << " " << (*ghost_spawn)[1]+0.05 << std::endl;
         }
 
         void Converter::addWall(const Vector2D<int> &start_pos, const Vector2D<int> &size) {

@@ -45,6 +45,8 @@ namespace Logic {
 
             Matrix<int> getGridSimple();
 
+            static std::vector<Vector2D<int>> getCorners(const Matrix<int>& m);
+
 
         };
 

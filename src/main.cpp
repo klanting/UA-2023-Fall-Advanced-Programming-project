@@ -10,12 +10,11 @@
 using namespace std;
 
 int main(){
-    //View::Game g{};
 
     Logic::WFC::WFCWorldGenerator w{};
 
     w.print(true);
-    w.printKey(false);
+    w.printKey(true);
     w.exportData();
     w.load();
 
