@@ -32,6 +32,8 @@ namespace Logic {
 
             void remove(int i);
 
+            bool operator==(const Cell& other);
+
         private:
 
             bool defined = false;

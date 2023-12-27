@@ -28,8 +28,8 @@ namespace Logic {
             void generateGhostSpawn();
             void generateOutsideWall();
             bool propagate(int i, int j, const Cell& c);
-            void fixSingleWall(Matrix<int>& m);
-            void fixLongWalls(Matrix<int>& m);
+            void fixSingleWall();
+            void fixLongWalls();
 
             std::vector<Vector2D<int>> lowestEntropy();
             std::vector<Vector2D<int>> largestExpansion(const std::vector<Vector2D<int>>& ex);
@@ -44,14 +44,17 @@ namespace Logic {
             const int grid_height = 11;
 
             Matrix<Cell> grid;
+            Matrix<int> simplified_grid;
 
             CellChangeLog cl;
 
-            Matrix<int> getGridSimple();
+            void getGridSimple();
 
             bool isSingleWall(Matrix<int>& m, int i, int j);
 
+            bool regenerate();
 
+            bool allReachable();
         };
 
     } // WFC

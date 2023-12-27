@@ -43,5 +43,28 @@ namespace Logic {
             return height;
         }
 
+        template<typename T>
+        void Matrix<T>::clear(const T &default_value) {
+            for (int j = 0; j<height; j++){
+                for (int i = 0; i<width; i++){
+                    set(i, j, default_value);
+                }
+            }
+        }
+
+        template<typename T>
+        int Matrix<T>::count(const T &value) {
+            int count = 0;
+            for (int j = 0; j<height; j++){
+                for (int i = 0; i<width; i++){
+                    if (get(i, j) == value){
+                        count++;
+                    }
+                }
+            }
+
+            return count;
+        }
+
     } // WFC
 } // Logic

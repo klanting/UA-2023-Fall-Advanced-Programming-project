@@ -65,5 +65,9 @@ namespace Logic {
             options.erase(i);
 
         }
+
+        bool Cell::operator==(const Cell &other) {
+            return other.options.size() == options.size() && entropy == other.entropy && key == other.key;
+        }
     } // WFC
 } // Logic

@@ -8,15 +8,12 @@ namespace Logic {
     namespace WFC {
         WFCWorldGenerator::WFCWorldGenerator(): directions{Logic::Vector2D<int>{1, 0}, Logic::Vector2D<int>{0, 1}, Logic::Vector2D<int>{-1, 0}, Logic::Vector2D<int>{0, -1},
                                                            Logic::Vector2D<int>{1, 1}, Logic::Vector2D<int>{-1, 1}, Logic::Vector2D<int>{1, -1}, Logic::Vector2D<int>{-1, -1}},
-                                                           grid{grid_width, grid_height, Cell{17}} {
+                                                           grid{grid_width, grid_height, Cell{0}}, simplified_grid(grid_width, grid_height, 0) {
 
 
             type_manager = std::make_unique<TypeRuleManager>("WFC/sampleData.WFC", directions);
 
-            generateOutsideWall();
-            generateGhostSpawn();
-
-            generate();
+            regenerate();
         }
 
         void WFCWorldGenerator::generate() {
@@ -256,8 +253,7 @@ namespace Logic {
 
         }
 
-        Matrix<int> WFCWorldGenerator::getGridSimple() {
-            Matrix<int> m (grid_width, grid_height, 0);
+        void WFCWorldGenerator::getGridSimple() {
             for (int j = 0; j<grid_height; j++){
                 for (int i = 0; i<grid_width; i++){
 
@@ -270,27 +266,17 @@ namespace Logic {
                         val = grid.get(i, j).getKey();
                     }
 
-                    m.set(i, j, val);
+                    simplified_grid.set(i, j, val);
                 }
             }
-
-
-            return m;
         }
 
         void WFCWorldGenerator::load() {
-            auto m = getGridSimple();
-            fixSingleWall(m);
-            fixLongWalls(m);
-            Converter c(m);
+
+            Converter c(simplified_grid);
             c.exportData();
 
         }
-
-
-
-
-
 
         void WFCWorldGenerator::generateGhostSpawn() {
             int rand_i = 9;
@@ -343,12 +329,12 @@ namespace Logic {
 
         }
 
-        void WFCWorldGenerator::fixSingleWall(Matrix<int> &m) {
+        void WFCWorldGenerator::fixSingleWall() {
             std::vector<Vector2D<int>> singles;
             std::vector<Vector2D<int>> blocked;
             for (int j = 1; j<grid_height-1; j++){
                 for (int i = 1; i<grid_width-1; i++){
-                    if (m.get(i, j) == 0 && isSingleWall(m, i, j)){
+                    if (simplified_grid.get(i, j) == 0 && isSingleWall(simplified_grid, i, j)){
                         std::cout << "hep" << std::endl;
                         singles.push_back(Vector2D<int>{i, j});
 
@@ -371,7 +357,7 @@ namespace Logic {
                         blocked.push_back(s1);
                         blocked.push_back(s2);
                         Vector2D<int> v = (s1+s2);
-                        m.set(v[0]/2, v[1]/2, 0);
+                        simplified_grid.set(v[0]/2, v[1]/2, 0);
                     }
                 }
             }
@@ -391,11 +377,11 @@ namespace Logic {
             return true;
         }
 
-        void WFCWorldGenerator::fixLongWalls(Matrix<int> &m) {
+        void WFCWorldGenerator::fixLongWalls() {
             std::vector<Vector2D<int>> corners;
             for (int j = 1; j<grid_height-1; j++){
                 for (int i = 1; i<grid_width-1; i++){
-                    if (m.get(i, j) == 0 && isMultiCornerWall(m, i, j)){
+                    if (simplified_grid.get(i, j) == 0 && isMultiCornerWall(simplified_grid, i, j)){
                         std::cout << "hep" << std::endl;
                         corners.push_back(Vector2D<int>{i, j});
 
@@ -421,7 +407,7 @@ namespace Logic {
                             break;
                         }
 
-                    }while(m.get(loop_pos[0], loop_pos[1]) == 0);
+                    }while(simplified_grid.get(loop_pos[0], loop_pos[1]) == 0);
 
                     std::cout << distance << std::endl;
 
@@ -430,9 +416,9 @@ namespace Logic {
                         best_dir = dir;
                     }
                 }
-                std::cout << "best " << best_distance << std::endl;
+                std::cout << "best" << best_distance << std::endl;
                 Vector2D<int> remove_wall = c+best_dir;
-                m.set(remove_wall[0], remove_wall[1], 1);
+                simplified_grid.set(remove_wall[0], remove_wall[1], 1);
             }
 
         }
@@ -451,6 +437,45 @@ namespace Logic {
             return std::count(suc6.begin(), suc6.end(), true) > 2;
 
         }
+
+        bool WFCWorldGenerator::regenerate() {
+            grid.clear(Cell{17});
+            generateOutsideWall();
+            generateGhostSpawn();
+            generate();
+
+            getGridSimple();
+            fixSingleWall();
+            fixLongWalls();
+
+            bool all_reachable = allReachable();
+
+            return all_reachable;
+
+        }
+
+        bool WFCWorldGenerator::allReachable() {
+            std::set<std::pair<int, int>> to_check = {std::make_pair(1, 1)};
+            std::set<std::pair<int, int>> closed;
+
+            while (!to_check.empty()){
+                auto check = *to_check.begin();
+                for (std::pair<int, int> n: std::vector<std::pair<int, int>>{{1, 0}, {-1, 0}, {0, 1}, {0, -1}}){
+                    std::pair<int, int> new_pos = std::make_pair(n.first+check.first, n.second+check.second);
+                    if (simplified_grid.get(new_pos.first, new_pos.second) == 1 && closed.find(new_pos) == closed.end()){
+                        to_check.insert(new_pos);
+                    }
+
+                }
+
+                to_check.erase(check);
+                closed.insert(check);
+            }
+
+
+            return closed.size() == simplified_grid.count(1);
+        }
+        
 
 
     } // WFC

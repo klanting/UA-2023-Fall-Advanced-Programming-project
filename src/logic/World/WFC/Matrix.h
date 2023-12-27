@@ -18,7 +18,8 @@ namespace Logic {
             int getHeight() const;
 
             int getWidth() const;
-
+            void clear(const T& default_value);
+            int count(const T& value);
         private:
             std::vector<std::vector<T>> grid;
             int height;
