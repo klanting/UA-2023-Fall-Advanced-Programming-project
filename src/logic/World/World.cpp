@@ -213,6 +213,12 @@ namespace Logic {
 
         e->getMoveManager()->makeDirection(pacman->getPosition()-e->getPosition(), option_resulting);
 
+        //prevent double intersections
+        auto it3 = last_intersection.find(e);
+        if (it3 != last_intersection.end()){
+            last_intersection.erase(it3);
+        }
+
     }
 
 } // Logic
