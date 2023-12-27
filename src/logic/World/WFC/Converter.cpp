@@ -5,6 +5,7 @@
 #include "Converter.h"
 #include <fstream>
 #include <iostream>
+#include <algorithm>
 namespace Logic {
     namespace WFC {
         Converter::Converter(const Matrix<int> &m): m{m} {
@@ -29,6 +30,8 @@ namespace Logic {
 
                     }else if (Converter::m.get(i, j) == -2){
                         ghost_spawn = std::make_unique<Vector2D<>>(Vector2D<>{i/10.0-1.0, j/10.0-1.0});
+                    }else if (isIntersection(i, j)){
+                        addIntersection(Vector2D<int>{i, j});
                     }
                 }
             }
@@ -74,7 +77,11 @@ namespace Logic {
                 file << 0 << " " << w.first[0] << " " << w.first[1] << " " << w.second[0] << " " << w.second[1] << std::endl;
             }
 
-            //file << 2 << " " << (*ghost_spawn)[0] << " " << (*ghost_spawn)[1]+0.05 << std::endl;
+            for (auto w:intersection_positions){
+                file << 1 << " " << w.first[0] << " " << w.first[1] << " " << w.second[0] << " " << w.second[1] << std::endl;
+            }
+
+            file << 2 << " " << (*ghost_spawn)[0] << " " << (*ghost_spawn)[1]+0.05 << std::endl;
         }
 
         void Converter::addWall(const Vector2D<int> &start_pos, const Vector2D<int> &size) {
@@ -102,6 +109,30 @@ namespace Logic {
             Vector2D new_size = Vector2D<>{(size[0]/10.0)+0.05, (size[1]/10.0)+0.05};
             new_size += extra_size;
             wall_positions.push_back(std::make_pair(new_start, new_size));
+
+        }
+
+        bool Converter::isIntersection(int i, int j) {
+
+            std::vector<bool> suc6;
+
+            if (m.get(i, j) != 1){
+                return false;
+            }
+            suc6.push_back(m.get(i, j+1) == 1);
+            suc6.push_back(m.get(i, j-1) == 1);
+            suc6.push_back(m.get(i+1, j) == 1);
+            suc6.push_back(m.get(i-1, j) == 1);
+
+            return std::count(suc6.begin(), suc6.end(), true) > 2;
+        }
+
+        void Converter::addIntersection(const Vector2D<int> &start_pos) {
+            Vector2D<> new_start = Vector2D<>{(start_pos[0]/10.0)-1.0, (start_pos[1]/10.0)-1.0};
+            new_start += Vector2D<>{-0.025, 0.025};
+            Vector2D new_size = Vector2D<>{0.15, 0.15};
+
+            intersection_positions.push_back(std::make_pair(new_start, new_size));
 
         }
     } // WFC

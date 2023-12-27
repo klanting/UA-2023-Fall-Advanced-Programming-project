@@ -28,9 +28,13 @@ namespace Logic {
             void generateGhostSpawn();
             void generateOutsideWall();
             bool propagate(int i, int j, const Cell& c);
+            void fixSingleWall(Matrix<int>& m);
+            void fixLongWalls(Matrix<int>& m);
 
             std::vector<Vector2D<int>> lowestEntropy();
             std::vector<Vector2D<int>> largestExpansion(const std::vector<Vector2D<int>>& ex);
+
+            bool isMultiCornerWall(Matrix<int> &m, int i, int j);
 
             std::unique_ptr<TypeRuleManager> type_manager;
 
@@ -45,7 +49,7 @@ namespace Logic {
 
             Matrix<int> getGridSimple();
 
-            static std::vector<Vector2D<int>> getCorners(const Matrix<int>& m);
+            bool isSingleWall(Matrix<int>& m, int i, int j);
 
 
         };

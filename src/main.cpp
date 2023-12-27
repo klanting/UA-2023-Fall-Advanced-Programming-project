@@ -15,6 +15,7 @@ int main(){
 
     w.print(true);
     w.printKey(true);
+    w.printKey(false);
     w.exportData();
     w.load();
 

@@ -6,7 +6,7 @@
 #include "../../Vector2D.h"
 namespace Logic {
     namespace WFC {
-        WFCWorldGenerator::WFCWorldGenerator(): directions{Logic::Vector2D<int>{1, 0}, Logic::Vector2D<int>{-1, 0}, Logic::Vector2D<int>{0, 1}, Logic::Vector2D<int>{0, -1},
+        WFCWorldGenerator::WFCWorldGenerator(): directions{Logic::Vector2D<int>{1, 0}, Logic::Vector2D<int>{0, 1}, Logic::Vector2D<int>{-1, 0}, Logic::Vector2D<int>{0, -1},
                                                            Logic::Vector2D<int>{1, 1}, Logic::Vector2D<int>{-1, 1}, Logic::Vector2D<int>{1, -1}, Logic::Vector2D<int>{-1, -1}},
                                                            grid{grid_width, grid_height, Cell{17}} {
 
@@ -14,7 +14,7 @@ namespace Logic {
             type_manager = std::make_unique<TypeRuleManager>("WFC/sampleData.WFC", directions);
 
             generateOutsideWall();
-            //generateGhostSpawn();
+            generateGhostSpawn();
 
             generate();
         }
@@ -118,9 +118,6 @@ namespace Logic {
         }
 
         bool WFCWorldGenerator::propagate(int i, int j, const Cell &c) {
-
-            std::vector<Vector2D<int>> directions = {Logic::Vector2D{1, 0}, Logic::Vector2D{-1, 0}, Logic::Vector2D{0, 1}, Logic::Vector2D{0, -1},
-                                                     Logic::Vector2D{1, 1}, Logic::Vector2D{-1, 1}, Logic::Vector2D{1, -1}, Logic::Vector2D{-1, -1}};
 
             for (int dir = 0; dir<directions.size(); dir++){
                 auto p = directions[dir];
@@ -283,26 +280,26 @@ namespace Logic {
 
         void WFCWorldGenerator::load() {
             auto m = getGridSimple();
+            fixSingleWall(m);
+            fixLongWalls(m);
             Converter c(m);
             c.exportData();
 
         }
 
+
+
+
+
+
         void WFCWorldGenerator::generateGhostSpawn() {
-            int rand_i = Random::getInstance()->getRandomIndex(0,  (grid_width-2)/2 -1)*2+1;
-            int rand_j = Random::getInstance()->getRandomIndex(0,  (grid_height-2)/2 -1)*2+1;
+            int rand_i = 9;
+            int rand_j = 5;
 
 
             std::vector<Vector2D<int>> options = {};
+            options.push_back(Vector2D<int>{0, -1});
 
-
-            if (rand_j != 1){
-                options.push_back(Vector2D<int>{0, -1});
-            }
-
-            if (rand_j != grid_height-2){
-                options.push_back(Vector2D<int>{0, 1});
-            }
 
             Vector2D spawn_pos = Vector2D<int>{rand_i, rand_j};
             Vector2D exit = options[Random::getInstance()->getRandomIndex(0,  options.size()-1)] + spawn_pos;
@@ -346,20 +343,113 @@ namespace Logic {
 
         }
 
-        std::vector<Vector2D<int>> WFCWorldGenerator::getCorners(const Matrix<int> &m) {
+        void WFCWorldGenerator::fixSingleWall(Matrix<int> &m) {
+            std::vector<Vector2D<int>> singles;
+            std::vector<Vector2D<int>> blocked;
+            for (int j = 1; j<grid_height-1; j++){
+                for (int i = 1; i<grid_width-1; i++){
+                    if (m.get(i, j) == 0 && isSingleWall(m, i, j)){
+                        std::cout << "hep" << std::endl;
+                        singles.push_back(Vector2D<int>{i, j});
 
-            std::vector<Vector2D<int>> corners;
-
-            for (int j = 0; j<m.getHeight(); j++){
-                for (int i = 0; i<m.getWidth(); i++){
-
-
-
+                    }
 
                 }
             }
 
-            return corners;
+            for (auto s1: singles){
+
+                for (auto s2: singles){
+                    if (std::find(blocked.begin(), blocked.end(), s1) != blocked.end()){
+                        continue;
+                    }
+                    if (std::find(blocked.begin(), blocked.end(), s2) != blocked.end()){
+                        continue;
+                    }
+
+                    if (s1.getDistance(s2) == 2 && (s1[0] == s2[0] || s1[1] == s2[1])){
+                        blocked.push_back(s1);
+                        blocked.push_back(s2);
+                        Vector2D<int> v = (s1+s2);
+                        m.set(v[0]/2, v[1]/2, 0);
+                    }
+                }
+            }
+
+
+        }
+
+        bool WFCWorldGenerator::isSingleWall(Matrix<int> &m, int i, int j) {
+
+            for (int d = 0; d<4; d++){
+                Vector2D<int> dir = directions[d];
+                if (m.get(i+dir[0], j+dir[1]) == 0){
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        void WFCWorldGenerator::fixLongWalls(Matrix<int> &m) {
+            std::vector<Vector2D<int>> corners;
+            for (int j = 1; j<grid_height-1; j++){
+                for (int i = 1; i<grid_width-1; i++){
+                    if (m.get(i, j) == 0 && isMultiCornerWall(m, i, j)){
+                        std::cout << "hep" << std::endl;
+                        corners.push_back(Vector2D<int>{i, j});
+
+                    }
+
+                }
+            }
+
+            for (auto c: corners){
+                Vector2D<int> best_dir;
+                int best_distance = 0;
+
+                for (int i = 0; i<4; i++){
+                    Vector2D<int> dir = directions[i];
+                    int distance = 0;
+
+                    Vector2D<int> loop_pos = dir+c;
+                    do{
+                        distance += 1;
+                        loop_pos += dir;
+
+                        if (loop_pos[0] < 0 || loop_pos[0] > grid_width-1 || loop_pos[1] < 0 || loop_pos[1] > grid_height-1){
+                            break;
+                        }
+
+                    }while(m.get(loop_pos[0], loop_pos[1]) == 0);
+
+                    std::cout << distance << std::endl;
+
+                    if (distance > best_distance){
+                        best_distance = distance;
+                        best_dir = dir;
+                    }
+                }
+                std::cout << "best " << best_distance << std::endl;
+                Vector2D<int> remove_wall = c+best_dir;
+                m.set(remove_wall[0], remove_wall[1], 1);
+            }
+
+        }
+
+        bool WFCWorldGenerator::isMultiCornerWall(Matrix<int> &m, int i, int j) {
+            std::vector<bool> suc6;
+
+            if (m.get(i, j) != 0){
+                return false;
+            }
+            suc6.push_back(m.get(i, j+1) == 0);
+            suc6.push_back(m.get(i, j-1) == 0);
+            suc6.push_back(m.get(i+1, j) == 0);
+            suc6.push_back(m.get(i-1, j) == 0);
+
+            return std::count(suc6.begin(), suc6.end(), true) > 2;
+
         }
 
 
