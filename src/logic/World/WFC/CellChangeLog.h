@@ -4,12 +4,17 @@
 
 #ifndef PROJECTPACMAN_CELLCHANGELOG_H
 #define PROJECTPACMAN_CELLCHANGELOG_H
-#include "Memento.h"
+#include "CellMemento.h"
 #include <stack>
 #include "Cell.h"
 #include "Matrix.h"
-namespace Logic {
-    namespace WFC {
+
+    /**
+     * Keeps Log of WFC Grid
+     * When needed we are able to rollback this grid
+     * */
+
+    namespace Logic::WFC {
 
         class CellChangeLog {
         public:
@@ -18,11 +23,11 @@ namespace Logic {
             Matrix<Cell> undo();
 
         private:
-            std::stack<Memento<Matrix<Cell>>> history;
+            std::stack<CellMemento> history;
 
         };
 
     } // WFC
-} // Logic
+// Logic
 
 #endif //PROJECTPACMAN_CELLCHANGELOG_H

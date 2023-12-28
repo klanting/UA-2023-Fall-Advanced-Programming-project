@@ -5,8 +5,8 @@
 #ifndef PROJECTPACMAN_MEMENTO_H
 #define PROJECTPACMAN_MEMENTO_H
 
-namespace Logic {
-    namespace WFC {
+
+    namespace Logic::WFC {
 
         template<typename T>
         class Memento {
@@ -22,6 +22,6 @@ namespace Logic {
 
 
     } // WFC
-} // Logic
+// Logic
 
 #endif //PROJECTPACMAN_MEMENTO_H

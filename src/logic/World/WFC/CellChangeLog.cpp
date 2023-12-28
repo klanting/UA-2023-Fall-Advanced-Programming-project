@@ -4,10 +4,10 @@
 
 #include "CellChangeLog.h"
 
-namespace Logic {
-    namespace WFC {
+
+    namespace Logic::WFC {
         void CellChangeLog::save(const Matrix<Cell> &m) {
-            history.push(Memento(m));
+            history.push(CellMemento(m));
 
         }
 
@@ -17,4 +17,4 @@ namespace Logic {
             return m;
         }
     } // WFC
-} // Logic
+// Logic
