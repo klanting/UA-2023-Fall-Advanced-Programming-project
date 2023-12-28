@@ -35,7 +35,7 @@ namespace View {
             square->append(v);
         }
 
-        RenderWindowSingleton::getInstance()->draw(entity, square);
+        //RenderWindowSingleton::getInstance()->draw(entity, square);
     }
 
     int IntersectionView::getTop() {

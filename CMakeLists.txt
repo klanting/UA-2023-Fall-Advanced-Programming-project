@@ -31,6 +31,10 @@ set(wfc
         src/logic/World/WFC/WFCReader.h
         src/logic/World/WFC/CellMemento.cpp
         src/logic/World/WFC/CellMemento.h
+        src/logic/World/WFC/GridGenerator.cpp
+        src/logic/World/WFC/GridGenerator.h
+        src/logic/World/WFC/GridAfterProcessor.cpp
+        src/logic/World/WFC/GridAfterProcessor.h
 )
 
 set(world_loading

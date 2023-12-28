@@ -7,13 +7,13 @@
     namespace Logic::WFC {
         WFCGridGenerator::WFCGridGenerator(): directions{Logic::Vector2D<int>{1, 0}, Logic::Vector2D<int>{0, 1}, Logic::Vector2D<int>{-1, 0}, Logic::Vector2D<int>{0, -1},
                                                          Logic::Vector2D<int>{1, 1}, Logic::Vector2D<int>{-1, 1}, Logic::Vector2D<int>{-1, -1}, Logic::Vector2D<int>{1, -1}},
-                                              grid{grid_width, grid_height, Cell{0}}, simplified_grid(grid_width, grid_height, 0), cl{*this} {
+                                                         cl{*this}, GridGenerator{} {
 
 
             type_manager = std::make_unique<TypeRuleManager>("WFC/sampleData.WFC", directions);
 
 
-
+            grid = Matrix<Cell>{grid_width, grid_height, Cell{type_manager->getCharAmount()}};
         }
 
         void WFCGridGenerator::generate() {
@@ -135,7 +135,6 @@
         }
 
 
-
         std::vector<Vector2D<int>> WFCGridGenerator::lowestEntropy() {
             std::vector<Vector2D<int>> best_options;
             double best_entropy = std::numeric_limits<double>::infinity();
@@ -163,9 +162,8 @@
         }
 
 
-
-
-        void WFCGridGenerator::getGridSimple() {
+        Matrix<int>WFCGridGenerator::getGridSimple() const{
+            Matrix<int> simplified_grid{grid_width, grid_height, 0};
             for (int j = 0; j<grid_height; j++){
                 for (int i = 0; i<grid_width; i++){
 
@@ -181,6 +179,7 @@
                     simplified_grid.set(i, j, val);
                 }
             }
+            return simplified_grid;
         }
 
 
@@ -235,216 +234,36 @@
 
         }
 
-        void WFCGridGenerator::fixSingleWall() {
-            std::vector<Vector2D<int>> singles;
-            std::vector<Vector2D<int>> blocked;
-            for (int j = 1; j<grid_height-1; j++){
-                for (int i = 1; i<grid_width-1; i++){
-                    if (simplified_grid.get(i, j) == 0 && isSingleWall(i, j)){
-                        singles.emplace_back(i, j);
 
-                    }
-
-                }
-            }
-
-            for (auto s1: singles){
-
-                for (auto s2: singles){
-                    if (std::find(blocked.begin(), blocked.end(), s1) != blocked.end()){
-                        continue;
-                    }
-                    if (std::find(blocked.begin(), blocked.end(), s2) != blocked.end()){
-                        continue;
-                    }
-
-                    if (s1.getDistance(s2) == 2 && (s1[0] == s2[0] || s1[1] == s2[1])){
-                        blocked.push_back(s1);
-                        blocked.push_back(s2);
-                        Vector2D<int> v = (s1+s2);
-                        simplified_grid.set(v[0]/2, v[1]/2, 0);
-                    }
-                }
-            }
-
-
-        }
-
-        bool WFCGridGenerator::isSingleWall(int i, int j) {
-
-            for (int d = 0; d<4; d++){
-                Vector2D<int> dir = directions[d];
-                if (simplified_grid.get(i+dir[0], j+dir[1]) == 0){
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        void WFCGridGenerator::fixLongWalls() {
-            std::vector<Vector2D<int>> corners;
-            for (int j = 1; j<grid_height-1; j++){
-                for (int i = 1; i<grid_width-1; i++){
-                    if (simplified_grid.get(i, j) == 0 && isMultiCornerWall(i, j)){
-                        corners.emplace_back(i, j);
-
-                    }
-
-                }
-            }
-
-            for (auto c: corners){
-                Vector2D<int> best_dir;
-                int best_distance = 0;
-
-                for (int i = 0; i<4; i++){
-                    Vector2D<int> dir = directions[i];
-                    int distance = 0;
-
-                    Vector2D<int> loop_pos = dir+c;
-                    do{
-                        distance += 1;
-                        loop_pos += dir;
-
-                        if (loop_pos[0] < 0 || loop_pos[0] > grid_width-1 || loop_pos[1] < 0 || loop_pos[1] > grid_height-1){
-                            break;
-                        }
-
-                    }while(simplified_grid.get(loop_pos[0], loop_pos[1]) == 0);
-
-
-                    if (distance > best_distance){
-                        best_distance = distance;
-                        best_dir = dir;
-                    }
-                }
-                Vector2D<int> remove_wall = c+best_dir;
-                simplified_grid.set(remove_wall[0], remove_wall[1], 1);
-            }
-
-        }
-
-        bool WFCGridGenerator::isMultiCornerWall(int i, int j) {
-            std::vector<bool> suc6;
-
-            if (simplified_grid.get(i, j) != 0){
-                return false;
-            }
-            suc6.push_back(simplified_grid.get(i, j+1) == 0);
-            suc6.push_back(simplified_grid.get(i, j-1) == 0);
-            suc6.push_back(simplified_grid.get(i+1, j) == 0);
-            suc6.push_back(simplified_grid.get(i-1, j) == 0);
-
-            return std::count(suc6.begin(), suc6.end(), true) > 2;
-
-        }
-
-        bool WFCGridGenerator::regenerate() {
+        std::pair<bool, Matrix<int>> WFCGridGenerator::regenerate() {
             grid.clear(Cell{type_manager->getCharAmount()});
             generateOutsideWall();
             generateGhostSpawn();
 
-
-
             generate();
 
-            getGridSimple();
-            fixSingleWall();
-            fixLongWalls();
+            auto simplified_grid = getGridSimple();
+            GridAfterProcessor gap{simplified_grid, directions};
+            bool suc6 = gap.doAfterProcessing();
 
-            bool all_reachable = allReachable();
-
-            applyIntersections();
-
-            bool intersect_conflict = IntersectionConflicts();
-
-            return all_reachable && !intersect_conflict;
+            return std::make_pair(suc6, gap.getSimplifiedGrid());
 
         }
 
-        bool WFCGridGenerator::allReachable() {
-            std::set<std::pair<int, int>> to_check = {std::make_pair(1, 1)};
-            std::set<std::pair<int, int>> closed;
 
-            while (!to_check.empty()){
-                auto check = *to_check.begin();
-                for (std::pair<int, int> n: std::vector<std::pair<int, int>>{{1, 0}, {-1, 0}, {0, 1}, {0, -1}}){
-                    std::pair<int, int> new_pos = std::make_pair(n.first+check.first, n.second+check.second);
-                    if (simplified_grid.get(new_pos.first, new_pos.second) == 1 && closed.find(new_pos) == closed.end()){
-                        to_check.insert(new_pos);
-                    }
-
-                }
-
-                to_check.erase(check);
-                closed.insert(check);
-            }
-
-
-            return closed.size() == simplified_grid.count(1);
-        }
-
-        bool WFCGridGenerator::isIntersection(int i, int j) {
-
-            std::vector<bool> suc6;
-
-            if (simplified_grid.get(i, j) != 1 && simplified_grid.get(i, j) != 2){
-                return false;
-            }
-            suc6.push_back(simplified_grid.get(i, j+1) == 1 || simplified_grid.get(i, j+1) == 2);
-            suc6.push_back(simplified_grid.get(i, j-1) == 1 || simplified_grid.get(i, j-1) == 2);
-            suc6.push_back(simplified_grid.get(i+1, j) == 1 || simplified_grid.get(i+1, j) == 2);
-            suc6.push_back(simplified_grid.get(i-1, j) == 1 || simplified_grid.get(i-1, j) == 2);
-
-            return std::count(suc6.begin(), suc6.end(), true) > 2;
-        }
-
-        void WFCGridGenerator::applyIntersections() {
-            for (int j = 1; j<grid_height-1; j++){
-                for (int i = 1; i<grid_width-1; i++){
-                    if (isIntersection(i, j)){
-                        simplified_grid.set(i, j, 2);
-                    }
-                }
-            }
-
-
-        }
-
-        bool WFCGridGenerator::IntersectionConflicts() {
-            for (int j = 1; j<grid_height-1; j++){
-                for (int i = 1; i<grid_width-1; i++){
-                    if (isIntersection(i, j)){
-                        for (std::pair<int, int> n: std::vector<std::pair<int, int>>{{1, 0}, {-1, 0}, {0, 1}, {0, -1}}){
-                            std::pair<int, int> new_pos = std::make_pair(n.first+i, n.second+j);
-                            if (isIntersection(new_pos.first, new_pos.second)){
-                                return true;
-                            }
-
-                        }
-                    }
-                }
-            }
-            return false;
-        }
 
         Matrix<int> WFCGridGenerator::generateGridMap(){
             bool suc6 = false;
+            Matrix<int> simplified_grid{0, 0, 0};
             while (!suc6){
-                suc6 = regenerate();
+                auto p = regenerate();
+                suc6 = p.first;
+                simplified_grid = p.second;
             }
 
             return simplified_grid;
         }
 
-        Matrix<Cell> WFCGridGenerator::save() const {
-            return grid;
-        }
-
-        void WFCGridGenerator::restore(const Matrix<Cell> &c) {
-            grid = c;
-        }
 
 
     } // WFC

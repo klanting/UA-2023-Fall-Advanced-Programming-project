@@ -10,8 +10,8 @@
 #include <memory>
 #include "WFCGridGenerator.h"
 #include "../WorldLoader.h"
-namespace Logic {
-    namespace WFC {
+
+    namespace Logic::WFC {
 
         class WFCGenerator: public WorldLoading::WorldLoader{
         public:
@@ -36,6 +36,6 @@ namespace Logic {
         };
 
     } // WFC
-} // Logic
+// Logic
 
 #endif //PROJECTPACMAN_WFCGENERATOR_H
