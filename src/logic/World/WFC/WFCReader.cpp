@@ -7,10 +7,12 @@
 
     namespace Logic::WFC {
         WFCReader::WFCReader(const std::string &file_path): buffer{0, 0, 0}, file{file_path} {
+            //init all var
             data_width = 0;
             data_height = 0;
             wall_count = 0;
             id_counter = 0;
+            //read data from file
             readWallCount();
             readNumber(data_width);
             readNumber(data_height);
@@ -20,6 +22,8 @@
         }
 
         void WFCReader::readWallCount() {
+            //read entire line
+            //store every char on the line and see these char as walls
             char c = (char) file.get();
             do{
                 count_table.insert({c, id_counter});
@@ -34,6 +38,7 @@
         }
 
         void WFCReader::readNumber(int &n) {
+            //read the number present on this file
             std::string temp;
 
             char c;
@@ -49,6 +54,8 @@
         }
 
         void WFCReader::readGrid() {
+            //read the grid in the file
+            //store its data as type numbers on the buffer
             for (int j = 0; j<data_height; j++){
                 for (int i = 0; i<data_width; i++){
 

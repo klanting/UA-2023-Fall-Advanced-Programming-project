@@ -90,8 +90,7 @@ namespace Logic {
         }
 
         std::unique_ptr<World> WFCGenerator::load(double difficulty, int lives) {
-            WFCGridGenerator g{};
-            m = g.generateGridMap();
+            m = grid_gen.generateGridMap();
             readMatrix();
 
             int consumable_count = 0;

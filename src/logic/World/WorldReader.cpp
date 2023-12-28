@@ -3,7 +3,6 @@
 //
 
 #include "WorldReader.h"
-#include "fstream"
 #include "iostream"
 namespace Logic::WorldLoading {
 

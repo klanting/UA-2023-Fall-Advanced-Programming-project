@@ -5,8 +5,8 @@
 #include "Memento.h"
 #include "Matrix.h"
 #include "Cell.h"
-namespace Logic {
-    namespace WFC {
+
+    namespace Logic::WFC {
 
         template class Memento<Matrix<Cell>>;
 
@@ -21,4 +21,4 @@ namespace Logic {
         }
 
     } // WFC
-} // Logic
+// Logic

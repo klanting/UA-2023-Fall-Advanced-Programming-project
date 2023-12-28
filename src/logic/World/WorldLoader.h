@@ -11,11 +11,21 @@
 
 namespace Logic::WorldLoading {
 
-
+    /**
+         * Design Pattern: Abstract Factory
+         * Abstract class for WorldLoading
+         * */
     class WorldLoader {
     public:
+        /**
+         * Constructor for WorldLoader
+         * */
         WorldLoader(std::unique_ptr<AbstractFactory> factory, const std::shared_ptr<Score>& score);
         virtual ~WorldLoader() = default;
+
+        /**
+         * Load function will create a new World
+         * */
         virtual std::unique_ptr<World> load(double difficulty, int lives) = 0;
 
     protected:

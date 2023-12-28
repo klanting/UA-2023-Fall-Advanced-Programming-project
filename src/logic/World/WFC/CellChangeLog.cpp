@@ -7,11 +7,13 @@
 
     namespace Logic::WFC {
         void CellChangeLog::save() {
-            history.push(CellMemento(generator.save()));
+            //this will put the grid into the CellMemento class
+            history.emplace(generator.save());
 
         }
 
         void CellChangeLog::undo() {
+            //this will take the last Memento and restore the Generator
             auto m = history.top().getData();
             history.pop();
             generator.restore(m);

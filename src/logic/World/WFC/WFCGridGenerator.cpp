@@ -12,10 +12,7 @@
 
             type_manager = std::make_unique<TypeRuleManager>("WFC/sampleData.WFC", directions);
 
-            bool suc6 = false;
-            while (!suc6){
-                suc6 = regenerate();
-            }
+
 
         }
 
@@ -243,7 +240,7 @@
             std::vector<Vector2D<int>> blocked;
             for (int j = 1; j<grid_height-1; j++){
                 for (int i = 1; i<grid_width-1; i++){
-                    if (simplified_grid.get(i, j) == 0 && isSingleWall(simplified_grid, i, j)){
+                    if (simplified_grid.get(i, j) == 0 && isSingleWall(i, j)){
                         singles.emplace_back(i, j);
 
                     }
@@ -273,11 +270,11 @@
 
         }
 
-        bool WFCGridGenerator::isSingleWall(Matrix<int> &m, int i, int j) {
+        bool WFCGridGenerator::isSingleWall(int i, int j) {
 
             for (int d = 0; d<4; d++){
                 Vector2D<int> dir = directions[d];
-                if (m.get(i+dir[0], j+dir[1]) == 0){
+                if (simplified_grid.get(i+dir[0], j+dir[1]) == 0){
                     return false;
                 }
             }
@@ -289,7 +286,7 @@
             std::vector<Vector2D<int>> corners;
             for (int j = 1; j<grid_height-1; j++){
                 for (int i = 1; i<grid_width-1; i++){
-                    if (simplified_grid.get(i, j) == 0 && isMultiCornerWall(simplified_grid, i, j)){
+                    if (simplified_grid.get(i, j) == 0 && isMultiCornerWall(i, j)){
                         corners.emplace_back(i, j);
 
                     }
@@ -328,16 +325,16 @@
 
         }
 
-        bool WFCGridGenerator::isMultiCornerWall(Matrix<int> &m, int i, int j) {
+        bool WFCGridGenerator::isMultiCornerWall(int i, int j) {
             std::vector<bool> suc6;
 
-            if (m.get(i, j) != 0){
+            if (simplified_grid.get(i, j) != 0){
                 return false;
             }
-            suc6.push_back(m.get(i, j+1) == 0);
-            suc6.push_back(m.get(i, j-1) == 0);
-            suc6.push_back(m.get(i+1, j) == 0);
-            suc6.push_back(m.get(i-1, j) == 0);
+            suc6.push_back(simplified_grid.get(i, j+1) == 0);
+            suc6.push_back(simplified_grid.get(i, j-1) == 0);
+            suc6.push_back(simplified_grid.get(i+1, j) == 0);
+            suc6.push_back(simplified_grid.get(i-1, j) == 0);
 
             return std::count(suc6.begin(), suc6.end(), true) > 2;
 
@@ -432,7 +429,12 @@
             return false;
         }
 
-        Matrix<int> WFCGridGenerator::generateGridMap() {
+        Matrix<int> WFCGridGenerator::generateGridMap(){
+            bool suc6 = false;
+            while (!suc6){
+                suc6 = regenerate();
+            }
+
             return simplified_grid;
         }
 

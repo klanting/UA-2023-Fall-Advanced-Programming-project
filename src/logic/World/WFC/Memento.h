@@ -7,11 +7,14 @@
 
 
     namespace Logic::WFC {
-
+        /**
+         * part of Design Pattern: Memento
+         * this class will store 1 moment of a state
+         * */
         template<typename T>
         class Memento {
         public:
-            Memento(T data);
+            explicit Memento(T data);
             virtual T getData() const;
         private:
             T data;

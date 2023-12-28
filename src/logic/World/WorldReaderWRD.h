@@ -8,6 +8,10 @@
 
     namespace Logic::WorldLoading {
 
+        /**
+         * Part of Design pattern: Abstract Factory
+         * This class will read self invented .wrd file formats
+         * */
         class WorldReaderWRD: public WorldReader{
         public:
             WorldReaderWRD(std::unique_ptr<AbstractFactory> factory, const std::shared_ptr<Score>& score);

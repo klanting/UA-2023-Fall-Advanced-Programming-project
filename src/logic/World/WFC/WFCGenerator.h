@@ -31,6 +31,8 @@ namespace Logic {
             std::vector<std::shared_ptr<EntityModel>> entities;
             std::vector<std::shared_ptr<EntityModel>> not_passable;
             std::vector<std::shared_ptr<EntityModel>> intersection;
+
+            WFCGridGenerator grid_gen;
         };
 
     } // WFC

@@ -8,10 +8,15 @@
 #include "Cell.h"
 #include "Matrix.h"
     namespace Logic::WFC {
+        /**
+         * part of Design Pattern: Memento
+         * Derived class of Memento
+         * This will make sure a Memento is stored of the a Matrix of cells
+         * */
 
         class CellMemento: public Memento<Matrix<Cell>>{
         public:
-            CellMemento(const Matrix<Cell>& data);
+            explicit CellMemento(const Matrix<Cell>& data);
         private:
 
         };

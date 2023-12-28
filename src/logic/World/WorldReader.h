@@ -8,6 +8,10 @@
 
 namespace Logic::WorldLoading {
 
+    /**
+         * part of Design Pattern: abstract Factory
+         * Abstract Class for all worldLoaders that read a world file
+         * */
     class WorldReader: public WorldLoader{
     public:
         WorldReader(std::unique_ptr<AbstractFactory> factory, const std::shared_ptr<Score>& score);
