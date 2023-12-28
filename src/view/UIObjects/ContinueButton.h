@@ -4,16 +4,14 @@
 
 #ifndef PROJECTPACMAN_CONTINUEBUTTON_H
 #define PROJECTPACMAN_CONTINUEBUTTON_H
-#include "Button.h"
+#include "ImageButton.h"
 namespace View {
 
-    class ContinueButton: public Button{
+    class ContinueButton: public ImageButton{
     public:
         ContinueButton();
         ContinueButton(const Logic::Vector2D<>& position, const Logic::Vector2D<>& size);
-        void render() const override;
     private:
-        std::shared_ptr<Image> image;
 
     };
 

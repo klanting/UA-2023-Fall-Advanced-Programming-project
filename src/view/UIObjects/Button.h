@@ -11,8 +11,8 @@
 #include "Image.h"
 namespace View {
     /**
-     *This class is an derived class of UIObject
-     *This is an abstract class for UI buttons
+     * This class is an derived class of UIObject
+     * This is an Abstract class for all UI Buttons
      * It will be easy to check whether a button is clicked or not
      * */
     class Button: public UIObject{

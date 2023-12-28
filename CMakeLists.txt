@@ -176,6 +176,8 @@ set(view
         src/view/UIObjects/PositionAnimation.h
         src/view/UIObjects/CutOffAnimation.cpp
         src/view/UIObjects/CutOffAnimation.h
+        src/view/UIObjects/ImageButton.cpp
+        src/view/UIObjects/ImageButton.h
 )
 
 ADD_LIBRARY(logic_lib STATIC ${logic})

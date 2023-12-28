@@ -4,16 +4,14 @@
 
 #ifndef PROJECTPACMAN_MENUBUTTON_H
 #define PROJECTPACMAN_MENUBUTTON_H
-#include "Button.h"
+#include "ImageButton.h"
 namespace View {
 
-    class MenuButton: public Button{
+    class MenuButton: public ImageButton{
     public:
         MenuButton();
         MenuButton(const Logic::Vector2D<>& position, const Logic::Vector2D<>& size);
-        void render() const override;
     private:
-        std::shared_ptr<Image> image;
 
     };
 
