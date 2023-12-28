@@ -5,20 +5,41 @@
 #ifndef PROJECTPACMAN_MATRIX_H
 #define PROJECTPACMAN_MATRIX_H
 #include <vector>
-namespace Logic {
-    namespace WFC {
 
+    namespace Logic::WFC {
+        /**
+         * This class is used to make a easy to use grid
+         * */
         template<typename T>
         class Matrix {
         public:
+            /**
+             * constructor of the Matrix given a width, height and a default value
+             * */
             Matrix(int width, int height, const T& default_value);
-            T get(int i, int j) const;
+
+            /**
+             * get the value present on the entry with width position i and height position j
+             * */
+            [[nodiscard]] T get(int i, int j) const;
+
+            /**
+             * set the value present on the entry with width position i and height position j
+             * */
             void set(int i, int j, const T& value);
 
-            int getHeight() const;
+            [[nodiscard]] int getHeight() const;
 
-            int getWidth() const;
+            [[nodiscard]] int getWidth() const;
+
+            /**
+             * clear the matrix and fill it with the default value
+             * */
             void clear(const T& default_value);
+
+            /**
+             * check how many times a given value is present on the grid
+             * */
             int count(const T& value);
         private:
             std::vector<std::vector<T>> grid;
@@ -31,6 +52,6 @@ namespace Logic {
 
 
     } // WFC
-} // Logic
+// Logic
 
 #endif //PROJECTPACMAN_MATRIX_H

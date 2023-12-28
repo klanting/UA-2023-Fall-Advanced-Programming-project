@@ -4,33 +4,28 @@
 
 #include "TypeRule.h"
 
-namespace Logic {
-    namespace WFC {
+
+    namespace Logic::WFC {
         void TypeRule::add(int index, int neighbour_type) {
-            options[index][neighbour_type] += 1;
+            int count = options.get(neighbour_type, index);
+            options.set(neighbour_type, index, count+1);
 
         }
 
-        TypeRule::TypeRule(int size, int direction_size) {
-            for (int i = 0; i<direction_size; i++){
-                std::vector<int> mapping;
-                for (int j = 0; j<size; j++){
-                    mapping.push_back(0);
-                }
-                options.push_back(mapping);
-            }
+        TypeRule::TypeRule(int size, int direction_size): options{size, direction_size, 0} {
+
 
         }
 
-        std::set<int> TypeRule::getOptions(int index) {
+        std::set<int> TypeRule::getOptions(int index) const {
             std::set<int> output;
-            for (int j = 0; j<options[index].size(); j++){
-                int v = options[index][j];
+            for (int i = 0; i<options.getWidth(); i++){
+                int v = options.get(i, index);
                 if (v != 0){
-                    output.insert(j);
+                    output.insert(i);
                 }
             }
             return output;
         }
     } // WFC
-} // Logic
+// Logic

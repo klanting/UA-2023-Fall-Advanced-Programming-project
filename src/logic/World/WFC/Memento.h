@@ -16,6 +16,7 @@
         public:
             explicit Memento(T data);
             virtual T getData() const;
+            virtual ~Memento()  = default;
         private:
             T data;
 

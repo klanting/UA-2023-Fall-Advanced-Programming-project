@@ -4,9 +4,11 @@
 
 #include "Cell.h"
 
-namespace Logic {
-    namespace WFC {
+
+    namespace Logic::WFC {
         Cell::Cell(int size) {
+            //init the Cell
+            //start entropy is the amount of options
             entropy = size;
             for (int i=0; i<size; i++){
                 options.insert(i);
@@ -14,6 +16,7 @@ namespace Logic {
         }
 
         void Cell::place(int type) {
+            //place a type to the cell
             if (defined){
                 return;
             }
@@ -27,6 +30,7 @@ namespace Logic {
         }
 
         bool Cell::updateValue(const std::set<int> &acceptable) {
+            // chance the options
             if (defined){
                 return false;
             }
@@ -35,11 +39,11 @@ namespace Logic {
             std::set_intersection(acceptable.begin(), acceptable.end(), options.begin(), options.end(), std::inserter(resulting, resulting.begin()));
             options = resulting;
 
-            if (options.size() == entropy){
+            if ((int) options.size() == entropy){
                 return false;
             }
 
-            entropy = options.size();
+            entropy = (int) options.size();
 
             return true;
 
@@ -70,4 +74,4 @@ namespace Logic {
             return other.options.size() == options.size() && entropy == other.entropy && key == other.key;
         }
     } // WFC
-} // Logic
+// Logic
