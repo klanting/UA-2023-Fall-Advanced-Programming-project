@@ -3,18 +3,22 @@
 //
 
 #include "CellChangeLog.h"
-
+#include "WFCGridGenerator.h"
 
     namespace Logic::WFC {
-        void CellChangeLog::save(const Matrix<Cell> &m) {
-            history.push(CellMemento(m));
+        void CellChangeLog::save() {
+            history.push(CellMemento(generator.save()));
 
         }
 
-        Matrix<Cell> CellChangeLog::undo() {
+        void CellChangeLog::undo() {
             auto m = history.top().getData();
             history.pop();
-            return m;
+            generator.restore(m);
+        }
+
+        CellChangeLog::CellChangeLog(WFCGridGenerator &generator): generator{generator} {
+
         }
     } // WFC
 // Logic

@@ -8,6 +8,7 @@
 #include <stack>
 #include "Cell.h"
 #include "Matrix.h"
+#include <functional>
 
     /**
      * Keeps Log of WFC Grid
@@ -16,14 +17,18 @@
 
     namespace Logic::WFC {
 
+        class WFCGridGenerator;
+
         class CellChangeLog {
         public:
-            CellChangeLog() = default;
-            void save(const Matrix<Cell>& m);
-            Matrix<Cell> undo();
+            CellChangeLog(WFCGridGenerator& generator);
+            void save();
+            void undo();
 
         private:
             std::stack<CellMemento> history;
+            WFCGridGenerator& generator;
+
 
         };
 

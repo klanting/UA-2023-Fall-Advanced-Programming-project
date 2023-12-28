@@ -7,7 +7,7 @@
     namespace Logic::WFC {
         WFCGridGenerator::WFCGridGenerator(): directions{Logic::Vector2D<int>{1, 0}, Logic::Vector2D<int>{0, 1}, Logic::Vector2D<int>{-1, 0}, Logic::Vector2D<int>{0, -1},
                                                          Logic::Vector2D<int>{1, 1}, Logic::Vector2D<int>{-1, 1}, Logic::Vector2D<int>{-1, -1}, Logic::Vector2D<int>{1, -1}},
-                                              grid{grid_width, grid_height, Cell{0}}, simplified_grid(grid_width, grid_height, 0) {
+                                              grid{grid_width, grid_height, Cell{0}}, simplified_grid(grid_width, grid_height, 0), cl{*this} {
 
 
             type_manager = std::make_unique<TypeRuleManager>("WFC/sampleData.WFC", directions);
@@ -52,10 +52,10 @@
                 //if the changes cause a contradiction
                 //rollback till before the changes
                 //remove the possibility that we just tried and go back to the start
-                cl.save(grid);
+                cl.save();
                 bool suc6 = place(p[0], p[1], *it);
                 if (!suc6){
-                    grid = cl.undo();
+                    cl.undo();
 
                     Cell to_change = grid.get(p[0], p[1]);
                     to_change.remove(*it);
@@ -228,11 +228,11 @@
                 }
 
 
-                cl.save(grid);
+                cl.save();
                 bool suc6 = place(pos[0], pos[1], p.first);
 
                 if (!suc6){
-                    grid = cl.undo();
+                    cl.undo();
                 }
             }
 
@@ -434,6 +434,14 @@
 
         Matrix<int> WFCGridGenerator::generateGridMap() {
             return simplified_grid;
+        }
+
+        Matrix<Cell> WFCGridGenerator::save() const {
+            return grid;
+        }
+
+        void WFCGridGenerator::restore(const Matrix<Cell> &c) {
+            grid = c;
         }
 
 

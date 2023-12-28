@@ -17,6 +17,9 @@
             WFCGridGenerator();
             Matrix<int> generateGridMap();
 
+            [[nodiscard]] Matrix<Cell> save() const;
+            void restore(const Matrix<Cell>& c);
+
         private:
             bool place(int i, int j, int type);
 
