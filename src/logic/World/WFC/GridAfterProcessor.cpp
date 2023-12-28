@@ -49,7 +49,7 @@
         void GridAfterProcessor::fixLongWalls() {
             std::vector<Vector2D<int>> corners;
             for (int j = 1; j<simplified_grid.getHeight()-1; j++){
-                for (int i = 1; i<simplified_grid.getHeight()-1; i++){
+                for (int i = 1; i<simplified_grid.getWidth()-1; i++){
                     if (simplified_grid.get(i, j) == 0 && isMultiCornerWall(i, j)){
                         corners.emplace_back(i, j);
 
@@ -184,6 +184,9 @@
         }
 
         bool GridAfterProcessor::doAfterProcessing() {
+            fixSingleWall();
+            fixLongWalls();
+
             bool all_reachable = allReachable();
 
             applyIntersections();
