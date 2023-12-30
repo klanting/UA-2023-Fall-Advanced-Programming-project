@@ -4,10 +4,10 @@
 
 #ifndef PROJECTPACMAN_ENTITYMODEL_H
 #define PROJECTPACMAN_ENTITYMODEL_H
-#include "Subject.h"
+#include "CollidableEntity.h"
 #include "../Stopwatch.h"
 namespace Logic {
-    class EntityModel: public Subject{
+    class EntityModel: public CollidableEntity{
     public:
         /**
          * Constructor for EntityModel
@@ -26,21 +26,6 @@ namespace Logic {
          * The distance it travels depends on the time between ticks and the speed
          * */
         virtual void move();
-
-        /**
-         * returns if this object collides with the other object
-         * this returns a std::pair<bool, std::pair<Vector2D<>, Vector2D<>>>
-         * the first value of the pair is a boolean that states if the entities collide
-         * the first vector2D gives the last position on the path before collision occurs
-         * (this position will be the last position for the center of this object)
-         * The last Vector will state which Axis we collided, so we can properly handle it in the future
-         * */
-        [[nodiscard]] std::pair<bool, std::pair<Vector2D<>, Vector2D<>>> collide(const std::weak_ptr<EntityModel>& other) const;
-
-        /**
-         * This function returns true if we would theoretically collide if we would change the position to the given new position
-         * */
-        bool collideFuture(const std::weak_ptr<EntityModel>& other, const Vector2D<> &new_pos);
 
         /**
          * This handles the situation when we face an immovable object (like a Wall)
@@ -77,15 +62,7 @@ namespace Logic {
          * */
         virtual void changeMode(bool fear);
 
-        /**
-         * Getter for the position of the Entity
-         * */
-        [[nodiscard]] const Vector2D<> &getPosition() const;
 
-        /**
-         * Getter for the size of the Entity
-         * */
-        [[nodiscard]] const Vector2D<> &getSize() const;
 
         /**
          * Getter for the direction for the direction of the MoveManager
@@ -136,21 +113,6 @@ namespace Logic {
          * Start position of the Entity
          * */
         Vector2D<> start_position;
-
-        /**
-         * position of the Entity
-         * */
-        Vector2D<> position;
-
-        /**
-         * position of the Entity before its last move
-         * */
-        Vector2D<> last_position;
-
-        /**
-         * size of the Entity
-         * */
-        Vector2D<> size;
 
         /**
          * speed of the Entity

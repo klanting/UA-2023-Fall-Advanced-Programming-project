@@ -91,6 +91,8 @@ set(subjects
         src/logic/Subjects/Fruit.h
         src/logic/Subjects/Intersection.cpp
         src/logic/Subjects/Intersection.h
+        src/logic/Subjects/CollidableEntity.cpp
+        src/logic/Subjects/CollidableEntity.h
 )
 
 set(move_strategies
