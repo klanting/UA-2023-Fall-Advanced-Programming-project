@@ -20,7 +20,6 @@ namespace Logic {
         score += std::max(5.0*(2-time_till_last), 1.0);
         score += o->bonus();
         time_till_last = 0;
-        std::cout << "score " << score << std::endl;
     }
 
     void Score::died() {

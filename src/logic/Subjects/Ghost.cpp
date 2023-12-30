@@ -30,6 +30,7 @@ namespace Logic {
             //here is when fear mode ends
             //we will make sure to put the Ghost back in ChaseMode
             consumable = false;
+            speed = speed/0.8;
 
             move_manager->setStrategy(std::make_unique<Move::ChaseMode>());
             move_manager->makeDirection(Vector2D<>{2, 2}, {changed});
@@ -38,6 +39,7 @@ namespace Logic {
             //we will set the mode to Fear Mode
             consumable = true;
             fear_time = total_fear_time;
+            speed = speed*0.8;
 
             move_manager->setStrategy(std::make_unique<Move::FearMode>());
             move_manager->makeDirection(Vector2D<>{2, 2}, {changed});
