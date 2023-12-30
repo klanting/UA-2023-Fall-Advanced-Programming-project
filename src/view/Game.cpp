@@ -39,7 +39,7 @@ namespace View {
 
             window->display();
 
-            //sf::sleep(sf::milliseconds(15));
+            sf::sleep(sf::milliseconds(15));
 
         }
 
