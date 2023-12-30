@@ -25,9 +25,15 @@ namespace Logic {
         [[nodiscard]] int getScore() const;
         void finishedLvl();
         ~Score() override = default;
+
+        /**
+         * Score needs to decrease over time, this function will check whether to decrease the score
+         * */
+        void checkDecrease();
     private:
         double score;
         double time_till_last;
+        double decrease_remaining = 1.0;
         std::weak_ptr<Subject> pacman;
     };
 

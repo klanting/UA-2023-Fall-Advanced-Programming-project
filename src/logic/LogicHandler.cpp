@@ -20,6 +20,7 @@ namespace Logic {
     bool LogicHandler::doTick() {
         //does a tick action in the world and later updates the stopwatch
         bool alive = world->doTick();
+        score->checkDecrease();
         Stopwatch::getInstance()->doTick();
         return alive;
     }

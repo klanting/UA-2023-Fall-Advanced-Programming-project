@@ -39,4 +39,16 @@ namespace Logic {
     void Score::finishedLvl() {
         score += 100;
     }
+
+    void Score::checkDecrease() {
+        decrease_remaining -= Stopwatch::getInstance()->getDeltaTime();
+        while (decrease_remaining < 0){
+            decrease_remaining += 1.0;
+            score -= 1.0;
+            if (score < 0){
+                score = 0;
+            }
+        }
+
+    }
 } // Logic
