@@ -9,7 +9,7 @@
 #include "States/StateManager.h"
 #include "States/MenuState.h"
 #include "RenderWindowSingleton.h"
-#include <ctime>
+#include <unistd.h>
 namespace View {
     /**
      * This Class will setup the SFMl LOOP

@@ -26,7 +26,7 @@ namespace View {
 
             window->display();
 
-            sf::sleep(sf::milliseconds(15));
+            usleep(15);
 
         }
 
