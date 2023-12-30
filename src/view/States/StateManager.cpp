@@ -23,15 +23,6 @@ namespace View {
 
     }
 
-    void StateManager::acceptCharacter(int input, bool pressed, const Logic::Vector2D<>& v) {
-        if (!first_ptr_set){
-            state_stack.top()->setManager(weak_from_this());
-            first_ptr_set = true;
-        }
-
-        state_stack.top()->acceptCharacter(input, pressed, v);
-
-    }
 
     void StateManager::runTick() {
         if (!first_ptr_set){
@@ -40,6 +31,17 @@ namespace View {
         }
 
         state_stack.top()->runTick();
+    }
+
+    void StateManager::checkInput() {
+        if (!first_ptr_set){
+            state_stack.top()->setManager(weak_from_this());
+            first_ptr_set = true;
+        }
+
+        state_stack.top()->checkInput();
+
+
     }
 
 

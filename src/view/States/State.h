@@ -34,12 +34,9 @@ namespace View {
         virtual void runTick() = 0;
 
         /**
-         * pass through received input
-         * input int gives the value of the input index
-         * bool pressed states if it is pressed or released
-         * v will give the position on the screen where pressed which is usefull in case of mouse click
+         * Check if any input events are present
          * */
-        virtual void acceptCharacter(int input, bool pressed, const Logic::Vector2D<>& v) = 0;
+        void checkInput();
 
         /**
          * add weakptr to State manager
@@ -47,6 +44,15 @@ namespace View {
         void setManager(const std::weak_ptr<StateManager>& state_manager_ptr);
 
     protected:
+        /**
+         * pass through received input
+         * input int gives the value of the input index
+         * bool pressed states if it is pressed or released
+         * v will give the position on the screen where pressed which is usefull in case of mouse click
+         * */
+        virtual void acceptCharacter(int input, bool pressed, const Logic::Vector2D<>& v) = 0;
+
+
         /**
          * Renders UI components
          * */

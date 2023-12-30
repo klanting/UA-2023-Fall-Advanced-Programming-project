@@ -25,7 +25,6 @@ namespace View {
         /**
          * on input key this function will be called, and this will call a function of the state manager
          * */
-        void processInput(int input, bool pressed, const Logic::Vector2D<>& v);
     };
 
 } // View

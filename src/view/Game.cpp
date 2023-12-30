@@ -18,23 +18,10 @@ namespace View {
         while (window->isOpen())
         {
 
-            sf::Event event{};
-            while (window->pollEvent(event))
-            {
-                if (event.type == sf::Event::KeyPressed || event.type == sf::Event::KeyReleased || event.type == sf::Event::MouseButtonPressed){
-                    bool pressed = event.type == sf::Event::KeyPressed;
-                    processInput(event.key.code, pressed, Logic::Vector2D{(double) event.mouseButton.x, (double) event.mouseButton.y});
-                }
+            state_manager->checkInput();
 
-
-                if (event.type == sf::Event::Closed){
-                    window->close();
-                }
-
-            }
 
             window->clear();
-
             state_manager->runTick();
 
             window->display();
@@ -45,7 +32,4 @@ namespace View {
 
     }
 
-    void Game::processInput(int input, bool pressed, const Logic::Vector2D<>& v) {
-        state_manager->acceptCharacter(input, pressed, v);
-    }
 } // View

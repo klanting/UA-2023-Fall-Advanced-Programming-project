@@ -27,9 +27,9 @@ class StateManager: public std::enable_shared_from_this<StateManager>{
         void Pop(int amount);
 
         /**
-         * pass the acceptCharacter event to the State
-         * */
-        void acceptCharacter(int input, bool pressed, const Logic::Vector2D<> & v);
+        * Check if any input events are present
+        * */
+        void checkInput();
 
         /**
         * pass the runTick to the State
