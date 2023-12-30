@@ -6,6 +6,7 @@
 #define PROJECTPACMAN_SCORE_H
 #include "Observer.h"
 #include "Subjects/EntityModel.h"
+#include "HighScore.h"
 namespace Logic {
 
     class Score: public Observer{

@@ -23,10 +23,6 @@ namespace Logic {
         score->checkDecrease();
         Stopwatch::getInstance()->doTick();
 
-        if (!alive && isGameOver()){
-            HighScore::getInstance()->add(score->getScore());
-        }
-
         return alive;
     }
 

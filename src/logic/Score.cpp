@@ -3,7 +3,6 @@
 //
 
 #include "Score.h"
-#include <iostream>
 #include <cmath>
 namespace Logic {
     Score::Score(): score{0}, time_till_last{0} {
@@ -23,6 +22,7 @@ namespace Logic {
     }
 
     void Score::died() {
+        HighScore::getInstance()->add((int) score);
 
     }
 
