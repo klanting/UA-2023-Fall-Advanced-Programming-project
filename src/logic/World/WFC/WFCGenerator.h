@@ -15,7 +15,7 @@
 
         class WFCGenerator: public WorldLoading::WorldLoader{
         public:
-            WFCGenerator(std::unique_ptr<AbstractFactory> factory, const std::shared_ptr<Score>& score);
+            WFCGenerator(std::unique_ptr<AbstractFactory>&& factory, const std::shared_ptr<Score>& score);
             std::unique_ptr<World> load(double difficulty, int lives) override;
         private:
             void readMatrix();

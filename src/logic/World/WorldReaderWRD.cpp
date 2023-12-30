@@ -7,7 +7,7 @@
 
 
     namespace Logic::WorldLoading {
-        WorldReaderWRD::WorldReaderWRD(std::unique_ptr<AbstractFactory> factory, const std::shared_ptr<Score> &score): WorldReader(std::move(factory), score) {
+        WorldReaderWRD::WorldReaderWRD(std::unique_ptr<AbstractFactory>&& factory, const std::shared_ptr<Score> &score): WorldReader(std::move(factory), score) {
 
         }
 

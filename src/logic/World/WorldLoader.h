@@ -20,7 +20,7 @@ namespace Logic::WorldLoading {
         /**
          * Constructor for WorldLoader
          * */
-        WorldLoader(std::unique_ptr<AbstractFactory> factory, const std::shared_ptr<Score>& score);
+        WorldLoader(std::unique_ptr<AbstractFactory>&& factory, const std::shared_ptr<Score>& score);
         virtual ~WorldLoader() = default;
 
         /**

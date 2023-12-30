@@ -3,12 +3,10 @@
 //
 
 #include "WFCGenerator.h"
-#include <fstream>
-#include <iostream>
 #include <algorithm>
-namespace Logic {
-    namespace WFC {
-        WFCGenerator::WFCGenerator(std::unique_ptr<AbstractFactory> factory, const std::shared_ptr<Score>& score): m{0, 0, 0}, WorldLoader(std::move(factory), score) {
+
+    namespace Logic::WFC {
+        WFCGenerator::WFCGenerator(std::unique_ptr<AbstractFactory>&& factory, const std::shared_ptr<Score>& score): m{0, 0, 0}, WorldLoader(std::move(factory), score) {
 
 
 
@@ -192,4 +190,4 @@ namespace Logic {
 
         }
     } // WFC
-} // Logic
+// Logic

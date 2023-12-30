@@ -3,7 +3,7 @@
 #include "Stopwatch.h"
 
 namespace Logic {
-    LogicHandler::LogicHandler(std::unique_ptr<AbstractFactory> factory){
+    LogicHandler::LogicHandler(std::unique_ptr<AbstractFactory>&& factory){
         //clear the remaining pressed keys form the controller
         Controller::Controller::Controller::getInstance()->clear();
         difficulty_index = 1;

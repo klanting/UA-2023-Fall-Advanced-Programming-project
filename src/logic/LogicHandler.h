@@ -23,7 +23,7 @@ namespace Logic {
         /**
          * Constructor for logicHandler
          * */
-        explicit LogicHandler(std::unique_ptr<AbstractFactory> factory);
+        explicit LogicHandler(std::unique_ptr<AbstractFactory>&& factory);
 
         /**
          * Destructor for logicHandler

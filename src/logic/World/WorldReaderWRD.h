@@ -14,7 +14,7 @@
          * */
         class WorldReaderWRD: public WorldReader{
         public:
-            WorldReaderWRD(std::unique_ptr<AbstractFactory> factory, const std::shared_ptr<Score>& score);
+            WorldReaderWRD(std::unique_ptr<AbstractFactory>&& factory, const std::shared_ptr<Score>& score);
             std::unique_ptr<World> load(double difficulty, int lives) override;
         private:
 
