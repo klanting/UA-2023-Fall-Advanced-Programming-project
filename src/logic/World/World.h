@@ -39,6 +39,8 @@ namespace Logic {
          * */
         [[nodiscard]] int getLives() const;
 
+        ~World();
+
     private:
         /**
          * ptr to the Pacman Entity

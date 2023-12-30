@@ -221,4 +221,11 @@ namespace Logic {
 
     }
 
+    World::~World() {
+        entities.clear();
+        not_passable.clear();
+        intersection.clear();
+
+    }
+
 } // Logic
