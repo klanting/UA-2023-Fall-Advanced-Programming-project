@@ -11,6 +11,7 @@
 #include "Score.h"
 #include "../logic/World/WorldReaderWRD.h"
 #include "../logic/World/WFC/WFCGenerator.h"
+#include "HighScore.h"
 namespace Logic {
 
     /**

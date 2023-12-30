@@ -35,8 +35,6 @@ namespace View {
 
         State::renderUI();
 
-        Scoreboard::getInstance()->render();
-
     }
 
     MenuState::MenuState(){
@@ -47,6 +45,10 @@ namespace View {
 
         createPacmanText();
         createPacmanTitleAnimation();
+
+        std::shared_ptr<Scoreboard> sc = std::make_shared<Scoreboard>();
+        render_images.push_back(sc);
+
     }
 
     void MenuState::createPacmanTitleAnimation() {

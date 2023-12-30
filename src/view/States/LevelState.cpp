@@ -34,7 +34,6 @@ namespace View {
 
         }else{
             state_manager.lock()->Push(std::make_unique<GameOverState>());
-            Scoreboard::getInstance()->add(handler->getScore()->getScore());
         }
 
     }

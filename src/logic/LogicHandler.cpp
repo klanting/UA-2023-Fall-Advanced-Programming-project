@@ -22,6 +22,11 @@ namespace Logic {
         bool alive = world->doTick();
         score->checkDecrease();
         Stopwatch::getInstance()->doTick();
+
+        if (!alive && isGameOver()){
+            HighScore::getInstance()->add(score->getScore());
+        }
+
         return alive;
     }
 

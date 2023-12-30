@@ -7,29 +7,22 @@
 #include <memory>
 #include <vector>
 #include <SFML/Graphics.hpp>
+#include "UIObjects/UIObject.h"
+#include "../logic/HighScore.h"
 namespace View {
     /**
-     * Design Pattern: Singleton
-     * This class maintains a scoreboard of the top 5 Scores
+     * This class renders a scoreboard of the top 5 Scores
      * */
-    class Scoreboard {
+    class Scoreboard: public UIObject{
     public:
-        static std::shared_ptr<Scoreboard> getInstance();
-        /**
-         * add a score, if in top 5, it will be stored
-         * */
-        void add(unsigned int score);
-        ~Scoreboard();
+        Scoreboard();
+
+        ~Scoreboard() override = default;
         /**
          * renders the scores of the scoreboard
          * */
-        void render() const;
+        void render() const override;
     private:
-        Scoreboard();
-
-        inline static std::shared_ptr<Scoreboard> _instance;
-
-        std::vector<unsigned int> scores;
 
     };
 
