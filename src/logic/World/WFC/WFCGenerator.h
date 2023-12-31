@@ -22,6 +22,10 @@
             bool check(const Vector2D<int>& start_pos, const Vector2D<int>& direction);
             void addWall(const Vector2D<int>& start_pos, const Vector2D<int>& size);
             void addIntersection(const Vector2D<int>& start_pos);
+            void addCoin(const Vector2D<int>& start_pos);
+
+            void createWall(int i, int j);
+
             Matrix<int> m;
             std::unique_ptr<Vector2D<>> ghost_spawn;
 
@@ -33,6 +37,7 @@
             std::vector<std::shared_ptr<EntityModel>> intersection;
 
             WFCGridGenerator grid_gen;
+            int consumable_count = 0;
         };
 
     } // WFC

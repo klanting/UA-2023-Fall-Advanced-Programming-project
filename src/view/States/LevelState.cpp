@@ -13,7 +13,6 @@ namespace View {
     LevelState::LevelState() {
         handler = std::make_unique<Logic::LogicHandler>(std::move(std::make_unique<ConcreteFactory>()));
         controller = Controller::Controller::getInstance();
-
     }
 
     void LevelState::runTick() {
