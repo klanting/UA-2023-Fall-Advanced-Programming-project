@@ -9,6 +9,7 @@
         TypeRuleManager::TypeRuleManager(const std::string &file_path, const std::vector<Vector2D<int>> &directions) {
             WFCReader r{file_path};
             wall_count = r.getWallCount();
+            ghost_spawn_data = r.getSpawnData();
             int id_counter = r.getIdCounter();
             for (int i = 0; i<id_counter; i++){
                 type_map.insert({i, TypeRule{id_counter+1, (int) directions.size()}});
@@ -57,6 +58,10 @@
 
         int TypeRuleManager::getWallCount() const {
             return wall_count;
+        }
+
+        std::vector<std::pair<int, Vector2D<int>>> TypeRuleManager::getSpawnData() const {
+            return ghost_spawn_data;
         }
 
 

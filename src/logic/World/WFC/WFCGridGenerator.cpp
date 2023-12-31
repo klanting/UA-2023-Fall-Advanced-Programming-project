@@ -188,12 +188,8 @@
             int rand_j = 5;
 
 
-            std::vector<Vector2D<int>> options = {};
-            options.emplace_back(0, -1);
-
-
             Vector2D spawn_pos = Vector2D<int>{rand_i, rand_j};
-            Vector2D exit = options[Random::getInstance()->getRandomIndex(0,  (int) options.size()-1)] + spawn_pos;
+            Vector2D exit = Vector2D<int>{0, -1} + spawn_pos;
 
             Cell spawn_cell = grid.get(spawn_pos[0], spawn_pos[1]);
             spawn_cell.place(-2);
@@ -208,16 +204,7 @@
             grid.set(exit[0], exit[1], exit_cell);
 
             //make cube around spawn unless it is the exit tile
-            for (std::pair<int, Vector2D<int>> p: {std::make_pair(0, Vector2D{0, -1}),
-                                                   std::make_pair(0, Vector2D{0, 1}),
-                                                   std::make_pair(1, Vector2D{2, 0}),
-                                                   std::make_pair(1, Vector2D{-1, 0}),
-                                                   std::make_pair(5, Vector2D{2, 1}),
-                                                   std::make_pair(3, Vector2D{2, -1}),
-                                                   std::make_pair(4, Vector2D{-1, 1}),
-                                                   std::make_pair(2, Vector2D{-1, -1}),
-                                                   std::make_pair(0, Vector2D{1, -1}),
-                                                   std::make_pair(0, Vector2D{1, 1})}){
+            for (std::pair<int, Vector2D<int>> p: type_manager->getSpawnData()){
                 Vector2D pos = spawn_pos + p.second;
                 if (pos == exit){
                     continue;

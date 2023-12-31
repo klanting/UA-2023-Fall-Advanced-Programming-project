@@ -19,6 +19,7 @@
             Matrix<int> new_buffer{data_width, data_height, 0};
             buffer = new_buffer;
             readGrid();
+            readSpawn();
         }
 
         void WFCReader::readWallCount() {
@@ -98,6 +99,41 @@
 
         Matrix<int> WFCReader::getGrid() const {
             return buffer;
+        }
+
+        void WFCReader::readSpawn() {
+            //stores data how the ghost spawn must look
+            int spawn_width;
+            int spawn_height;
+
+            readNumber(spawn_width);
+            readNumber(spawn_height);
+
+            int spawn_pos_x;
+            int spawn_pos_y;
+
+            readNumber(spawn_pos_x);
+            readNumber(spawn_pos_y);
+
+            for (int j = 0; j<spawn_height; j++){
+                for (int i = 0; i<spawn_width; i++){
+                    char c = (char) file.get();
+
+                    if (c == '*'){
+                        continue;
+                    }
+
+                    int id = count_table.at(c);
+                    ghost_spawn.emplace_back(id, Vector2D<int>{i-spawn_pos_x, j-spawn_pos_y});
+                }
+                file.get();
+            }
+
+
+        }
+
+        std::vector<std::pair<int, Vector2D<int>>> WFCReader::getSpawnData() const {
+            return ghost_spawn;
         }
 
     } // WFC

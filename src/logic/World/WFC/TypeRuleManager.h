@@ -22,10 +22,13 @@
             int getCharAmount();
 
             [[nodiscard]] int getWallCount() const;
+            [[nodiscard]] std::vector<std::pair<int, Vector2D<int>>> getSpawnData() const;
 
         private:
             std::map<int, TypeRule> type_map;
             int wall_count;
+
+            std::vector<std::pair<int, Vector2D<int>>> ghost_spawn_data;
 
         };
 

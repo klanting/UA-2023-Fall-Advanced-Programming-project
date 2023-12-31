@@ -49,6 +49,11 @@
              * */
             [[nodiscard]] Matrix<int> getGrid() const;
 
+            /**
+             * getter for spawn data for how the ghost spawn must look
+             * */
+            [[nodiscard]] std::vector<std::pair<int, Vector2D<int>>> getSpawnData() const;
+
         private:
             /**
              * read wall count symbols from file
@@ -69,12 +74,18 @@
             int data_height;
 
             /**
+             * read data explaining what the ghost spawn looks like
+             * */
+            void readSpawn();
+
+            /**
              * map char token of file to type index
              * */
             std::map<char, int> count_table;
             Matrix<int> buffer;
             std::ifstream file;
             int id_counter;
+            std::vector<std::pair<int, Vector2D<int>>> ghost_spawn;
 
 
         };
