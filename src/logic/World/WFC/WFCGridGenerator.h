@@ -13,6 +13,9 @@
 
     namespace Logic::WFC {
 
+        /**
+         * this class will use the WFC algorithm to create a new Grid representing the pacman game
+         * */
         class WFCGridGenerator: public GridGenerator{
         public:
             /**

@@ -91,7 +91,8 @@
             m = grid_gen.generateGridMap();
             readMatrix();
 
-            std::shared_ptr<EntityModel> s = factory->createPacman(Vector2D<>{0, -0.0725}, score);
+            Vector2D<> pacman_position = Vector2D<>{-0.01, -0.0725};
+            std::shared_ptr<EntityModel> s = factory->createPacman(pacman_position, score);
             entities.push_back(s);
             pacman = s;
 

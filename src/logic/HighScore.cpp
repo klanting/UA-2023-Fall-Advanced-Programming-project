@@ -13,7 +13,12 @@ namespace Logic {
     }
 
     HighScore::HighScore() {
-        std::fstream score_file{"scoreboard"};
+        std::string file_path = "scoreboard";
+        std::fstream score_file{};
+
+        if (!score_file.good()){
+            throw std::invalid_argument{file_path};
+        }
 
         std::string buffer;
         while (!score_file.eof()){

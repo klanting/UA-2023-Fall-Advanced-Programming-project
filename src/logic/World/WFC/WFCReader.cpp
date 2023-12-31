@@ -7,6 +7,11 @@
 
     namespace Logic::WFC {
         WFCReader::WFCReader(const std::string &file_path): buffer{0, 0, 0}, file{file_path} {
+
+            if (!file.good()){
+                throw std::invalid_argument(file_path);
+            }
+
             //init all var
             data_width = 0;
             data_height = 0;
@@ -20,6 +25,7 @@
             buffer = new_buffer;
             readGrid();
             readSpawn();
+            file.close();
         }
 
         void WFCReader::readWallCount() {

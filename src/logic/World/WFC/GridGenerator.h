@@ -8,7 +8,11 @@
 #include "Matrix.h"
 
     namespace Logic::WFC {
-
+        /**
+         * Abstract class of grid generators
+         * This will ensure to respect the Single Responsibility principle
+         * by doing the memento functions in this class
+         * */
         class GridGenerator {
         public:
             GridGenerator();

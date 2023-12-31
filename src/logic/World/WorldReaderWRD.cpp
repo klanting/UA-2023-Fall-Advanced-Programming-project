@@ -26,7 +26,13 @@
             std::vector<std::pair<Vector2D<>, Vector2D<>>> wall_positions = {};
             std::vector<std::pair<Vector2D<>, Vector2D<>>> intersection_positions = {};
             Vector2D ghost_spawn = Vector2D{-0.07, -0.5};
-            std::fstream f("maps/map_data.wrd");
+
+            std::string file_path = "maps/map_data.wrd";
+            std::fstream f{file_path};
+
+            if (!f.good()){
+                throw std::invalid_argument{file_path};
+            }
 
             //read the file and store the wall_position and intersection position
             // also store ghost Spawn position if present

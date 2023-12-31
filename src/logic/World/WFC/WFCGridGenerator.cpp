@@ -89,6 +89,7 @@
         }
 
         bool WFCGridGenerator::place(int i, int j, int type) {
+            //places a type on a cell and propagate the changes
             Cell c = grid.get(i, j);
             c.place(type);
             grid.set(i, j, c);
@@ -99,6 +100,7 @@
 
         bool WFCGridGenerator::propagate(int i, int j, const Cell &c) {
 
+            //make changes to all the other neighbours
             for (int dir = 0; dir<directions.size(); dir++){
                 auto p = directions[dir];
                 if (j+p[1] < 0 || j+p[1] >= grid_height){
@@ -108,6 +110,7 @@
                     continue;
                 }
 
+                //all options a neighbour of cell c can still have
                 std::set<int> n_options;
 
                 for (auto o: c.getOptions()){
@@ -115,9 +118,12 @@
                     n_options.insert(n_temp.begin(), n_temp.end());
                 }
 
+                //change its value
                 Cell n = grid.get(i+p[0], j+p[1]);
                 bool recur = n.updateValue(n_options);
                 grid.set(i+p[0], j+p[1], n);
+
+                //if something changed, to recursive changes
                 if (recur){
                     bool suc6 = propagate(i+p[0], j+p[1], n);
                     if (!suc6){
@@ -125,6 +131,7 @@
                     }
                 }
 
+                //return falls is contrdiction
                 if (n.getEntropy() == 0 && !n.isDefined()){
                     return false;
                 }
@@ -136,6 +143,7 @@
 
 
         std::vector<Vector2D<int>> WFCGridGenerator::lowestEntropy() {
+            //store a set of all the locations with the lowest Entropy
             std::vector<Vector2D<int>> best_options;
             double best_entropy = std::numeric_limits<double>::infinity();
 
@@ -146,12 +154,15 @@
                     }
 
                     double v = grid.get(i, j).getEntropy();
+
+                    //if lower entropy make new lowest and start being only value in set
                     if (v < best_entropy){
                         best_entropy = v;
                         best_options.clear();
                         best_options.emplace_back(i, j);
                     }
 
+                    //if same entropy as lowest, add to set
                     if (v == best_entropy){
                         best_options.emplace_back(i, j);
                     }
@@ -163,6 +174,10 @@
 
 
         Matrix<int>WFCGridGenerator::getGridSimple() const{
+            //get a simplified grid of the Cell grid
+            // simplified:
+            // walls -> 1
+            // rest 0
             Matrix<int> simplified_grid{grid_width, grid_height, 0};
             for (int j = 0; j<grid_height; j++){
                 for (int i = 0; i<grid_width; i++){
@@ -184,6 +199,7 @@
 
 
         void WFCGridGenerator::generateGhostSpawn() {
+            //create a GhostSpawn based on the data in the type_manager
             int rand_i = 9;
             int rand_j = 5;
 

@@ -9,7 +9,10 @@
 #include <algorithm>
 #include <set>
     namespace Logic::WFC {
-
+        /**
+         * this class will handle the after processing after a grid has been generated
+         * will do some cleanup for better map results and checks to see if everything is reachable
+         * */
         class GridAfterProcessor {
         public:
             explicit GridAfterProcessor(const Matrix<int>& simplified_grid, const std::vector<Vector2D<int>>& directions);
