@@ -14,6 +14,10 @@
         }
 
         bool WFCGenerator::check(const Vector2D<int> &start_pos, const Vector2D<int> &direction) {
+            //to prevent short mini walls, we will go into the given direction
+            //if the length is longer than 1 it will make a full wall of this
+
+            //calculate the distance
             int distance = 0;
 
             int i;
@@ -28,6 +32,7 @@
 
             }while(i == 0);
 
+            //check idstance and if longer than 1 make wall
             if (distance > 1){
                 distance -= 1;
                 for (int j = 0; j<=distance; j++){
@@ -47,7 +52,7 @@
 
 
         void WFCGenerator::addWall(const Vector2D<int> &start_pos, const Vector2D<int> &size) {
-
+            //stores a new wall from grid
             Vector2D<> extra_offset{0, 0};
             Vector2D<> extra_size{0, 0};
             for (auto n: {Vector2D<int>{0, 1}, Vector2D<int>{1, 0}}){
@@ -78,6 +83,7 @@
         }
 
         void WFCGenerator::addIntersection(const Vector2D<int> &start_pos) {
+            //stores intersection from grid
             Vector2D<> new_start = Vector2D<>{(start_pos[0]/10.0)-1.0, (start_pos[1]/10.0)-1.0};
             new_start += Vector2D<>{-0.025, 0.025};
             Vector2D new_size = Vector2D<>{0.15, 0.15};
@@ -88,14 +94,21 @@
         }
 
         std::unique_ptr<World> WFCGenerator::load(double difficulty, int lives) {
+            //generates the world
+
+            //generate grid map
             m = grid_gen.generateGridMap();
+
+            //convert map to entities
             readMatrix();
 
+            //add pacman
             Vector2D<> pacman_position = Vector2D<>{-0.01, -0.0725};
             std::shared_ptr<EntityModel> s = factory->createPacman(pacman_position, score);
             entities.push_back(s);
             pacman = s;
 
+            //add fruits
             for (auto w: {Vector2D{-0.885, -0.835}, Vector2D{0.815, -0.035}}){
                 s = factory->createFruit(w);
                 entities.push_back(s);
@@ -103,6 +116,7 @@
             }
 
 
+            //add ghosts
             for (int i=0; i<4; i++){
                 double delay = 1;
 
@@ -119,8 +133,10 @@
             }
 
 
+            //create world
             std::unique_ptr<World> world_ptr = std::make_unique<World>(pacman, entities, not_passable, intersection, lives, consumable_count);
 
+            //clear old data
             entities.clear();
             not_passable.clear();
             intersection.clear();
@@ -143,6 +159,7 @@
                         case -2:
                             //case ghost spawn
                             ghost_spawn = std::make_unique<Vector2D<>>(Vector2D<>{i/10.0-1.0, j/10.0-1.0});
+                            addIntersection(Vector2D<int>{i, j});
                             break;
                         case 2:
                             //case intersection
@@ -161,6 +178,7 @@
         }
 
         void WFCGenerator::createWall(int i, int j) {
+            //create a wall, but check if we can merge it with another nearby wall
             std::vector<Vector2D<int>> directions = {Vector2D<int>{1, 0}, Vector2D<int>{0, 1}};
             bool broke = false;
             for (auto dir: directions){
@@ -179,6 +197,7 @@
         }
 
         void WFCGenerator::addCoin(const Vector2D<int> &start_pos) {
+            //add coin
             Vector2D<> new_start = Vector2D<>{(start_pos[0]/10.0)-1.0, (start_pos[1]/10.0)-1.0};
             new_start += Vector2D<>{0.025, 0.075};
 

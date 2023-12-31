@@ -35,6 +35,7 @@ namespace View {
             square->append(v);
         }
 
+        //this line below is commented out to prevent drawing any intersections
         //RenderWindowSingleton::getInstance()->draw(entity, square);
     }
 
