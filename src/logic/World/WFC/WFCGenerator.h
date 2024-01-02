@@ -13,6 +13,10 @@
 
     namespace Logic::WFC {
 
+        /**
+         * WFC generator is part of the Abstract Factory design pattern
+         * This Function is used to create a new pacman map
+         * */
         class WFCGenerator: public WorldLoading::WorldLoader{
         public:
             WFCGenerator(std::unique_ptr<AbstractFactory>&& factory, const std::shared_ptr<Score>& score);

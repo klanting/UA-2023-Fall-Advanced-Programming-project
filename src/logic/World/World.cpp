@@ -73,6 +73,7 @@ namespace Logic {
     }
 
     void World::handleActionsPacman(const std::shared_ptr<EntityModel>& e, const std::weak_ptr<EntityModel>& hit) {
+        //this function will handle a hit in case the entity is pacman
         if (hit.expired()){
             throw std::bad_weak_ptr();
         }
@@ -91,6 +92,7 @@ namespace Logic {
     }
 
     void World::handleActions(const std::shared_ptr<EntityModel>& e, const std::weak_ptr<EntityModel>& hit) {
+        //this will handle a hit in case e is not pacman
         if (hit.expired()){
             throw std::bad_weak_ptr();
         }
@@ -107,7 +109,7 @@ namespace Logic {
     }
 
     void World::handleHit(const std::shared_ptr<EntityModel>& e) {
-
+        //choose how to handle a hit of random entities
         OnColFunc func;
 
         if (e == pacman){
@@ -123,6 +125,7 @@ namespace Logic {
 
     std::vector<Vector2D<>>
     World::getFutureDirections(const std::shared_ptr<EntityModel>& e, const std::vector<Vector2D<>> &options) const{
+        //get every direction we can go to without directly hitting a wall
         std::vector<Vector2D<>> option_resulting = {};
         for (auto o: options){
 
@@ -143,6 +146,7 @@ namespace Logic {
     }
 
     void World::dealIntersection(const std::shared_ptr<EntityModel> &e, const std::weak_ptr<EntityModel> &hit) {
+        //handle reaching an intersection
         if (hit.expired()){
             throw std::bad_weak_ptr();
         }
@@ -165,6 +169,8 @@ namespace Logic {
 
             }
         }
+
+        //store the intersection in case we just entered
         if (it != last_intersection.end()){
             it->second = hit.lock();
         }else{
@@ -186,6 +192,7 @@ namespace Logic {
 
             auto p = s->collide(other);
             if (p.first){
+                //in case of collision
                 op(s, other);
                 hit_something = true;
             }
@@ -196,6 +203,7 @@ namespace Logic {
     }
 
     void World::reCalculateDirection(const std::shared_ptr<EntityModel> &e) {
+        //calculate a new movement direction by checking which options we have
         std::vector<Vector2D<>> option_directions = {Vector2D<>{0,1}, Vector2D<>{0,-1}, Vector2D<>{1,0}, Vector2D<>{-1,0}};
         auto it = std::find(option_directions.begin(), option_directions.end(), e->getMoveManager()->getDirection());
         if (it != option_directions.end()){

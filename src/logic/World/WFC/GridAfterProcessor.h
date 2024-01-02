@@ -72,6 +72,11 @@
             Matrix<int> simplified_grid;
 
             std::vector<Vector2D<int>> directions;
+
+            /**
+             * gets the count of neighbours being a part of the options
+             * */
+             int getNeighbourCount(int i, int j, const std::set<int>& options);
         };
 
     } // WFC

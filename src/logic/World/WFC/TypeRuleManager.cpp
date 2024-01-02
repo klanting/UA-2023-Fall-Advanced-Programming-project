@@ -19,6 +19,7 @@
 
             auto buffer = r.getGrid();
 
+            //create type rule for each type by reading the buffer of the WFCReader
             for (int j = 0; j<r.getDataHeight(); j++){
                 for (int i = 0; i<r.getDataWidth(); i++){
                     int own = buffer.get(i, j);
@@ -48,6 +49,7 @@
         }
 
         std::set<int> TypeRuleManager::getOptions(int type, int direction_index) {
+            //get options for a given direction for the given type
             return type_map.at(type).getOptions(direction_index);
         }
 

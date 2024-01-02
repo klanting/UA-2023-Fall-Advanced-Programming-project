@@ -239,12 +239,18 @@
 
 
         std::pair<bool, Matrix<int>> WFCGridGenerator::regenerate() {
+            //generation process
             grid.clear(Cell{type_manager->getCharAmount()});
+
+            //make sure final result has walls
             generateOutsideWall();
+
+            //make sure a ghost spawn is present
             generateGhostSpawn();
 
             generate();
 
+            //generate a simplified grid and do after processing with it
             auto simplified_grid = getGridSimple();
             GridAfterProcessor gap{simplified_grid, directions};
             bool suc6 = gap.doAfterProcessing();
@@ -256,6 +262,7 @@
 
 
         Matrix<int> WFCGridGenerator::generateGridMap(){
+            //generate a simplified grid
             bool suc6 = false;
             Matrix<int> simplified_grid{0, 0, 0};
             while (!suc6){

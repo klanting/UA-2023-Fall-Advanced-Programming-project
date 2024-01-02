@@ -12,6 +12,7 @@
 
 
         void GridAfterProcessor::fixSingleWall() {
+            //detect which walls are single
             std::vector<Vector2D<int>> singles;
             std::vector<Vector2D<int>> blocked;
             for (int j = 1; j<simplified_grid.getHeight()-1; j++){
@@ -24,6 +25,8 @@
                 }
             }
 
+            //connect neighbouring single walls, if together formed a bigger wall, we will not use this anymore
+            //In that case store in blocked
             for (auto s1: singles){
 
                 for (auto s2: singles){
@@ -47,6 +50,14 @@
         }
 
         void GridAfterProcessor::fixLongWalls() {
+            //make sure long wall intersections of format:
+            //wwwwP
+            //PPwPP
+            //PPwPP
+            //will be split up so we don't have walls connected by 3 other walls
+            //this will make the maze a bit better for playability
+
+            //check which walls are multicorner walls
             std::vector<Vector2D<int>> corners;
             for (int j = 1; j<simplified_grid.getHeight()-1; j++){
                 for (int i = 1; i<simplified_grid.getWidth()-1; i++){
@@ -58,6 +69,7 @@
                 }
             }
 
+            //check which direction goes on for the longest, split up that direction
             for (auto c: corners){
                 Vector2D<int> best_dir;
                 int best_distance = 0;
@@ -90,7 +102,7 @@
         }
 
         bool GridAfterProcessor::isSingleWall(int i, int j) {
-
+            //check if an entry is a single wall
             for (int d = 0; d<4; d++){
                 Vector2D<int> dir = directions[d];
                 if (simplified_grid.get(i+dir[0], j+dir[1]) == 0){
@@ -103,21 +115,15 @@
 
 
         bool GridAfterProcessor::isMultiCornerWall(int i, int j) {
-            std::vector<bool> suc6;
+            //check if an entry is a Multi Corner wall (next to more than 2 walls)
 
-            if (simplified_grid.get(i, j) != 0){
-                return false;
-            }
-            suc6.push_back(simplified_grid.get(i, j+1) == 0);
-            suc6.push_back(simplified_grid.get(i, j-1) == 0);
-            suc6.push_back(simplified_grid.get(i+1, j) == 0);
-            suc6.push_back(simplified_grid.get(i-1, j) == 0);
-
-            return std::count(suc6.begin(), suc6.end(), true) > 2;
+            return getNeighbourCount(i, j, {0}) > 2;
 
         }
 
         bool GridAfterProcessor::allReachable() {
+            //check if all walkable places in the maze are reachable
+            //do basic set (kinda breath first) algorithm
             std::set<std::pair<int, int>> to_check = {std::make_pair(1, 1)};
             std::set<std::pair<int, int>> closed;
 
@@ -136,25 +142,18 @@
             }
 
 
+            //compare if the amount of places reached equals the amount of places that are walkable
             return closed.size() == simplified_grid.count(1);
         }
 
         bool GridAfterProcessor::isIntersection(int i, int j) {
+            //check if a given entry is an intersection
 
-            std::vector<bool> suc6;
-
-            if (simplified_grid.get(i, j) != 1 && simplified_grid.get(i, j) != 2){
-                return false;
-            }
-            suc6.push_back(simplified_grid.get(i, j+1) == 1 || simplified_grid.get(i, j+1) == 2);
-            suc6.push_back(simplified_grid.get(i, j-1) == 1 || simplified_grid.get(i, j-1) == 2);
-            suc6.push_back(simplified_grid.get(i+1, j) == 1 || simplified_grid.get(i+1, j) == 2);
-            suc6.push_back(simplified_grid.get(i-1, j) == 1 || simplified_grid.get(i-1, j) == 2);
-
-            return std::count(suc6.begin(), suc6.end(), true) > 2;
+            return getNeighbourCount(i, j, {1, 2}) > 2;
         }
 
         void GridAfterProcessor::applyIntersections() {
+            //mark intersections on the grid
             for (int j = 1; j<simplified_grid.getHeight()-1; j++){
                 for (int i = 1; i<simplified_grid.getWidth()-1; i++){
                     if (isIntersection(i, j)){
@@ -167,6 +166,8 @@
         }
 
         bool GridAfterProcessor::IntersectionConflicts() {
+            //check if 2 intersections are to close to each other
+            //this will create less beautiful results
             for (int j = 1; j<simplified_grid.getHeight()-1; j++){
                 for (int i = 1; i<simplified_grid.getWidth()-1; i++){
                     if (isIntersection(i, j)){
@@ -184,6 +185,7 @@
         }
 
         bool GridAfterProcessor::doAfterProcessing() {
+            //fix walls and check if we want this grid
             fixSingleWall();
             fixLongWalls();
 
@@ -198,6 +200,21 @@
 
         Matrix<int> GridAfterProcessor::getSimplifiedGrid() const {
             return simplified_grid;
+        }
+
+        int GridAfterProcessor::getNeighbourCount(int i, int j, const std::set<int> &options) {
+            //give the count of neighbours that are part of the options
+            std::vector<bool> suc6;
+
+            if (options.find(simplified_grid.get(i, j)) == options.end()){
+                return false;
+            }
+            suc6.push_back(options.find(simplified_grid.get(i, j+1)) != options.end());
+            suc6.push_back(options.find(simplified_grid.get(i, j-1)) != options.end());
+            suc6.push_back(options.find(simplified_grid.get(i+1, j)) != options.end());
+            suc6.push_back(options.find(simplified_grid.get(i-1, j)) != options.end());
+
+            return (int) std::count(suc6.begin(), suc6.end(), true);
         }
 
     } // WFC

@@ -12,7 +12,6 @@
         /**
          * This class will give the rules of a type
          * This will say which Types are allowed to be next to each other and on what side
-         *
          * */
         class TypeRule {
         public:

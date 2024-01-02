@@ -34,6 +34,11 @@
             if (defined){
                 return false;
             }
+
+            //calculate intersection between old options and new options
+            //we only want the options that are still available
+            //the new options say which are available based on a change
+            //by taking the intersection we will have those that are still available
             std::set<int> resulting;
 
             std::set_intersection(acceptable.begin(), acceptable.end(), options.begin(), options.end(), std::inserter(resulting, resulting.begin()));

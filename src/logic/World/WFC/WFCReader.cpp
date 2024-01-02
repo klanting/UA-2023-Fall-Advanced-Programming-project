@@ -17,15 +17,22 @@
             data_height = 0;
             wall_count = 0;
             id_counter = 0;
-            //read data from file
-            readWallCount();
-            readNumber(data_width);
-            readNumber(data_height);
-            Matrix<int> new_buffer{data_width, data_height, 0};
-            buffer = new_buffer;
-            readGrid();
-            readSpawn();
-            file.close();
+
+            //in case wrong file format
+            try{
+                //read data from file
+                readWallCount();
+                readNumber(data_width);
+                readNumber(data_height);
+                Matrix<int> new_buffer{data_width, data_height, 0};
+                buffer = new_buffer;
+                readGrid();
+                readSpawn();
+                file.close();
+            }catch (std::exception& e){
+                throw std::invalid_argument(file_path);
+            }
+
         }
 
         void WFCReader::readWallCount() {

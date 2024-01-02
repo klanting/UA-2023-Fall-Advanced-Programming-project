@@ -10,18 +10,19 @@
 #include "Matrix.h"
 #include <functional>
 
-    /**
-     * Part of Design Pattern: Memento
-     * This class will play the part of the 'CareGiver' in the Memento Design Pattern
-     * Keeps Log of WFC Grid
-     * When needed we are able to rollback this grid
-     * This Object will be used to easily store Memento's of the current Grid State of Cells
-     * */
+
 
     namespace Logic::WFC {
 
         class WFCGridGenerator;
 
+        /**
+        * Part of Design Pattern: Memento
+        * This class will play the part of the 'CareGiver' in the Memento Design Pattern
+        * Keeps Log of WFC Grid
+        * When needed we are able to rollback this grid
+        * This Object will be used to easily store Memento's of the current Grid State of Cells
+        * */
         class CellChangeLog {
         public:
             /**

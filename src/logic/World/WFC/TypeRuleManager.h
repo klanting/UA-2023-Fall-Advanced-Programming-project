@@ -14,6 +14,10 @@
 
     namespace Logic::WFC {
 
+        /**
+         * This class manages the TypeRules
+         * It contains a TypeRule for each type
+         * */
         class TypeRuleManager {
         public:
             TypeRuleManager(const std::string& file_path, const std::vector<Vector2D<int>>& directions);

@@ -33,6 +33,11 @@ namespace Logic {
 
         std::vector<unsigned int> scores;
 
+        /**
+         * read scores from file
+         * */
+        void readFile(const std::string& file_path);
+
     };
 
 } // Logic

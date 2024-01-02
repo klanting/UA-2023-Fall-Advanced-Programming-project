@@ -9,6 +9,7 @@
     namespace Logic::WFC {
         /**
          * This class is used to make a easy to use grid
+         * This is a DataStructure
          * */
         template<typename T>
         class Matrix {

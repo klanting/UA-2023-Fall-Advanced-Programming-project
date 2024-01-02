@@ -19,6 +19,8 @@
         /**
          * Cell represent 1 position on a WFC grid
          * This Cell will be used to easily manipulate and store data that is used for the WFC algorithm
+         * This cell will contain data with regards to 1 entry of the grid
+         * It will store which options are still available
          * */
         class Cell {
         public:
