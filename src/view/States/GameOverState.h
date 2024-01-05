@@ -22,7 +22,7 @@ namespace View {
         /**
          * ensures that users need to wait 1 second before any key press is registered
          * */
-        double key_press_delay = 1;
+        double key_press_delay = 0.4;
         sf::Texture texture;
 
         /**

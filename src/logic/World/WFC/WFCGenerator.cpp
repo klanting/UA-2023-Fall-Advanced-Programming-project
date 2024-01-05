@@ -118,10 +118,10 @@
 
             //add ghosts
             for (int i=0; i<4; i++){
-                double delay = 1;
+                double delay = 0.5;
 
                 if (i == 1){
-                    delay = 2;
+                    delay = 0.6;
                 }
                 if (i>= 2){
                     delay = 5.0 * (i-1);
