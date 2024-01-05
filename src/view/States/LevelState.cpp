@@ -73,7 +73,11 @@ namespace View {
     void LevelState::renderUI() const{
         std::unique_ptr<sf::Text> score = std::make_unique<sf::Text>();
         sf::Font font;
-        font.loadFromFile("arial.ttf");
+        bool suc6 = font.loadFromFile("arial.ttf");
+        if (!suc6){
+            throw std::invalid_argument("arial.ttf not in working directory");
+        }
+
         score->setString("Score: "+std::to_string(handler->getScore()->getScore()));
         score->setFont(font);
         score->setCharacterSize(50);

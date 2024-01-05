@@ -11,7 +11,10 @@ namespace View {
     void Scoreboard::render() const{
 
         sf::Font font;
-        font.loadFromFile("arial.ttf");
+        bool suc6 = font.loadFromFile("arial.ttf");
+        if (!suc6){
+            throw std::invalid_argument("arial.ttf not in working directory");
+        }
 
         auto scores = Logic::HighScore::getInstance()->getScores();
 
