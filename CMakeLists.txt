@@ -201,7 +201,9 @@ TARGET_LINK_LIBRARIES(representation_lib sfml-system sfml-graphics sfml-window)
 TARGET_LINK_LIBRARIES(representation_lib logic_lib)
 TARGET_LINK_LIBRARIES(ProjectPacman representation_lib)
 
-
+#makes sure if not right working directory has been set to also make a copy of the working data (as extra redundancy)
+file(GLOB working_files "${CMAKE_CURRENT_SOURCE_DIR}/working/*")
+file(COPY ${working_files} DESTINATION ${CMAKE_INSTALL_PREFIX}/../)
 
 install(TARGETS ProjectPacman
         DESTINATION ${CMAKE_INSTALL_PREFIX}

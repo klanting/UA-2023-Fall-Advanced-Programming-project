@@ -5,7 +5,7 @@
 #include <algorithm>
 #include "Camera.h"
 #include "RenderWindowSingleton.h"
-
+#include <iostream>
 namespace View {
 
     void Scoreboard::render() const{

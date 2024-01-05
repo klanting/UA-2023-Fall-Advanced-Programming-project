@@ -26,7 +26,7 @@ namespace View {
 
             window->display();
 
-            usleep(15);
+            usleep(8*1000);
 
         }
 

@@ -10,7 +10,8 @@
                                                          cl{*this}, GridGenerator{} {
 
 
-            type_manager = std::make_unique<TypeRuleManager>("WFC/sampleData.WFC", directions);
+            std::string file_path = "WFC/sampleData.WFC";
+            type_manager = std::make_unique<TypeRuleManager>(file_path, directions);
 
 
             grid = Matrix<Cell>{grid_width, grid_height, Cell{type_manager->getCharAmount()}};
