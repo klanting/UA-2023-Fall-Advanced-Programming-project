@@ -1,7 +1,6 @@
 
 
 #include "Scoreboard.h"
-#include <fstream>
 #include <algorithm>
 #include "Camera.h"
 #include "RenderWindowSingleton.h"
