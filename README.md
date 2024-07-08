@@ -9,7 +9,7 @@ Important:
 Please set the working directory to the sub-directory working
 
 The Point of this Project for the course 'Advanced Programming', was to get more familiar with Code Principles and Design Patterns.
-Get the report about the Design choices: [Report](Report.pdf)
+Get the report about the Design choices: [Report](report.pdf)
 Assignment corresponding to this project: [Assignment](assignment.pdf)
 
 All Rights reserved by Tibo Verreycken &copy;
