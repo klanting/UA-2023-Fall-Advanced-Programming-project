@@ -1,9 +1,12 @@
 Project Advanced Programming 2023-2024
-Assignment 2nd year of my bachlor degree computer science at the University of Antwerp
 =======================================
 
 Name: Tibo Verreycken   
 Student number: s0222730
+
+Assignment 2nd year of my bachlor degree computer science at the University of Antwerp.
+
+This project is fully finished and so it is archived.
 
 Important:  
 Please set the working directory to the sub-directory working
